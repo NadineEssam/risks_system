@@ -1,0 +1,1049 @@
+[
+  {
+    "type_name": "الاحتيال الداخلي",
+    "events": [
+      {
+        "event_name": "نشاط غير مصرح به",
+        "subcategories": [
+          {
+            "subcategory_code": "IF-UA-01",
+            "subcategory_name": "معاملات غير مبلغ عنها عمداً",
+            "details": [
+              {
+                "detail_code": "IF-UA-01-01",
+                "detail_name": "إخفاء قيد أو معاملة عن السجلات",
+                "bank_example": "إخفاء قيد أو معاملة عن السجلات"
+              },
+              {
+                "detail_code": "IF-UA-01-02",
+                "detail_name": "تجاوز متعمد لحدود الصلاحية",
+                "bank_example": "تجاوز متعمد لحدود الصلاحية"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "IF-UA-02",
+            "subcategory_name": "نوع معاملة غير مصرح به",
+            "details": [
+              {
+                "detail_code": "IF-UA-02-01",
+                "detail_name": "تنفيذ معاملة دون تفويض",
+                "bank_example": "تنفيذ معاملة دون تفويض"
+              },
+              {
+                "detail_code": "IF-UA-02-02",
+                "detail_name": "استخدام صلاحية خارج نطاق الوظيفة",
+                "bank_example": "استخدام صلاحية خارج نطاق الوظيفة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "IF-UA-03",
+            "subcategory_name": "تسعير أو تقييم متعمد خاطئ",
+            "details": [
+              {
+                "detail_code": "IF-UA-03-01",
+                "detail_name": "تعديل متعمد لتقييم مركز",
+                "bank_example": "تعديل متعمد لتقييم مركز"
+              },
+              {
+                "detail_code": "IF-UA-03-02",
+                "detail_name": "تحريف متعمد لقيمة ضمان",
+                "bank_example": "تحريف متعمد لقيمة ضمان"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "سرقة واحتيال",
+        "subcategories": [
+          {
+            "subcategory_code": "IF-TF-01",
+            "subcategory_name": "اختلاس أو إساءة استخدام الأصول",
+            "details": [
+              {
+                "detail_code": "IF-TF-01-01",
+                "detail_name": "اختلاس نقدية أو أصول",
+                "bank_example": "اختلاس نقدية أو أصول"
+              },
+              {
+                "detail_code": "IF-TF-01-02",
+                "detail_name": "تحويل غير مشروع لحساب ذي صلة",
+                "bank_example": "تحويل غير مشروع لحساب ذي صلة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "IF-TF-02",
+            "subcategory_name": "تزوير وانتحال داخلي",
+            "details": [
+              {
+                "detail_code": "IF-TF-02-01",
+                "detail_name": "تزوير مستند أو توقيع",
+                "bank_example": "تزوير مستند أو توقيع"
+              },
+              {
+                "detail_code": "IF-TF-02-02",
+                "detail_name": "إنشاء هوية أو ملف عميل صوري",
+                "bank_example": "إنشاء هوية أو ملف عميل صوري"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "IF-TF-03",
+            "subcategory_name": "رشوة أو عمولات غير مشروعة",
+            "details": [
+              {
+                "detail_code": "IF-TF-03-01",
+                "detail_name": "قبول منفعة لتجاوز ضابط",
+                "bank_example": "قبول منفعة لتجاوز ضابط"
+              },
+              {
+                "detail_code": "IF-TF-03-02",
+                "detail_name": "تواطؤ مع عميل أو مورد",
+                "bank_example": "تواطؤ مع عميل أو مورد"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type_name": "الاحتيال الخارجي",
+    "events": [
+      {
+        "event_name": "سرقة واحتيال",
+        "subcategories": [
+          {
+            "subcategory_code": "EF-TF-01",
+            "subcategory_name": "سرقة أو سطو خارجي",
+            "details": [
+              {
+                "detail_code": "EF-TF-01-01",
+                "detail_name": "سرقة نقدية أو موجودات",
+                "bank_example": "سرقة نقدية أو موجودات"
+              },
+              {
+                "detail_code": "EF-TF-01-02",
+                "detail_name": "سطو على فرع أو مركبة نقل نقد",
+                "bank_example": "سطو على فرع أو مركبة نقل نقد"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "EF-TF-02",
+            "subcategory_name": "تزوير أو احتيال مستندي",
+            "details": [
+              {
+                "detail_code": "EF-TF-02-01",
+                "detail_name": "شيك أو مستند مزور",
+                "bank_example": "شيك أو مستند مزور"
+              },
+              {
+                "detail_code": "EF-TF-02-02",
+                "detail_name": "طلب تمويل بمعلومات مضللة",
+                "bank_example": "طلب تمويل بمعلومات مضللة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "EF-TF-03",
+            "subcategory_name": "استيلاء على الحساب أو انتحال",
+            "details": [
+              {
+                "detail_code": "EF-TF-03-01",
+                "detail_name": "استيلاء على حساب عميل",
+                "bank_example": "استيلاء على حساب عميل"
+              },
+              {
+                "detail_code": "EF-TF-03-02",
+                "detail_name": "هندسة اجتماعية وانتحال هوية",
+                "bank_example": "هندسة اجتماعية وانتحال هوية"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "أمن الأنظمة",
+        "subcategories": [
+          {
+            "subcategory_code": "EF-SS-01",
+            "subcategory_name": "اختراق يسبب خسارة",
+            "details": [
+              {
+                "detail_code": "EF-SS-01-01",
+                "detail_name": "اختراق قناة رقمية وتحويل غير مشروع",
+                "bank_example": "اختراق قناة رقمية وتحويل غير مشروع"
+              },
+              {
+                "detail_code": "EF-SS-01-02",
+                "detail_name": "برمجية خبيثة تؤدي لخسارة مالية",
+                "bank_example": "برمجية خبيثة تؤدي لخسارة مالية"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "EF-SS-02",
+            "subcategory_name": "سرقة معلومات بقيمة مالية",
+            "details": [
+              {
+                "detail_code": "EF-SS-02-01",
+                "detail_name": "تسريب بيانات يسبب تعويضات",
+                "bank_example": "تسريب بيانات يسبب تعويضات"
+              },
+              {
+                "detail_code": "EF-SS-02-02",
+                "detail_name": "سرقة بيانات اعتماد واستخدامها مالياً",
+                "bank_example": "سرقة بيانات اعتماد واستخدامها مالياً"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "EF-SS-03",
+            "subcategory_name": "احتيال قنوات ومدفوعات",
+            "details": [
+              {
+                "detail_code": "EF-SS-03-01",
+                "detail_name": "احتيال بطاقات أو محافظ",
+                "bank_example": "احتيال بطاقات أو محافظ"
+              },
+              {
+                "detail_code": "EF-SS-03-02",
+                "detail_name": "تلاعب بأجهزة أو نقاط قبول",
+                "bank_example": "تلاعب بأجهزة أو نقاط قبول"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type_name": "ممارسات التوظيف وسلامة مكان العمل",
+    "events": [
+      {
+        "event_name": "علاقات العاملين",
+        "subcategories": [
+          {
+            "subcategory_code": "EP-ER-01",
+            "subcategory_name": "تعويضات ومزايا وإنهاء خدمة",
+            "details": [
+              {
+                "detail_code": "EP-ER-01-01",
+                "detail_name": "خطأ في مستحقات موظف",
+                "bank_example": "خطأ في مستحقات موظف"
+              },
+              {
+                "detail_code": "EP-ER-01-02",
+                "detail_name": "تسوية غير سليمة لإنهاء خدمة",
+                "bank_example": "تسوية غير سليمة لإنهاء خدمة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "EP-ER-02",
+            "subcategory_name": "نزاعات وقواعد عمل",
+            "details": [
+              {
+                "detail_code": "EP-ER-02-01",
+                "detail_name": "نزاع عمالي أو مخالفة اتفاق",
+                "bank_example": "نزاع عمالي أو مخالفة اتفاق"
+              },
+              {
+                "detail_code": "EP-ER-02-02",
+                "detail_name": "إجراء تأديبي غير متسق",
+                "bank_example": "إجراء تأديبي غير متسق"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "بيئة آمنة",
+        "subcategories": [
+          {
+            "subcategory_code": "EP-SE-01",
+            "subcategory_name": "صحة وسلامة مهنية",
+            "details": [
+              {
+                "detail_code": "EP-SE-01-01",
+                "detail_name": "إصابة عمل بسبب قصور السلامة",
+                "bank_example": "إصابة عمل بسبب قصور السلامة"
+              },
+              {
+                "detail_code": "EP-SE-01-02",
+                "detail_name": "عدم الالتزام بإجراء إخلاء",
+                "bank_example": "عدم الالتزام بإجراء إخلاء"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "EP-SE-02",
+            "subcategory_name": "مسؤولية عامة داخل الموقع",
+            "details": [
+              {
+                "detail_code": "EP-SE-02-01",
+                "detail_name": "سقوط أو إصابة زائر",
+                "bank_example": "سقوط أو إصابة زائر"
+              },
+              {
+                "detail_code": "EP-SE-02-02",
+                "detail_name": "مرفق غير آمن يسبب ضرراً",
+                "bank_example": "مرفق غير آمن يسبب ضرراً"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "تنوع وعدم تمييز",
+        "subcategories": [
+          {
+            "subcategory_code": "EP-DD-01",
+            "subcategory_name": "تمييز أو معاملة غير عادلة",
+            "details": [
+              {
+                "detail_code": "EP-DD-01-01",
+                "detail_name": "شكوى تمييز مثبتة",
+                "bank_example": "شكوى تمييز مثبتة"
+              },
+              {
+                "detail_code": "EP-DD-01-02",
+                "detail_name": "قرار موارد بشرية غير متكافئ",
+                "bank_example": "قرار موارد بشرية غير متكافئ"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "EP-DD-02",
+            "subcategory_name": "تحرش أو سلوك مهني غير مقبول",
+            "details": [
+              {
+                "detail_code": "EP-DD-02-01",
+                "detail_name": "سلوك مخالف لقواعد العمل",
+                "bank_example": "سلوك مخالف لقواعد العمل"
+              },
+              {
+                "detail_code": "EP-DD-02-02",
+                "detail_name": "عدم معالجة شكوى مهنية",
+                "bank_example": "عدم معالجة شكوى مهنية"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type_name": "العملاء والمنتجات وممارسات الأعمال",
+    "events": [
+      {
+        "event_name": "الملاءمة والإفصاح والائتمان",
+        "subcategories": [
+          {
+            "subcategory_code": "CP-SF-01",
+            "subcategory_name": "إخلال ائتماني أو واجب مهني",
+            "details": [
+              {
+                "detail_code": "CP-SF-01-01",
+                "detail_name": "تقديم خدمة تخالف مصلحة العميل",
+                "bank_example": "تقديم خدمة تخالف مصلحة العميل"
+              },
+              {
+                "detail_code": "CP-SF-01-02",
+                "detail_name": "عدم اتباع تفويض أو تعليمات العميل",
+                "bank_example": "عدم اتباع تفويض أو تعليمات العميل"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-SF-02",
+            "subcategory_name": "قصور ملاءمة أو إفصاح",
+            "details": [
+              {
+                "detail_code": "CP-SF-02-01",
+                "detail_name": "عدم إفصاح عن رسوم أو مخاطر",
+                "bank_example": "عدم إفصاح عن رسوم أو مخاطر"
+              },
+              {
+                "detail_code": "CP-SF-02-02",
+                "detail_name": "بيع منتج غير ملائم",
+                "bank_example": "بيع منتج غير ملائم"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-SF-03",
+            "subcategory_name": "خصوصية وسرية العميل",
+            "details": [
+              {
+                "detail_code": "CP-SF-03-01",
+                "detail_name": "كشف بيانات دون أساس",
+                "bank_example": "كشف بيانات دون أساس"
+              },
+              {
+                "detail_code": "CP-SF-03-02",
+                "detail_name": "إرسال معلومات لطرف خاطئ",
+                "bank_example": "إرسال معلومات لطرف خاطئ"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "ممارسات أعمال أو سوق غير سليمة",
+        "subcategories": [
+          {
+            "subcategory_code": "CP-IM-01",
+            "subcategory_name": "ممارسة سوق غير سليمة",
+            "details": [
+              {
+                "detail_code": "CP-IM-01-01",
+                "detail_name": "تلاعب أو تعامل غير مشروع",
+                "bank_example": "تلاعب أو تعامل غير مشروع"
+              },
+              {
+                "detail_code": "CP-IM-01-02",
+                "detail_name": "ممارسة تسعير أو تداول مخالفة",
+                "bank_example": "ممارسة تسعير أو تداول مخالفة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-IM-02",
+            "subcategory_name": "نشاط غير مرخص أو قصور امتثال",
+            "details": [
+              {
+                "detail_code": "CP-IM-02-01",
+                "detail_name": "تقديم نشاط دون موافقة لازمة",
+                "bank_example": "تقديم نشاط دون موافقة لازمة"
+              },
+              {
+                "detail_code": "CP-IM-02-02",
+                "detail_name": "قصور في متطلبات مكافحة غسل الأموال",
+                "bank_example": "قصور في متطلبات مكافحة غسل الأموال"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-IM-03",
+            "subcategory_name": "إساءة استخدام معلومات سرية",
+            "details": [
+              {
+                "detail_code": "CP-IM-03-01",
+                "detail_name": "استخدام معلومة عميل لمنفعة",
+                "bank_example": "استخدام معلومة عميل لمنفعة"
+              },
+              {
+                "detail_code": "CP-IM-03-02",
+                "detail_name": "تداول اعتماداً على معلومة غير عامة",
+                "bank_example": "تداول اعتماداً على معلومة غير عامة"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "عيوب المنتج والنموذج",
+        "subcategories": [
+          {
+            "subcategory_code": "CP-PF-01",
+            "subcategory_name": "عيب تصميم منتج",
+            "details": [
+              {
+                "detail_code": "CP-PF-01-01",
+                "detail_name": "شروط منتج تنتج ضرراً غير مقصود",
+                "bank_example": "شروط منتج تنتج ضرراً غير مقصود"
+              },
+              {
+                "detail_code": "CP-PF-01-02",
+                "detail_name": "رحلة عميل تسمح بقرار غير سليم",
+                "bank_example": "رحلة عميل تسمح بقرار غير سليم"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-PF-02",
+            "subcategory_name": "خطأ نموذج أو معادلة",
+            "details": [
+              {
+                "detail_code": "CP-PF-02-01",
+                "detail_name": "نموذج تسعير خاطئ",
+                "bank_example": "نموذج تسعير خاطئ"
+              },
+              {
+                "detail_code": "CP-PF-02-02",
+                "detail_name": "تصنيف ائتماني ناتج عن منطق غير صحيح",
+                "bank_example": "تصنيف ائتماني ناتج عن منطق غير صحيح"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-PF-03",
+            "subcategory_name": "تغيير منتج غير مضبوط",
+            "details": [
+              {
+                "detail_code": "CP-PF-03-01",
+                "detail_name": "إطلاق تعديل دون اختبار كاف",
+                "bank_example": "إطلاق تعديل دون اختبار كاف"
+              },
+              {
+                "detail_code": "CP-PF-03-02",
+                "detail_name": "معاملات قديمة بعد تغيير القواعد",
+                "bank_example": "معاملات قديمة بعد تغيير القواعد"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "اختيار ورعاية وتعرض",
+        "subcategories": [
+          {
+            "subcategory_code": "CP-SE-01",
+            "subcategory_name": "فشل فحص العميل",
+            "details": [
+              {
+                "detail_code": "CP-SE-01-01",
+                "detail_name": "عناية واجبة غير مكتملة",
+                "bank_example": "عناية واجبة غير مكتملة"
+              },
+              {
+                "detail_code": "CP-SE-01-02",
+                "detail_name": "عدم تحديث بيانات عميل عالي المخاطر",
+                "bank_example": "عدم تحديث بيانات عميل عالي المخاطر"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-SE-02",
+            "subcategory_name": "تجاوز حدود تعرض العميل",
+            "details": [
+              {
+                "detail_code": "CP-SE-02-01",
+                "detail_name": "تجاوز حد معتمد",
+                "bank_example": "تجاوز حد معتمد"
+              },
+              {
+                "detail_code": "CP-SE-02-02",
+                "detail_name": "عدم تجميع تعرضات مترابطة",
+                "bank_example": "عدم تجميع تعرضات مترابطة"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "أنشطة استشارية",
+        "subcategories": [
+          {
+            "subcategory_code": "CP-AA-01",
+            "subcategory_name": "نزاع أداء استشاري",
+            "details": [
+              {
+                "detail_code": "CP-AA-01-01",
+                "detail_name": "توصية غير موثقة",
+                "bank_example": "توصية غير موثقة"
+              },
+              {
+                "detail_code": "CP-AA-01-02",
+                "detail_name": "تضارب مصالح غير مُدار",
+                "bank_example": "تضارب مصالح غير مُدار"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "CP-AA-02",
+            "subcategory_name": "قصور توثيق الرأي",
+            "details": [
+              {
+                "detail_code": "CP-AA-02-01",
+                "detail_name": "افتراضات غير مكتملة",
+                "bank_example": "افتراضات غير مكتملة"
+              },
+              {
+                "detail_code": "CP-AA-02-02",
+                "detail_name": "عدم حفظ موافقة العميل",
+                "bank_example": "عدم حفظ موافقة العميل"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type_name": "الأضرار بالأصول المادية",
+    "events": [
+      {
+        "event_name": "كوارث وأحداث أخرى",
+        "subcategories": [
+          {
+            "subcategory_code": "DA-ND-01",
+            "subcategory_name": "كارثة طبيعية",
+            "details": [
+              {
+                "detail_code": "DA-ND-01-01",
+                "detail_name": "فيضان أو زلزال يضر الأصول",
+                "bank_example": "فيضان أو زلزال يضر الأصول"
+              },
+              {
+                "detail_code": "DA-ND-01-02",
+                "detail_name": "طقس شديد يعطل موقعاً",
+                "bank_example": "طقس شديد يعطل موقعاً"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "DA-ND-02",
+            "subcategory_name": "حريق أو حادث مادي",
+            "details": [
+              {
+                "detail_code": "DA-ND-02-01",
+                "detail_name": "حريق في فرع أو مركز بيانات",
+                "bank_example": "حريق في فرع أو مركز بيانات"
+              },
+              {
+                "detail_code": "DA-ND-02-02",
+                "detail_name": "تلف معدات بسبب حادث",
+                "bank_example": "تلف معدات بسبب حادث"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "DA-ND-03",
+            "subcategory_name": "تخريب أو اضطراب خارجي",
+            "details": [
+              {
+                "detail_code": "DA-ND-03-01",
+                "detail_name": "تخريب أصول",
+                "bank_example": "تخريب أصول"
+              },
+              {
+                "detail_code": "DA-ND-03-02",
+                "detail_name": "أضرار من اضطراب مدني",
+                "bank_example": "أضرار من اضطراب مدني"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type_name": "تعطل الأعمال وفشل الأنظمة",
+    "events": [
+      {
+        "event_name": "الأنظمة والمرافق",
+        "subcategories": [
+          {
+            "subcategory_code": "BD-SY-01",
+            "subcategory_name": "فشل أجهزة أو بنية تحتية",
+            "details": [
+              {
+                "detail_code": "BD-SY-01-01",
+                "detail_name": "تعطل خادم أو وحدة تخزين",
+                "bank_example": "تعطل خادم أو وحدة تخزين"
+              },
+              {
+                "detail_code": "BD-SY-01-02",
+                "detail_name": "فشل طاقة أو تبريد",
+                "bank_example": "فشل طاقة أو تبريد"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "BD-SY-02",
+            "subcategory_name": "فشل برمجيات أو قواعد بيانات",
+            "details": [
+              {
+                "detail_code": "BD-SY-02-01",
+                "detail_name": "توقف تطبيق مصرفي",
+                "bank_example": "توقف تطبيق مصرفي"
+              },
+              {
+                "detail_code": "BD-SY-02-02",
+                "detail_name": "تلف أو عدم اتساق قاعدة بيانات",
+                "bank_example": "تلف أو عدم اتساق قاعدة بيانات"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "BD-SY-03",
+            "subcategory_name": "فشل اتصالات",
+            "details": [
+              {
+                "detail_code": "BD-SY-03-01",
+                "detail_name": "انقطاع شبكة أو دوائر ربط",
+                "bank_example": "انقطاع شبكة أو دوائر ربط"
+              },
+              {
+                "detail_code": "BD-SY-03-02",
+                "detail_name": "تعطل اتصال مقدم خدمة",
+                "bank_example": "تعطل اتصال مقدم خدمة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "BD-SY-04",
+            "subcategory_name": "تعطل خدمة سحابية أو طرف تقني",
+            "details": [
+              {
+                "detail_code": "BD-SY-04-01",
+                "detail_name": "عدم إتاحة خدمة سحابية",
+                "bank_example": "عدم إتاحة خدمة سحابية"
+              },
+              {
+                "detail_code": "BD-SY-04-02",
+                "detail_name": "تعطل منصة طرف ثالث حرجة",
+                "bank_example": "تعطل منصة طرف ثالث حرجة"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type_name": "التنفيذ والتسليم وإدارة العمليات",
+    "events": [
+      {
+        "event_name": "التقاط وتنفيذ وصيانة المعاملات",
+        "subcategories": [
+          {
+            "subcategory_code": "ED-TC-01",
+            "subcategory_name": "خطأ إدخال أو تحميل بيانات",
+            "details": [
+              {
+                "detail_code": "ED-TC-01-01",
+                "detail_name": "قيمة أو حساب مستفيد خاطئ",
+                "bank_example": "قيمة أو حساب مستفيد خاطئ"
+              },
+              {
+                "detail_code": "ED-TC-01-02",
+                "detail_name": "تحميل ملف مكرر أو ناقص",
+                "bank_example": "تحميل ملف مكرر أو ناقص"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-TC-02",
+            "subcategory_name": "موعد أو مسؤولية فائتة",
+            "details": [
+              {
+                "detail_code": "ED-TC-02-01",
+                "detail_name": "فوات قيد أو تسوية",
+                "bank_example": "فوات قيد أو تسوية"
+              },
+              {
+                "detail_code": "ED-TC-02-02",
+                "detail_name": "عدم تنفيذ إجراء في الموعد",
+                "bank_example": "عدم تنفيذ إجراء في الموعد"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-TC-03",
+            "subcategory_name": "تشغيل نموذج أو نظام بطريقة خاطئة",
+            "details": [
+              {
+                "detail_code": "ED-TC-03-01",
+                "detail_name": "اختيار معلمة غير صحيحة",
+                "bank_example": "اختيار معلمة غير صحيحة"
+              },
+              {
+                "detail_code": "ED-TC-03-02",
+                "detail_name": "تشغيل دفعة بتهيئة خاطئة",
+                "bank_example": "تشغيل دفعة بتهيئة خاطئة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-TC-04",
+            "subcategory_name": "خطأ محاسبي أو إسناد كيان",
+            "details": [
+              {
+                "detail_code": "ED-TC-04-01",
+                "detail_name": "قيد على كيان أو حساب خاطئ",
+                "bank_example": "قيد على كيان أو حساب خاطئ"
+              },
+              {
+                "detail_code": "ED-TC-04-02",
+                "detail_name": "معالجة عملة أو مركز تكلفة خطأ",
+                "bank_example": "معالجة عملة أو مركز تكلفة خطأ"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-TC-05",
+            "subcategory_name": "فشل تسليم أو إدارة ضمانات",
+            "details": [
+              {
+                "detail_code": "ED-TC-05-01",
+                "detail_name": "عدم تسليم مستند أو أصل",
+                "bank_example": "عدم تسليم مستند أو أصل"
+              },
+              {
+                "detail_code": "ED-TC-05-02",
+                "detail_name": "قصور تسجيل أو تحرير ضمان",
+                "bank_example": "قصور تسجيل أو تحرير ضمان"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "المراقبة والإبلاغ",
+        "subcategories": [
+          {
+            "subcategory_code": "ED-MR-01",
+            "subcategory_name": "فشل تقرير إلزامي",
+            "details": [
+              {
+                "detail_code": "ED-MR-01-01",
+                "detail_name": "عدم تقديم تقرير رقابي",
+                "bank_example": "عدم تقديم تقرير رقابي"
+              },
+              {
+                "detail_code": "ED-MR-01-02",
+                "detail_name": "تقديم تقرير بعد الموعد",
+                "bank_example": "تقديم تقرير بعد الموعد"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-MR-02",
+            "subcategory_name": "تقرير خارجي غير دقيق",
+            "details": [
+              {
+                "detail_code": "ED-MR-02-01",
+                "detail_name": "خطأ جوهري في إفصاح",
+                "bank_example": "خطأ جوهري في إفصاح"
+              },
+              {
+                "detail_code": "ED-MR-02-02",
+                "detail_name": "بيانات رقابية غير مكتملة",
+                "bank_example": "بيانات رقابية غير مكتملة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-MR-03",
+            "subcategory_name": "فشل تنبيه أو تسوية",
+            "details": [
+              {
+                "detail_code": "ED-MR-03-01",
+                "detail_name": "استثناء لم يُراجع",
+                "bank_example": "استثناء لم يُراجع"
+              },
+              {
+                "detail_code": "ED-MR-03-02",
+                "detail_name": "فرق تسوية غير مصعّد",
+                "bank_example": "فرق تسوية غير مصعّد"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "قبول العميل والتوثيق",
+        "subcategories": [
+          {
+            "subcategory_code": "ED-CD-01",
+            "subcategory_name": "تصاريح أو إخلاءات ناقصة",
+            "details": [
+              {
+                "detail_code": "ED-CD-01-01",
+                "detail_name": "موافقة عميل مفقودة",
+                "bank_example": "موافقة عميل مفقودة"
+              },
+              {
+                "detail_code": "ED-CD-01-02",
+                "detail_name": "تفويض غير صالح",
+                "bank_example": "تفويض غير صالح"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-CD-02",
+            "subcategory_name": "مستندات قانونية ناقصة",
+            "details": [
+              {
+                "detail_code": "ED-CD-02-01",
+                "detail_name": "عقد أو ضمان غير مكتمل",
+                "bank_example": "عقد أو ضمان غير مكتمل"
+              },
+              {
+                "detail_code": "ED-CD-02-02",
+                "detail_name": "نسخة هوية أو مستند تأسيس مفقود",
+                "bank_example": "نسخة هوية أو مستند تأسيس مفقود"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-CD-03",
+            "subcategory_name": "بيانات KYC غير مكتملة",
+            "details": [
+              {
+                "detail_code": "ED-CD-03-01",
+                "detail_name": "مالك مستفيد غير موثق",
+                "bank_example": "مالك مستفيد غير موثق"
+              },
+              {
+                "detail_code": "ED-CD-03-02",
+                "detail_name": "تصنيف مخاطر عميل غير محدث",
+                "bank_example": "تصنيف مخاطر عميل غير محدث"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "إدارة حساب العميل",
+        "subcategories": [
+          {
+            "subcategory_code": "ED-AM-01",
+            "subcategory_name": "وصول غير معتمد للحساب",
+            "details": [
+              {
+                "detail_code": "ED-AM-01-01",
+                "detail_name": "منح صلاحية دون موافقة",
+                "bank_example": "منح صلاحية دون موافقة"
+              },
+              {
+                "detail_code": "ED-AM-01-02",
+                "detail_name": "عدم إلغاء مفوض منتهي",
+                "bank_example": "عدم إلغاء مفوض منتهي"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-AM-02",
+            "subcategory_name": "سجل عميل غير صحيح",
+            "details": [
+              {
+                "detail_code": "ED-AM-02-01",
+                "detail_name": "عنوان أو حالة عميل خاطئة",
+                "bank_example": "عنوان أو حالة عميل خاطئة"
+              },
+              {
+                "detail_code": "ED-AM-02-02",
+                "detail_name": "ربط حساب بملف غير صحيح",
+                "bank_example": "ربط حساب بملف غير صحيح"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-AM-03",
+            "subcategory_name": "فقد أو تلف أصل عميل",
+            "details": [
+              {
+                "detail_code": "ED-AM-03-01",
+                "detail_name": "سوء حفظ مستند أصلي",
+                "bank_example": "سوء حفظ مستند أصلي"
+              },
+              {
+                "detail_code": "ED-AM-03-02",
+                "detail_name": "تلف أصل مودع لدى البنك",
+                "bank_example": "تلف أصل مودع لدى البنك"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "الأطراف المقابلة غير العملاء",
+        "subcategories": [
+          {
+            "subcategory_code": "ED-TP-01",
+            "subcategory_name": "إخفاق طرف مقابل",
+            "details": [
+              {
+                "detail_code": "ED-TP-01-01",
+                "detail_name": "عدم تنفيذ التزام تشغيلي",
+                "bank_example": "عدم تنفيذ التزام تشغيلي"
+              },
+              {
+                "detail_code": "ED-TP-01-02",
+                "detail_name": "نزاع تسوية مع طرف مقابل",
+                "bank_example": "نزاع تسوية مع طرف مقابل"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-TP-02",
+            "subcategory_name": "نزاع بيانات أو مطابقة",
+            "details": [
+              {
+                "detail_code": "ED-TP-02-01",
+                "detail_name": "اختلاف تأكيدات معاملة",
+                "bank_example": "اختلاف تأكيدات معاملة"
+              },
+              {
+                "detail_code": "ED-TP-02-02",
+                "detail_name": "مطابقة مرجعية خاطئة",
+                "bank_example": "مطابقة مرجعية خاطئة"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "event_name": "الموردون والمصادر الخارجية",
+        "subcategories": [
+          {
+            "subcategory_code": "ED-VS-01",
+            "subcategory_name": "إخفاق مورد أو تعهيد",
+            "details": [
+              {
+                "detail_code": "ED-VS-01-01",
+                "detail_name": "عدم تحقيق مستوى الخدمة",
+                "bank_example": "عدم تحقيق مستوى الخدمة"
+              },
+              {
+                "detail_code": "ED-VS-01-02",
+                "detail_name": "توقف خدمة مورد حرجة",
+                "bank_example": "توقف خدمة مورد حرجة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-VS-02",
+            "subcategory_name": "نزاع تعاقدي مع مورد",
+            "details": [
+              {
+                "detail_code": "ED-VS-02-01",
+                "detail_name": "رسوم أو نطاق محل نزاع",
+                "bank_example": "رسوم أو نطاق محل نزاع"
+              },
+              {
+                "detail_code": "ED-VS-02-02",
+                "detail_name": "التزامات إنهاء أو انتقال غير واضحة",
+                "bank_example": "التزامات إنهاء أو انتقال غير واضحة"
+              }
+            ]
+          },
+          {
+            "subcategory_code": "ED-VS-03",
+            "subcategory_name": "مخاطر طرف رابع",
+            "details": [
+              {
+                "detail_code": "ED-VS-03-01",
+                "detail_name": "تعطل متعهد فرعي",
+                "bank_example": "تعطل متعهد فرعي"
+              },
+              {
+                "detail_code": "ED-VS-03-02",
+                "detail_name": "قصور ضابط لدى سلسلة التوريد",
+                "bank_example": "قصور ضابط لدى سلسلة التوريد"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

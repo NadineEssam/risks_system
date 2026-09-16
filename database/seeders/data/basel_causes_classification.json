@@ -1,0 +1,700 @@
+[
+  {
+    "category_code": "PEO",
+    "category_name": "الأفراد",
+    "subcategories": [
+      {
+        "subcategory_code": "PEO-01",
+        "subcategory_name": "نقص الكفاءة أو التدريب",
+        "details": [
+          {
+            "detail_code": "PEO-01-01",
+            "detail_name": "نقص الكفاءة أو التدريب بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PEO-01-02",
+            "detail_name": "نقص الكفاءة أو التدريب بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PEO-02",
+        "subcategory_name": "خطأ بشري أو سهو",
+        "details": [
+          {
+            "detail_code": "PEO-02-01",
+            "detail_name": "خطأ بشري أو سهو بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PEO-02-02",
+            "detail_name": "خطأ بشري أو سهو بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PEO-03",
+        "subcategory_name": "سوء سلوك أو تعمد",
+        "details": [
+          {
+            "detail_code": "PEO-03-01",
+            "detail_name": "سوء سلوك أو تعمد بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PEO-03-02",
+            "detail_name": "سوء سلوك أو تعمد بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PEO-04",
+        "subcategory_name": "نقص الموارد أو ضغط العمل",
+        "details": [
+          {
+            "detail_code": "PEO-04-01",
+            "detail_name": "نقص الموارد أو ضغط العمل بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PEO-04-02",
+            "detail_name": "نقص الموارد أو ضغط العمل بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PEO-05",
+        "subcategory_name": "تضارب صلاحيات أو مسؤوليات",
+        "details": [
+          {
+            "detail_code": "PEO-05-01",
+            "detail_name": "تضارب صلاحيات أو مسؤوليات بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PEO-05-02",
+            "detail_name": "تضارب صلاحيات أو مسؤوليات بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "PRO",
+    "category_name": "العمليات",
+    "subcategories": [
+      {
+        "subcategory_code": "PRO-01",
+        "subcategory_name": "تصميم إجراء غير ملائم",
+        "details": [
+          {
+            "detail_code": "PRO-01-01",
+            "detail_name": "تصميم إجراء غير ملائم بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PRO-01-02",
+            "detail_name": "تصميم إجراء غير ملائم بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PRO-02",
+        "subcategory_name": "إجراء غير موثق أو قديم",
+        "details": [
+          {
+            "detail_code": "PRO-02-01",
+            "detail_name": "إجراء غير موثق أو قديم بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PRO-02-02",
+            "detail_name": "إجراء غير موثق أو قديم بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PRO-03",
+        "subcategory_name": "فشل فصل المهام",
+        "details": [
+          {
+            "detail_code": "PRO-03-01",
+            "detail_name": "فشل فصل المهام بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PRO-03-02",
+            "detail_name": "فشل فصل المهام بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PRO-04",
+        "subcategory_name": "مراجعة أو اعتماد غير كاف",
+        "details": [
+          {
+            "detail_code": "PRO-04-01",
+            "detail_name": "مراجعة أو اعتماد غير كاف بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PRO-04-02",
+            "detail_name": "مراجعة أو اعتماد غير كاف بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "PRO-05",
+        "subcategory_name": "تسوية أو متابعة غير فعالة",
+        "details": [
+          {
+            "detail_code": "PRO-05-01",
+            "detail_name": "تسوية أو متابعة غير فعالة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "PRO-05-02",
+            "detail_name": "تسوية أو متابعة غير فعالة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "TEC",
+    "category_name": "التقنية",
+    "subcategories": [
+      {
+        "subcategory_code": "TEC-01",
+        "subcategory_name": "عيب تصميم تقني",
+        "details": [
+          {
+            "detail_code": "TEC-01-01",
+            "detail_name": "عيب تصميم تقني بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TEC-01-02",
+            "detail_name": "عيب تصميم تقني بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TEC-02",
+        "subcategory_name": "خطأ برمجي أو تهيئة",
+        "details": [
+          {
+            "detail_code": "TEC-02-01",
+            "detail_name": "خطأ برمجي أو تهيئة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TEC-02-02",
+            "detail_name": "خطأ برمجي أو تهيئة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TEC-03",
+        "subcategory_name": "قصور سعة أو أداء",
+        "details": [
+          {
+            "detail_code": "TEC-03-01",
+            "detail_name": "قصور سعة أو أداء بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TEC-03-02",
+            "detail_name": "قصور سعة أو أداء بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TEC-04",
+        "subcategory_name": "فشل تكامل أو واجهة",
+        "details": [
+          {
+            "detail_code": "TEC-04-01",
+            "detail_name": "فشل تكامل أو واجهة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TEC-04-02",
+            "detail_name": "فشل تكامل أو واجهة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TEC-05",
+        "subcategory_name": "إدارة تغيير تقني ضعيفة",
+        "details": [
+          {
+            "detail_code": "TEC-05-01",
+            "detail_name": "إدارة تغيير تقني ضعيفة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TEC-05-02",
+            "detail_name": "إدارة تغيير تقني ضعيفة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TEC-06",
+        "subcategory_name": "ضعف هوية وصلاحيات",
+        "details": [
+          {
+            "detail_code": "TEC-06-01",
+            "detail_name": "ضعف هوية وصلاحيات بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TEC-06-02",
+            "detail_name": "ضعف هوية وصلاحيات بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "DAT",
+    "category_name": "البيانات",
+    "subcategories": [
+      {
+        "subcategory_code": "DAT-01",
+        "subcategory_name": "جودة بيانات ضعيفة",
+        "details": [
+          {
+            "detail_code": "DAT-01-01",
+            "detail_name": "جودة بيانات ضعيفة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "DAT-01-02",
+            "detail_name": "جودة بيانات ضعيفة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "DAT-02",
+        "subcategory_name": "بيانات مرجعية خاطئة",
+        "details": [
+          {
+            "detail_code": "DAT-02-01",
+            "detail_name": "بيانات مرجعية خاطئة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "DAT-02-02",
+            "detail_name": "بيانات مرجعية خاطئة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "DAT-03",
+        "subcategory_name": "تصنيف أو تعريف غير موحد",
+        "details": [
+          {
+            "detail_code": "DAT-03-01",
+            "detail_name": "تصنيف أو تعريف غير موحد بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "DAT-03-02",
+            "detail_name": "تصنيف أو تعريف غير موحد بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "DAT-04",
+        "subcategory_name": "فقد تكامل أو توافر البيانات",
+        "details": [
+          {
+            "detail_code": "DAT-04-01",
+            "detail_name": "فقد تكامل أو توافر البيانات بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "DAT-04-02",
+            "detail_name": "فقد تكامل أو توافر البيانات بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "DAT-05",
+        "subcategory_name": "احتفاظ أو إتلاف غير منضبط",
+        "details": [
+          {
+            "detail_code": "DAT-05-01",
+            "detail_name": "احتفاظ أو إتلاف غير منضبط بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "DAT-05-02",
+            "detail_name": "احتفاظ أو إتلاف غير منضبط بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "GOV",
+    "category_name": "الحوكمة والرقابة",
+    "subcategories": [
+      {
+        "subcategory_code": "GOV-01",
+        "subcategory_name": "سياسة غير كافية",
+        "details": [
+          {
+            "detail_code": "GOV-01-01",
+            "detail_name": "سياسة غير كافية بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "GOV-01-02",
+            "detail_name": "سياسة غير كافية بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "GOV-02",
+        "subcategory_name": "ملكية أو مساءلة غير واضحة",
+        "details": [
+          {
+            "detail_code": "GOV-02-01",
+            "detail_name": "ملكية أو مساءلة غير واضحة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "GOV-02-02",
+            "detail_name": "ملكية أو مساءلة غير واضحة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "GOV-03",
+        "subcategory_name": "شهية وحدود مخاطر غير محددة",
+        "details": [
+          {
+            "detail_code": "GOV-03-01",
+            "detail_name": "شهية وحدود مخاطر غير محددة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "GOV-03-02",
+            "detail_name": "شهية وحدود مخاطر غير محددة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "GOV-04",
+        "subcategory_name": "رقابة خط أول غير فعالة",
+        "details": [
+          {
+            "detail_code": "GOV-04-01",
+            "detail_name": "رقابة خط أول غير فعالة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "GOV-04-02",
+            "detail_name": "رقابة خط أول غير فعالة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "GOV-05",
+        "subcategory_name": "إشراف أو تصعيد متأخر",
+        "details": [
+          {
+            "detail_code": "GOV-05-01",
+            "detail_name": "إشراف أو تصعيد متأخر بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "GOV-05-02",
+            "detail_name": "إشراف أو تصعيد متأخر بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "TPR",
+    "category_name": "الأطراف الثالثة والرابعة",
+    "subcategories": [
+      {
+        "subcategory_code": "TPR-01",
+        "subcategory_name": "عناية واجبة غير كافية",
+        "details": [
+          {
+            "detail_code": "TPR-01-01",
+            "detail_name": "عناية واجبة غير كافية بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TPR-01-02",
+            "detail_name": "عناية واجبة غير كافية بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TPR-02",
+        "subcategory_name": "شروط تعاقدية ضعيفة",
+        "details": [
+          {
+            "detail_code": "TPR-02-01",
+            "detail_name": "شروط تعاقدية ضعيفة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TPR-02-02",
+            "detail_name": "شروط تعاقدية ضعيفة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TPR-03",
+        "subcategory_name": "مراقبة أداء المورد غير كافية",
+        "details": [
+          {
+            "detail_code": "TPR-03-01",
+            "detail_name": "مراقبة أداء المورد غير كافية بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TPR-03-02",
+            "detail_name": "مراقبة أداء المورد غير كافية بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TPR-04",
+        "subcategory_name": "اعتماد مفرط أو تركّز",
+        "details": [
+          {
+            "detail_code": "TPR-04-01",
+            "detail_name": "اعتماد مفرط أو تركّز بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TPR-04-02",
+            "detail_name": "اعتماد مفرط أو تركّز بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "TPR-05",
+        "subcategory_name": "فشل متعهد فرعي",
+        "details": [
+          {
+            "detail_code": "TPR-05-01",
+            "detail_name": "فشل متعهد فرعي بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "TPR-05-02",
+            "detail_name": "فشل متعهد فرعي بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "EXT",
+    "category_name": "عوامل خارجية",
+    "subcategories": [
+      {
+        "subcategory_code": "EXT-01",
+        "subcategory_name": "جريمة أو احتيال خارجي",
+        "details": [
+          {
+            "detail_code": "EXT-01-01",
+            "detail_name": "جريمة أو احتيال خارجي بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "EXT-01-02",
+            "detail_name": "جريمة أو احتيال خارجي بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "EXT-02",
+        "subcategory_name": "كارثة طبيعية",
+        "details": [
+          {
+            "detail_code": "EXT-02-01",
+            "detail_name": "كارثة طبيعية بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "EXT-02-02",
+            "detail_name": "كارثة طبيعية بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "EXT-03",
+        "subcategory_name": "انقطاع مرافق أو اتصالات",
+        "details": [
+          {
+            "detail_code": "EXT-03-01",
+            "detail_name": "انقطاع مرافق أو اتصالات بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "EXT-03-02",
+            "detail_name": "انقطاع مرافق أو اتصالات بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "EXT-04",
+        "subcategory_name": "تغير قانوني أو تنظيمي",
+        "details": [
+          {
+            "detail_code": "EXT-04-01",
+            "detail_name": "تغير قانوني أو تنظيمي بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "EXT-04-02",
+            "detail_name": "تغير قانوني أو تنظيمي بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "EXT-05",
+        "subcategory_name": "اضطراب اجتماعي أو جيوسياسي",
+        "details": [
+          {
+            "detail_code": "EXT-05-01",
+            "detail_name": "اضطراب اجتماعي أو جيوسياسي بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "EXT-05-02",
+            "detail_name": "اضطراب اجتماعي أو جيوسياسي بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "CHG",
+    "category_name": "التغيير والمشروعات",
+    "subcategories": [
+      {
+        "subcategory_code": "CHG-01",
+        "subcategory_name": "متطلبات غير مكتملة",
+        "details": [
+          {
+            "detail_code": "CHG-01-01",
+            "detail_name": "متطلبات غير مكتملة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "CHG-01-02",
+            "detail_name": "متطلبات غير مكتملة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "CHG-02",
+        "subcategory_name": "اختبار غير كاف",
+        "details": [
+          {
+            "detail_code": "CHG-02-01",
+            "detail_name": "اختبار غير كاف بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "CHG-02-02",
+            "detail_name": "اختبار غير كاف بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "CHG-03",
+        "subcategory_name": "ترحيل بيانات خاطئ",
+        "details": [
+          {
+            "detail_code": "CHG-03-01",
+            "detail_name": "ترحيل بيانات خاطئ بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "CHG-03-02",
+            "detail_name": "ترحيل بيانات خاطئ بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "CHG-04",
+        "subcategory_name": "إطلاق دون جاهزية",
+        "details": [
+          {
+            "detail_code": "CHG-04-01",
+            "detail_name": "إطلاق دون جاهزية بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "CHG-04-02",
+            "detail_name": "إطلاق دون جاهزية بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "CHG-05",
+        "subcategory_name": "إدارة تغيير وتدريب ضعيفة",
+        "details": [
+          {
+            "detail_code": "CHG-05-01",
+            "detail_name": "إدارة تغيير وتدريب ضعيفة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "CHG-05-02",
+            "detail_name": "إدارة تغيير وتدريب ضعيفة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category_code": "BCM",
+    "category_name": "الاستمرارية والمرونة",
+    "subcategories": [
+      {
+        "subcategory_code": "BCM-01",
+        "subcategory_name": "تحليل أثر أعمال غير كاف",
+        "details": [
+          {
+            "detail_code": "BCM-01-01",
+            "detail_name": "تحليل أثر أعمال غير كاف بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "BCM-01-02",
+            "detail_name": "تحليل أثر أعمال غير كاف بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "BCM-02",
+        "subcategory_name": "خطة تعافٍ غير واقعية",
+        "details": [
+          {
+            "detail_code": "BCM-02-01",
+            "detail_name": "خطة تعافٍ غير واقعية بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "BCM-02-02",
+            "detail_name": "خطة تعافٍ غير واقعية بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "BCM-03",
+        "subcategory_name": "اختبار تعافٍ غير كاف",
+        "details": [
+          {
+            "detail_code": "BCM-03-01",
+            "detail_name": "اختبار تعافٍ غير كاف بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "BCM-03-02",
+            "detail_name": "اختبار تعافٍ غير كاف بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "BCM-04",
+        "subcategory_name": "نقطة فشل أحادية",
+        "details": [
+          {
+            "detail_code": "BCM-04-01",
+            "detail_name": "نقطة فشل أحادية بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "BCM-04-02",
+            "detail_name": "نقطة فشل أحادية بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      },
+      {
+        "subcategory_code": "BCM-05",
+        "subcategory_name": "اعتماديات حرجة غير محددة",
+        "details": [
+          {
+            "detail_code": "BCM-05-01",
+            "detail_name": "اعتماديات حرجة غير محددة بسبب غياب أو ضعف الضابط"
+          },
+          {
+            "detail_code": "BCM-05-02",
+            "detail_name": "اعتماديات حرجة غير محددة بسبب عدم الالتزام أو عدم الفاعلية"
+          }
+        ]
+      }
+    ]
+  }
+]

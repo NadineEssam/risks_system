@@ -16,6 +16,28 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+
+
+               
+        // $this->app['request']->server->set('SCRIPT_NAME',
+        // '/call_center/index.php');
+        
+        \Illuminate\Support\Facades\URL::forceRootUrl('http://192.168.161.89/risk_management');
+        \Illuminate\Support\Facades\URL::forceScheme('http');
+
+
+
+        // اتجاه الصفحة الافتراضي RTL يُطبَّق من طبقة الـ Blade layout مباشرة،
+        // ولا حاجة لأي منطق إضافي هنا حالياً بما أن اللغة الوحيدة هي العربية.
+
+        Blade::directive('riskDegreeBadge', function ($e) {
+            return "<span class=\"badge badge-{$e}\">{$e}</span>";
+        });
+
+        // اتجاه الصفحة الافتراضي RTL يُطبَّق من طبقة الـ Blade layout مباشرة،
+
+
+
         Paginator::useBootstrapFive();
 
         // اتجاه الصفحة الافتراضي RTL يُطبَّق من طبقة الـ Blade layout مباشرة،
@@ -29,5 +51,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, string $ability) {
             return $user->hasRole('super-admin') ? true : null;
         });
+
+
+
+
+
+
+        
     }
 }

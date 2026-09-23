@@ -66,17 +66,17 @@ class PotentialRiskRegister extends Model
         return $this->hasMany(PotentialRiskRegisterSectorDetail::class, 'potential_risk_register_id');
     }
 
-    public function sectors()
-    {
-        return $this->belongsToMany(
-            Sector::class,
-            'potential_risk_register_sector_details',
-            'potential_risk_register_id',
-            'sectors_sec_id',
-            'id',
-            'sec_id'
-        );
-    }
+    // public function sectors()
+    // {
+    //     return $this->belongsToMany(
+    //         Sector::class,
+    //         'potential_risk_register_sector_details',
+    //         'potential_risk_register_id',
+    //         'sectors_sec_id',
+    //         'id',
+    //         'sec_id'
+    //     );
+    // }
 
     public function resolutionStatusDetails()
     {

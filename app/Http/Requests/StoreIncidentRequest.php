@@ -23,7 +23,7 @@ class StoreIncidentRequest extends FormRequest
             'proposed_procedure' => ['nullable', 'string'],
             'actual_impact_problem' => ['nullable', 'string'],
             'responsible_sectors' => ['required', 'array', 'min:1'],
-            'responsible_sectors.*' => ['integer', 'exists:sectors,sec_id'],
+            'responsible_sectors.*' => ['integer', 'exists:new_po.sectors,sec_id'],
         ];
     }
 

@@ -71,8 +71,7 @@
         <i class="bi bi-gear"></i><span>البيانات المرجعية</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="admin-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li><a href="{{ route('admin.sectors.index') }}"><i class="bi bi-circle"></i><span>القطاعات</span></a></li>
-        <li><a href="{{ route('admin.departments.index') }}"><i class="bi bi-circle"></i><span>الإدارات</span></a></li>
+       
         <li><a href="{{ route('admin.event-types.index') }}"><i class="bi bi-circle"></i><span>تصنيف بازل العام</span></a></li>
         <li><a href="{{ route('admin.events.index') }}"><i class="bi bi-circle"></i><span>تصنيف بازل التفصيلي</span></a></li>
         <li><a href="{{ route('admin.event-subcategories.index') }}"><i class="bi bi-circle"></i><span>تصنيف بازل الفرعي</span></a></li>

@@ -36,8 +36,8 @@ class UserController extends Controller
             'userID' => ['required', 'string', 'max:100', 'unique:users,domain_username'],
             'email' => ['required', 'email', 'unique:users,email'],
             'job_title' => ['nullable', 'string', 'max:255'],
-            'sector_id' => ['nullable', 'integer', 'exists:sectors,sec_id'],
-            'department_id' => ['nullable', 'integer', 'exists:departments,dep_id', $this->departmentBelongsToSectorRule($request)],
+            'sector_id' => ['nullable', 'integer', 'exists:new_po.sectors,sec_id'],
+            'department_id' => ['nullable', 'integer', 'exists:new_po.departments,dep_id', $this->departmentBelongsToSectorRule($request)],
             'roles' => ['required', 'array', 'min:1'],
             'roles.*' => ['string', 'exists:roles,name'],
         ], [
@@ -95,8 +95,8 @@ class UserController extends Controller
     public function updateSectorDepartment(Request $request, User $user): RedirectResponse
     {
         $data = $request->validate([
-            'sector_id' => ['nullable', 'integer', 'exists:sectors,sec_id'],
-            'department_id' => ['nullable', 'integer', 'exists:departments,dep_id', $this->departmentBelongsToSectorRule($request)],
+            'sector_id' => ['nullable', 'integer', 'exists:new_po.sectors,sec_id'],
+            'department_id' => ['nullable', 'integer', 'exists:new_po.departments,dep_id', $this->departmentBelongsToSectorRule($request)],
         ]);
 
         $user->update([

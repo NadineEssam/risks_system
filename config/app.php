@@ -16,6 +16,9 @@ return [
 
     'locale' => env('APP_LOCALE', 'ar'),
 
+    // كود القطاع المركزي للمخاطر في new_po
+    'central_risk_sector_code' => env('RISK_CENTRAL_SECTOR_CODE'),
+
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'ar'),
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'ar_SA'),

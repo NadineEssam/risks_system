@@ -54,17 +54,17 @@ class Incident extends Model
         return $this->hasMany(IncidentSectorResponsibility::class, 'incident_id');
     }
 
-    public function responsibleSectors()
-    {
-        return $this->belongsToMany(
-            Sector::class,
-            'incident_sectors_responsibilities',
-            'incident_id',
-            'sectors_sec_id',
-            'id',
-            'sec_id'
-        );
-    }
+    // public function responsibleSectors()
+    // {
+    //     return $this->belongsToMany(
+    //         Sector::class,
+    //         'incident_sectors_responsibilities',
+    //         'incident_id',
+    //         'sectors_sec_id',
+    //         'id',
+    //         'sec_id'
+    //     );
+    // }
 
     public function scopeActive($query)
     {
@@ -83,9 +83,12 @@ class Incident extends Model
             return 0;
         }
 
+        // الإدارات في new_po (MySQL) والأحداث في Oracle — لا يمكن whereHas بين قاعدتين
+        $depIds = Department::where('sector_code', $sectorCode)->pluck('dep_id');
+
         return static::query()
             ->where('potential_risk_register_id', $potentialRiskRegisterId)
-            ->whereHas('department', fn ($q) => $q->where('sector_code', $sectorCode))
+            ->whereIn('departments_dep_id', $depIds)
             ->count();
     }
 

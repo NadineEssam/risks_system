@@ -98,7 +98,8 @@ class IncidentController extends Controller
             if ($creatingSectorId = $department->sector?->sec_id) {
                 $sectorIds->push($creatingSectorId);
             }
-            if ($centralRiskSector = Sector::where('sector_code', 'SEC-RISK')->first()) {
+            $centralCode = config('app.central_risk_sector_code');
+            if ($centralCode && $centralRiskSector = Sector::where('sector_code', $centralCode)->first()) {
                 $sectorIds->push($centralRiskSector->sec_id);
             }
 

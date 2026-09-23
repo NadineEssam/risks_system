@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\DepartmentController;
+
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\EventDetailController;
 use App\Http\Controllers\Admin\EventSubcategoryController;
 use App\Http\Controllers\Admin\LookupController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -113,14 +112,7 @@ Route::middleware('auth')->group(function () {
 
     // ===================== الإدارة والبيانات المرجعية =====================
     Route::middleware('permission:manage-lookups')->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/sectors', [SectorController::class, 'index'])->name('sectors.index');
-        Route::post('/sectors', [SectorController::class, 'store'])->name('sectors.store');
-        Route::post('/sectors/{sector}/toggle', [SectorController::class, 'toggle'])->name('sectors.toggle');
-
-        Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
-        Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
-        Route::post('/departments/{department}/toggle', [DepartmentController::class, 'toggle'])->name('departments.toggle');
-
+        
         Route::get('/events', [EventController::class, 'index'])->name('events.index');
         Route::post('/events', [EventController::class, 'store'])->name('events.store');
         Route::post('/events/{event}/toggle', [EventController::class, 'toggle'])->name('events.toggle');

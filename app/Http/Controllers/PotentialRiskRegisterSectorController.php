@@ -17,7 +17,7 @@ class PotentialRiskRegisterSectorController extends Controller
         abort_unless($request->user()->can('edit-risks') || $request->user()->can('create-risks'), 403);
 
         $data = $request->validate([
-            'sectors_sec_id' => ['required', 'integer', 'exists:sectors,sec_id'],
+            'sectors_sec_id' => ['required', 'integer', 'exists:new_po.sectors,sec_id'],
         ], [
             'sectors_sec_id.required' => 'يجب اختيار القطاع الإداري المسؤول.',
         ]);

@@ -75,6 +75,7 @@
 </div>
 
 @push('scripts')
+  {{ $dataTable->scripts() }}
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // درجة الخطر: تدرج حالة ثابت (أخضر=مقبول، برتقالي=متوسط، أحمر=مرتفع)

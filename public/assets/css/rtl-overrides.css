@@ -261,3 +261,10 @@ table td {
 .card-title {
   padding-top: 0;
 }
+/* عنوان الكارد بنفس خط الشكاوى */
+.card-title {
+  font-family: 'Cairo', 'Tahoma', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #012970;
+}

@@ -15,6 +15,7 @@ use App\Models\ResponsibleRole;
 use App\Models\ThresholdLevel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\DataTables\IndicatorDataTable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -27,13 +28,9 @@ use Illuminate\View\View;
  */
 class IndicatorController extends Controller
 {
-    public function index(): View
+        public function index(IndicatorDataTable $dataTable)
     {
-        $indicators = Indicator::with(['potentialRiskRegister', 'nature', 'measurementUnit', 'reportingFrequency'])
-            ->latest('creation_date')
-            ->get();
-
-        return view('indicators.index', compact('indicators'));
+        return $dataTable->render('indicators.index');
     }
 
     public function create(Request $request): View

@@ -8,46 +8,25 @@
 
 @section('content')
 <div class="card">
-  <div class="card-body">
+  <div class="card-body pt-3">
 
-    <div class="d-flex justify-content-end mb-2">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="card-title m-0 p-0">قائمة متابعات الأحداث</h5>
       @can('incident-followups.create')
         <a href="{{ route('incident-followups.create') }}" class="btn btn-primary">
-          <i class="bi bi-plus-lg"></i> تسجيل متابعة جديدة
+          <i class="bx bx-plus"></i> تسجيل متابعة جديدة
         </a>
       @endcan
     </div>
 
-    @if($followups->isEmpty())
-      <p class="text-center text-muted py-2">لا توجد متابعات مسجلة بعد.</p>
-    @else
-      <div class="table-responsive">
-        <table class="table table-striped datatable">
-          <thead>
-            <tr>
-              <th>الخطر المحتمل</th>
-              <th>القطاع</th>
-              <th>تاريخ المتابعة</th>
-              <th>نوع الإدخال</th>
-              <th>حالة المتابعة</th>
-              <th>نص المتابعة</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($followups as $followup)
-              <tr>
-                <td>{{ \Illuminate\Support\Str::limit($followup->incidentSectorResponsibility?->incident?->potentialRiskRegister?->risk_description, 35) }}</td>
-                <td>{{ $followup->incidentSectorResponsibility?->sector?->sector_ar }}</td>
-                <td>{{ $followup->followup_date?->format('Y-m-d') }}</td>
-                <td><span class="badge bg-info">{{ $followup->followupEntryType?->type_name }}</span></td>
-                <td><span class="badge bg-secondary">{{ $followup->followupStatus?->status_name }}</span></td>
-                <td>{{ \Illuminate\Support\Str::limit($followup->entry_text, 60) }}</td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    @endif
+    <div class="table-responsive">
+      {{ $dataTable->table(['class' => 'table text-center align-middle datatable-custom', 'style' => 'width:100%']) }}
+    </div>
+
   </div>
 </div>
 @endsection
+
+@push('scripts')
+  {{ $dataTable->scripts() }}
+@endpush

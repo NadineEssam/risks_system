@@ -12,17 +12,30 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use App\DataTables\UsersDataTable;
 
 class UserController extends Controller
 {
-    public function index(): View
+    public function index(UsersDataTable $dataTable)
     {
-        $users = User::with(['roles', 'sector', 'department'])->orderBy('name')->get();
-        $roles = Role::orderBy('name')->get();
-        $sectors = Sector::active()->orderBy('sector_ar')->get();
-        $departments = Department::active()->orderBy('depname_ar')->get();
+        return $dataTable->render('admin.users.index', $this->formData());
+    }
 
-        return view('admin.users.index', compact('users', 'roles', 'sectors', 'departments'));
+    public function edit(User $user): View
+    {
+        $user->load(['roles', 'sector', 'department']);
+
+        return view('admin.users.edit', array_merge($this->formData(), compact('user')));
+    }
+
+    /** بيانات الفورمز: الأدوار + القطاعات والإدارات (من new_po) */
+    private function formData(): array
+    {
+        return [
+            'roles'       => Role::orderBy('name')->get(),
+            'sectors'     => Sector::active()->orderBy('sector_ar')->get(),
+            'departments' => Department::active()->orderBy('depname_ar')->get(),
+        ];
     }
 
     public function store(Request $request): RedirectResponse

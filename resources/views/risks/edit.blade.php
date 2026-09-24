@@ -59,6 +59,7 @@
 </div>
 
 @push('scripts')
+  {{ $dataTable->scripts() }}
 <script>
   // سلسلة تصنيف بازل الأربعة مستويات، مع تحديد السلسلة الحالية للخطر عند التحميل.
   const allEvents = @json($events->map(fn($e) => ['id' => $e->id, 'event_type_id' => $e->event_type_id, 'event_name' => $e->event_name]));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\IncidentDataTable;
 use App\Http\Requests\StoreIncidentRequest;
 use App\Models\Incident;
 use App\Models\IncidentSectorResponsibility;
@@ -28,13 +29,9 @@ use Illuminate\View\View;
  */
 class IncidentController extends Controller
 {
-    public function index(): View
+    public function index(IncidentDataTable $dataTable)
     {
-        $incidents = Incident::with(['potentialRiskRegister', 'department', 'resolutionStatus'])
-            ->latest('creation_date')
-            ->get();
-
-        return view('incidents.index', compact('incidents'));
+        return $dataTable->render('incidents.index');
     }
 
     public function create()

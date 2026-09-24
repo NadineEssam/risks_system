@@ -52,60 +52,10 @@
       <div class="col-12"><button class="btn btn-primary">إضافة المستخدم</button></div>
     </form>
 
+        <hr class="my-4">
+    <h5 class="card-title p-0 mb-3">قائمة المستخدمين</h5>
     <div class="table-responsive">
-      <table class="table table-striped datatable">
-        <thead><tr><th>الاسم</th><th>اسم مستخدم الدومين</th><th>البريد الإلكتروني</th><th>القطاع / الإدارة</th><th>الأدوار <small class="text-muted fw-normal">(اضغط Ctrl مع النقر لاختيار أكثر من دور)</small></th><th>الحالة</th><th></th></tr></thead>
-        <tbody>
-          @foreach($users as $user)
-            <tr>
-              <td>{{ $user->name }}</td>
-              <td><code>{{ $user->domain_username }}</code></td>
-              <td>{{ $user->email }}</td>
-              <td>
-                <form method="POST" action="{{ route('admin.users.sectorDepartment.update', $user) }}" class="d-flex flex-column gap-1">
-                  @csrf
-                  <select name="sector_id" class="form-select form-select-sm sector-select" style="min-width: 170px;" title="{{ $user->sector?->sector_ar }}">
-                    <option value="">-- القطاع --</option>
-                    @foreach($sectors as $sector)
-                      <option value="{{ $sector->sec_id }}" data-sector-code="{{ $sector->sector_code }}" @selected($user->sector_id == $sector->sec_id)>{{ $sector->sector_ar }}</option>
-                    @endforeach
-                  </select>
-                  <select name="department_id" class="form-select form-select-sm department-select" style="min-width: 170px;" data-current="{{ $user->department_id }}" title="{{ $user->department?->depname_ar }}">
-                    <option value="">-- الإدارة --</option>
-                  </select>
-                  <button class="btn btn-sm btn-outline-primary align-self-start" title="حفظ القطاع/الإدارة">
-                    <i class="bi bi-check-lg"></i> حفظ
-                  </button>
-                </form>
-              </td>
-              <td>
-                <form method="POST" action="{{ route('admin.users.roles.update', $user) }}" class="d-flex align-items-start gap-2">
-                  @csrf
-                  <select name="roles[]" multiple size="{{ min(3, max(2, $roles->count())) }}" class="form-select form-select-sm" style="min-width: 160px;">
-                    @foreach($roles as $role)
-                      <option value="{{ $role->name }}" @selected($user->roles->contains('id', $role->id))>{{ $role->name }}</option>
-                    @endforeach
-                  </select>
-                  <button class="btn btn-sm btn-outline-primary" title="حفظ الأدوار">
-                    <i class="bi bi-check-lg"></i>
-                  </button>
-                </form>
-              </td>
-              <td>
-                @if($user->is_active)<span class="badge bg-success">مفعل</span>@else<span class="badge bg-secondary">غير مفعل</span>@endif
-              </td>
-              <td>
-                <form method="POST" action="{{ route('admin.users.toggle', $user) }}">
-                  @csrf
-                  <button class="btn btn-sm btn-outline-{{ $user->is_active ? 'danger' : 'success' }}">
-                    {{ $user->is_active ? 'إلغاء التفعيل' : 'تفعيل' }}
-                  </button>
-                </form>
-              </td>
-            </tr>
-          @endforeach
-        </tbody>
-      </table>
+      {{ $dataTable->table(['class' => 'table text-center align-middle datatable-custom', 'style' => 'width:100%']) }}
     </div>
   </div>
 </div>
@@ -123,6 +73,7 @@
 @endphp
 
 @push('scripts')
+  {{ $dataTable->scripts() }}
 <script>
   // ربط قوائم "الإدارة" بـ"القطاع" المختار في كل فورم بالصفحة (فورم إضافة
   // مستخدم جديد + فورم تعديل كل مستخدم بالجدول) — الإدارة مرتبطة بالقطاع عبر

@@ -9,6 +9,7 @@ use App\Models\ThresholdLevel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\DataTables\IndicatorFollowupDataTable;
 
 /**
  * المرحلة الخامسة: متابعة المؤشر (Indicator Follow-Up Workflow).
@@ -19,13 +20,9 @@ use Illuminate\View\View;
  */
 class IndicatorFollowupController extends Controller
 {
-    public function index(): View
+        public function index(IndicatorFollowupDataTable $dataTable)
     {
-        $followups = IndicatorFollowup::with(['indicator', 'thresholdLevel'])
-            ->latest('creation_date')
-            ->get();
-
-        return view('indicator_followups.index', compact('followups'));
+        return $dataTable->render('indicator_followups.index');
     }
 
     public function create()

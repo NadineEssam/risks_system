@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title', 'نظام إدارة المخاطر')</title>
 
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -18,6 +18,8 @@
   <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/datatable.css') }}" rel="stylesheet">
 
   <!-- Template Main CSS File + تجاوزات RTL -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
@@ -80,6 +82,8 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+  <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('assets/datatable/js/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
@@ -91,6 +95,8 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+  <script src="{{ asset('assets/js/delete-confirm.js') }}"></script>
   <script src="{{ asset('assets/js/wizard.js') }}"></script>
 
   @stack('scripts')

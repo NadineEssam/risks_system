@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\IncidentFollowupDataTable;
 use App\Http\Requests\StoreIncidentFollowupRequest;
 use App\Models\FollowupEntryType;
 use App\Models\FollowupStatus;
@@ -22,25 +23,9 @@ use Illuminate\View\View;
  */
 class IncidentFollowupController extends Controller
 {
-    public function index()
+        public function index(IncidentFollowupDataTable $dataTable)
     {
-        $user = Auth::user();
-        $sectorId = $user->department?->sector?->sec_id;
-
-        $query = IncidentFollowup::with([
-            'incidentSectorResponsibility.incident.potentialRiskRegister',
-            'incidentSectorResponsibility.sector',
-            'followupStatus',
-            'followupEntryType',
-        ])->latest('creation_date');
-
-        if ($sectorId && ! $user->hasRole('super-admin') && ! $user->can('incident-followups.decide')) {
-            $query->whereHas('incidentSectorResponsibility', fn ($q) => $q->where('sectors_sec_id', $sectorId));
-        }
-
-        $followups = $query->get();
-
-        return view('incident_followups.index', compact('followups'));
+        return $dataTable->render('incident_followups.index');
     }
 
     public function create()

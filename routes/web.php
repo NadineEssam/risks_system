@@ -107,6 +107,7 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
 
         // المستخدمون
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::post('/users/{user}/toggle', [UserController::class, 'toggle'])->name('users.toggle');
         Route::post('/users/{user}/roles', [UserController::class, 'updateRoles'])->name('users.roles.update');

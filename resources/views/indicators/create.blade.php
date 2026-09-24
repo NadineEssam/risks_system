@@ -119,6 +119,7 @@
 </div>
 
 @push('scripts')
+  {{ $dataTable->scripts() }}
 <script>
   let responsibleIndex = 1;
   document.getElementById('add-responsible').addEventListener('click', function () {

@@ -8,50 +8,25 @@
 
 @section('content')
 <div class="card">
-  <div class="card-body">
+  <div class="card-body pt-3">
 
-    <div class="d-flex justify-content-end mb-2">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="card-title m-0 p-0">قائمة الأحداث التشغيلية</h5>
       @can('incidents.create')
         <a href="{{ route('incidents.create') }}" class="btn btn-primary">
-          <i class="bi bi-plus-lg"></i> تسجيل حدث جديد
+          <i class="bx bx-plus"></i> تسجيل حدث جديد
         </a>
       @endcan
     </div>
 
-    @if($incidents->isEmpty())
-      <p class="text-center text-muted py-2">لا توجد أحداث مسجلة بعد.</p>
-    @else
-      <div class="table-responsive">
-        <table class="table table-striped datatable">
-          <thead>
-            <tr>
-              <th>الخطر المحتمل المرتبط</th>
-              <th>الإدارة</th>
-              <th>تاريخ الاكتشاف</th>
-              <th>التكرار</th>
-              <th>الأثر</th>
-              <th>درجة الخطر</th>
-              <th>الحالة</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($incidents as $incident)
-              <tr>
-                <td>{{ \Illuminate\Support\Str::limit($incident->potentialRiskRegister?->risk_description, 40) }}</td>
-                <td>{{ $incident->department?->depname_ar }}</td>
-                <td>{{ $incident->discovery_date?->format('Y-m-d') }}</td>
-                <td>{{ $incident->frequency_score }}</td>
-                <td>{{ $incident->impact_score }}</td>
-                <td class="risk-degree-cell">@riskDegreeBadge($incident->risk_degree)</td>
-                <td>{{ $incident->resolutionStatus?->status_name ?? '—' }}</td>
-                <td><a href="{{ route('incidents.show', $incident) }}" class="btn btn-sm btn-outline-primary">عرض</a></td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    @endif
+    <div class="table-responsive">
+      {{ $dataTable->table(['class' => 'table text-center align-middle datatable-custom', 'style' => 'width:100%']) }}
+    </div>
+
   </div>
 </div>
 @endsection
+
+@push('scripts')
+  {{ $dataTable->scripts() }}
+@endpush

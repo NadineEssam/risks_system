@@ -106,6 +106,7 @@
 </div>
 
 @push('scripts')
+  {{ $dataTable->scripts() }}
 <script>
   const levelSelect = document.getElementById('threshold_level_id');
   const requiredMarks = document.querySelectorAll('.conditional-required');

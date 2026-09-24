@@ -10,7 +10,11 @@
         "ext-ldap": "*",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "realrashid/sweet-alert": "^7",
         "spatie/laravel-permission": "^6.9",
+        "yajra/laravel-datatables-buttons": "^11",
+        "yajra/laravel-datatables-html": "^11",
+        "yajra/laravel-datatables-oracle": "^11",
         "yajra/laravel-oci8": "^11.0"
     },
     "require-dev": {

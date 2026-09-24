@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PotentialRiskRegisterDataTable;
 use App\Http\Requests\StorePotentialRiskRegisterRequest;
 use App\Http\Requests\UpdatePotentialRiskRegisterRequest;
 use App\Models\EventDetail;
@@ -26,21 +27,9 @@ use Illuminate\View\View;
  */
 class PotentialRiskRegisterController extends Controller
 {
-    public function index(Request $request): View
+    public function index(PotentialRiskRegisterDataTable $dataTable)
     {
-        $query = PotentialRiskRegister::with([
-            'eventDetail.eventSubcategory.event.eventType',
-            'latestResolutionStatus.resolutionStatus',
-        ])
-            ->withCount(['sectorDetails', 'incidents', 'indicators']);
-
-        if ($search = $request->get('q')) {
-            $query->where('risk_description', 'like', "%{$search}%");
-        }
-
-        $risks = $query->latest('creation_date')->get();
-
-        return view('risks.index', compact('risks', 'search'));
+        return $dataTable->render('risks.index');
     }
 
     public function create(): View

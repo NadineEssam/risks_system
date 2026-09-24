@@ -11,7 +11,7 @@
   <div class="card-body">
 
     <div class="d-flex justify-content-end mb-2">
-      @can('create-incidents')
+      @can('incidents.create')
         <a href="{{ route('incidents.create') }}" class="btn btn-primary">
           <i class="bi bi-plus-lg"></i> تسجيل حدث جديد
         </a>

@@ -20,7 +20,7 @@
           <div class="col-md-4"><strong>تاريخ الاكتشاف:</strong> {{ $incident->discovery_date?->format('Y-m-d') }}</div>
           <div class="col-md-4">
             <strong>حالة الحدث:</strong> {{ $incident->resolutionStatus?->status_name ?? '—' }}
-            @can('edit-incidents')
+            @can('incidents.status.update')
               <form method="POST" action="{{ route('incidents.status.update', $incident) }}" class="d-flex gap-2 mt-1">
                 @csrf
                 <select name="resolution_status_id" class="form-select form-select-sm" style="max-width: 200px;">
@@ -68,7 +68,7 @@
             </li>
           @endforeach
         </ul>
-        @can('view-incident-followups')
+        @can('incident-followups.index')
           <a href="{{ route('incident-followups.index', ['incident' => $incident->id]) }}" class="btn btn-sm btn-outline-primary mt-2">
             عرض المتابعات
           </a>

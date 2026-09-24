@@ -17,7 +17,7 @@
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h5 class="card-title mb-0">{{ $risk->classification_label }}</h5>
           <div>
-            @can('edit-risks')
+            @can('risks.edit')
               <a href="{{ route('risks.edit', $risk) }}" class="btn btn-sm btn-outline-secondary">تعديل</a>
               <form action="{{ route('risks.toggle', $risk) }}" method="POST" class="d-inline">
                 @csrf
@@ -48,7 +48,7 @@
           <div class="border rounded p-3 mb-3">
             <div class="d-flex justify-content-between align-items-center">
               <strong><i class="bi bi-diagram-3 me-1"></i> {{ $sectorDetail->sector?->sector_ar }}</strong>
-              @can('edit-risks')
+              @can('risks.edit')
                 <form action="{{ route('risks.sectors.destroy', [$risk, $sectorDetail]) }}" method="POST"
                       onsubmit="return confirm('هل أنت متأكد من إلغاء ربط هذا القطاع؟')">
                   @csrf @method('DELETE')
@@ -66,7 +66,7 @@
                       <span class="badge bg-light text-dark">تنتهي: {{ $action->expiration_date->format('Y-m-d') }}</span>
                     @endif
                   </div>
-                  @can('edit-risks')
+                  @can('risks.edit')
                     <form action="{{ route('required-actions.destroy', $action) }}" method="POST">
                       @csrf @method('DELETE')
                       <button class="btn btn-sm btn-link text-danger p-0">حذف</button>
@@ -78,7 +78,7 @@
               @endforelse
             </ul>
 
-            @canany(['create-risks', 'edit-risks'])
+            @canany(['risks.create', 'risks.edit'])
               <form action="{{ route('risk-sectors.actions.store', $sectorDetail) }}" method="POST" class="row g-2 mt-2">
                 @csrf
                 <div class="col-md-7">
@@ -97,7 +97,7 @@
           <p class="text-muted">لم يتم ربط أي قطاعات إدارية بعد.</p>
         @endforelse
 
-        @canany(['create-risks', 'edit-risks'])
+        @canany(['risks.create', 'risks.edit'])
           <form action="{{ route('risks.sectors.store', $risk) }}" method="POST" class="d-flex gap-2 mt-3">
             @csrf
             <select name="sectors_sec_id" class="form-select" required>
@@ -153,7 +153,7 @@
           @endforelse
         </ul>
 
-        @can('approve-risks')
+        @can('risks.status.update')
           <form action="{{ route('risks.status.update', $risk) }}" method="POST">
             @csrf
             <label class="form-label small">اعتماد حالة جديدة</label>
@@ -180,7 +180,7 @@
             <li class="list-group-item px-0 text-muted small">لا توجد مؤشرات مرتبطة بعد.</li>
           @endforelse
         </ul>
-        @can('create-indicators')
+        @can('indicators.create')
           <a href="{{ route('indicators.create', ['risk' => $risk->id]) }}" class="btn btn-sm btn-outline-primary mt-2">
             <i class="bi bi-plus-lg"></i> إضافة مؤشر لهذا الخطر
           </a>

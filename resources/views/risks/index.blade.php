@@ -16,7 +16,7 @@
         <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
       </form>
 
-      @can('create-risks')
+      @can('risks.create')
         <a href="{{ route('risks.create') }}" class="btn btn-primary">
           <i class="bi bi-plus-lg"></i> تسجيل خطر محتمل جديد
         </a>
@@ -56,7 +56,7 @@
                 </td>
                 <td>
                   <a href="{{ route('risks.show', $risk) }}" class="btn btn-sm btn-outline-primary">عرض</a>
-                  @can('edit-risks')
+                  @can('risks.edit')
                     <a href="{{ route('risks.edit', $risk) }}" class="btn btn-sm btn-outline-secondary">تعديل</a>
                   @endcan
                 </td>

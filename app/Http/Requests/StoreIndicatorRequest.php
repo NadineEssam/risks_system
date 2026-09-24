@@ -8,7 +8,7 @@ class StoreIndicatorRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create-indicators');
+        return $this->user()->can('indicators.create');
     }
 
     public function rules(): array

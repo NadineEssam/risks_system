@@ -11,7 +11,7 @@
   <div class="card-body">
 
     <div class="d-flex justify-content-end mb-2">
-      @can('create-indicator-followups')
+      @can('indicator-followups.create')
         <a href="{{ route('indicator-followups.create') }}" class="btn btn-primary">
           <i class="bi bi-plus-lg"></i> تسجيل متابعة جديدة
         </a>

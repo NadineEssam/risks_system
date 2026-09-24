@@ -34,7 +34,7 @@ class IncidentFollowupController extends Controller
             'followupEntryType',
         ])->latest('creation_date');
 
-        if ($sectorId && ! $user->hasRole('super-admin') && ! $user->can('decide-incident-followups')) {
+        if ($sectorId && ! $user->hasRole('super-admin') && ! $user->can('incident-followups.decide')) {
             $query->whereHas('incidentSectorResponsibility', fn ($q) => $q->where('sectors_sec_id', $sectorId));
         }
 
@@ -66,7 +66,7 @@ class IncidentFollowupController extends Controller
             'incidents' => $eligibleIncidents,
             'entryTypes' => FollowupEntryType::active()->get(),
             'statuses' => FollowupStatus::active()->get(),
-            'canDecide' => $user->can('decide-incident-followups'),
+            'canDecide' => $user->can('incident-followups.decide'),
         ]);
     }
 

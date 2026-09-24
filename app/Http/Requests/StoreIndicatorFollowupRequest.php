@@ -10,7 +10,7 @@ class StoreIndicatorFollowupRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create-indicator-followups');
+        return $this->user()->can('indicator-followups.create');
     }
 
     public function rules(): array

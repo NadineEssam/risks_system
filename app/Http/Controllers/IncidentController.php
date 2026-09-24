@@ -142,7 +142,7 @@ class IncidentController extends Controller
      * لتحديد حالة الحدث من الأصل — عمود `resolution_status_id` كان يبقى
      * NULL دائماً منذ `store()`، ما كان يمنع أي حدث نهائياً من الظهور في
      * "تسجيل متابعة حدث" (اللي شرطها يشمل: حالة الحدث "حل جزئي"/"غير
-     * مقبول"). محمية بنفس صلاحية `edit-incidents` الموجودة أصلاً (مُسندة
+     * مقبول"). محمية بنفس صلاحية `incidents.status.update` الموجودة أصلاً (مُسندة
      * لدور incident-officer) لكن لم تكن مربوطة بأي مسار من قبل.
      */
     public function updateStatus(Request $request, Incident $incident): RedirectResponse

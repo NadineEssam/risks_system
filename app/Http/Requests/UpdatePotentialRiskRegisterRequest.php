@@ -8,7 +8,7 @@ class UpdatePotentialRiskRegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('edit-risks');
+        return $this->user()->can('risks.edit');
     }
 
     public function rules(): array

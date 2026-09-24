@@ -92,7 +92,7 @@ class PotentialRiskRegisterController extends Controller
 
     public function toggle(PotentialRiskRegister $risk): RedirectResponse
     {
-        abort_unless(request()->user()->can('edit-risks'), 403);
+        abort_unless(request()->user()->can('risks.edit'), 403);
 
         $risk->update(['validity' => ! $risk->validity]);
 
@@ -101,7 +101,7 @@ class PotentialRiskRegisterController extends Controller
 
     public function updateStatus(Request $request, PotentialRiskRegister $risk): RedirectResponse
     {
-        abort_unless($request->user()->can('approve-risks'), 403);
+        abort_unless($request->user()->can('risks.status.update'), 403);
 
         $data = $request->validate([
             'resolution_status_id' => ['required', 'integer', 'exists:resolution_statuses,id'],

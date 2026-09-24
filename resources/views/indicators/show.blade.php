@@ -74,7 +74,7 @@
             @endforelse
           </tbody>
         </table>
-        @can('create-indicator-followups')
+        @can('indicator-followups.create')
           <a href="{{ route('indicator-followups.create') }}" class="btn btn-sm btn-outline-primary">تسجيل متابعة جديدة</a>
         @endcan
       </div>

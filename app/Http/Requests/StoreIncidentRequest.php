@@ -8,7 +8,7 @@ class StoreIncidentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create-incidents');
+        return $this->user()->can('incidents.create');
     }
 
     public function rules(): array

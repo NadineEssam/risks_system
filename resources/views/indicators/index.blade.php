@@ -11,7 +11,7 @@
   <div class="card-body">
 
     <div class="d-flex justify-content-end mb-2">
-      @can('create-indicators')
+      @can('indicators.create')
         <a href="{{ route('indicators.create') }}" class="btn btn-primary">
           <i class="bi bi-plus-lg"></i> إضافة مؤشر جديد
         </a>

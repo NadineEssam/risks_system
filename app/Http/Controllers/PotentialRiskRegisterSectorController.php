@@ -14,7 +14,7 @@ class PotentialRiskRegisterSectorController extends Controller
 {
     public function store(Request $request, PotentialRiskRegister $risk): RedirectResponse
     {
-        abort_unless($request->user()->can('edit-risks') || $request->user()->can('create-risks'), 403);
+        abort_unless($request->user()->can('risks.edit') || $request->user()->can('risks.create'), 403);
 
         $data = $request->validate([
             'sectors_sec_id' => ['required', 'integer', 'exists:new_po.sectors,sec_id'],
@@ -38,7 +38,7 @@ class PotentialRiskRegisterSectorController extends Controller
 
     public function destroy(Request $request, PotentialRiskRegister $risk, PotentialRiskRegisterSectorDetail $sectorDetail): RedirectResponse
     {
-        abort_unless($request->user()->can('edit-risks'), 403);
+        abort_unless($request->user()->can('risks.edit'), 403);
         abort_unless($sectorDetail->potential_risk_register_id === $risk->id, 404);
 
         $sectorDetail->delete();

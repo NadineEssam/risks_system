@@ -79,6 +79,8 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::get('/indicators-create', [IndicatorController::class, 'create'])->name('indicators.create');
     Route::post('/indicators', [IndicatorController::class, 'store'])->name('indicators.store');
     Route::get('/indicators/{indicator}', [IndicatorController::class, 'show'])->name('indicators.show');
+    Route::get('/indicators/{indicator}/edit', [IndicatorController::class, 'edit'])->name('indicators.edit');
+    Route::put('/indicators/{indicator}', [IndicatorController::class, 'update'])->name('indicators.update');
 
     // ================= المرحلة الخامسة: متابعة المؤشر =================
     // ========= المرحلة الخامسة: متابعة المؤشر (نفس متابعة الحدث) =========

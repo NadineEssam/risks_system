@@ -33,7 +33,7 @@ class IndicatorDataTable extends BaseDataTable
             // آخر مستوى قياس للمؤشر
             ->addColumn('last_level', fn ($row) => $row->lastFollowup()?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge())
             // 👁 عرض المؤشر + 📈 سجل القياسات
-            ->addColumn('action', fn ($row) => $this->actionButtons('indicators', $row->getKey(), 'المؤشر', ['show'],
+            ->addColumn('action', fn ($row) => $this->actionButtons('indicators', $row->getKey(), 'المؤشر', ['show', 'edit'],
                 $this->iconButton('indicator-followups.index', $row->getKey(), 'bx bx-line-chart', 'سجل قياسات المؤشر')
             ))
             ->rawColumns(['validity', 'last_level', 'action'])

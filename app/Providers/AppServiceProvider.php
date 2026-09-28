@@ -19,12 +19,16 @@ class AppServiceProvider extends ServiceProvider
 
 
                
-                // على السيرفر فقط (subpath /risk_management) — محلياً تشتغل الروابط عادي
-        if (! $this->app->environment('local')) {
-            $this->app['request']->server->set('SCRIPT_NAME', '/risk_management/index.php');
+                // لو APP_URL فيه subpath (السيرفر: http://192.168.161.89/risk_management)
+        // نثبّت الروابط عليه — محلياً APP_URL=http://localhost فمفيش حاجة بتتغير
+        $appUrl   = rtrim((string) config('app.url'), '/');
+        $basePath = parse_url($appUrl, PHP_URL_PATH);
 
-            \Illuminate\Support\Facades\URL::forceRootUrl('http://192.168.161.89/risk_management');
-            \Illuminate\Support\Facades\URL::forceScheme('http');
+        if ($basePath) {
+            $this->app['request']->server->set('SCRIPT_NAME', $basePath.'/index.php');
+
+            \Illuminate\Support\Facades\URL::forceRootUrl($appUrl);
+            \Illuminate\Support\Facades\URL::forceScheme(parse_url($appUrl, PHP_URL_SCHEME) ?: 'http');
         }
 
 

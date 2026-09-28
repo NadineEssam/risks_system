@@ -27,14 +27,6 @@
     </li>
     @endcanany
 
-    @canany(['incident-followups.index'])
-    <li class="nav-item">
-      <a class="nav-link {{ request()->routeIs('incident-followups.*') ? '' : 'collapsed' }}" href="{{ route('incident-followups.index') }}">
-        <i class="bi bi-clock-history"></i>
-        <span>متابعة الأحداث</span>
-      </a>
-    </li>
-    @endcanany
 
     @canany(['indicators.index'])
     <li class="nav-item">

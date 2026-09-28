@@ -49,7 +49,7 @@ abstract class BaseDataTable extends DataTable
      * أزرار الإجراءات بنفس شكل نظام الشكاوى.
      * $prefix = بادئة اسم المسار (مثلاً 'risks' أو 'admin.users')
      */
-    protected function actionButtons(string $prefix, $key, string $label = '', array $only = ['show', 'edit', 'destroy']): string
+    protected function actionButtons(string $prefix, $key, string $label = '', array $only = ['show', 'edit', 'destroy'], string $extra = ''): string
     {
         if ($key === null || $key === '') {
             return '—';
@@ -79,7 +79,17 @@ abstract class BaseDataTable extends DataTable
                 : "<a href=\"{$url}\" class=\"btn btn-sm {$class} action-btn\" data-bs-toggle=\"tooltip\" title=\"{$title}\"><i class=\"{$icon}\"></i></a>";
         }
 
-        return $html.'</div>';
+        return $html.$extra.'</div>';
+    }
+
+    /** أيقونة إضافية بنفس الشكل (مثلاً 💬 متابعات الحدث) — تظهر حسب PerUser() */
+    protected function iconButton(string $route, $params, string $icon, string $title, string $class = 'btn-outline-primary'): string
+    {
+        if (! Route::has($route) || ! PerUser($route)) {
+            return '';
+        }
+
+        return '<a href="'.route($route, $params).'" class="btn btn-sm '.$class.' action-btn" data-bs-toggle="tooltip" title="'.e($title).'"><i class="'.$icon.'"></i></a>';
     }
 
     protected function validityBadge($value): string

@@ -46,7 +46,8 @@ class RolePermissionSeeder extends Seeder
             // رئيس قطاع المخاطر الشاملة
             'risk-chief' => [
                 'risks.index', 'risks.show', 'risks.status.update',
-                'incident-followups.index', 'incident-followups.decide',
+                'incidents.index', 'incidents.show',
+                'incident-followups.index', 'incident-followups.show', 'incident-followups.decide',
                 'reports.index',
             ],
 
@@ -54,12 +55,17 @@ class RolePermissionSeeder extends Seeder
             'sector-officer' => ['risks.index', 'risks.show', 'reports.index'],
 
             // مسئولو المخاطر التشغيلية بالقطاعات
-            'incident-officer' => ['risks.index', 'risks.show', 'incidents.*', 'reports.index'],
+            'incident-officer' => [
+                'risks.index', 'risks.show', 'incidents.*',
+                'incident-followups.index', 'incident-followups.show',
+                'reports.index',
+            ],
 
             // مسئول القطاع المعني (متابعة الحدث)
             'sector-followup-officer' => [
                 'incidents.index', 'incidents.show',
-                'incident-followups.index', 'incident-followups.create',
+                'incident-followups.index', 'incident-followups.show', 'incident-followups.create',
+                'incident-followups.edit', 'incident-followups.destroy',
                 'reports.index',
             ],
 

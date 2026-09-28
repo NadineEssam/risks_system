@@ -63,10 +63,16 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
     Route::post('/incidents/{incident}/status', [IncidentController::class, 'updateStatus'])->name('incidents.status.update');
 
-    // ==================== المرحلة الثالثة: متابعة الحدث ====================
-    Route::get('/incident-followups', [IncidentFollowupController::class, 'index'])->name('incident-followups.index');
-    Route::get('/incident-followups-create', [IncidentFollowupController::class, 'create'])->name('incident-followups.create');
-    Route::post('/incident-followups', [IncidentFollowupController::class, 'store'])->name('incident-followups.store');
+    // ======= المرحلة الثالثة: متابعة الحدث (نفس "الرد على البيان" في الشكاوى) =======
+    // سجل متابعات حدث معيّن
+    Route::get('/incidents/{incident}/followups', [IncidentFollowupController::class, 'index'])->name('incident-followups.index');
+    Route::get('/incidents/{incident}/followups/create', [IncidentFollowupController::class, 'create'])->name('incident-followups.create');
+    Route::post('/incidents/{incident}/followups', [IncidentFollowupController::class, 'store'])->name('incident-followups.store');
+    // متابعة واحدة
+    Route::get('/incident-followups/{followup}', [IncidentFollowupController::class, 'show'])->name('incident-followups.show');
+    Route::get('/incident-followups/{followup}/edit', [IncidentFollowupController::class, 'edit'])->name('incident-followups.edit');
+    Route::put('/incident-followups/{followup}', [IncidentFollowupController::class, 'update'])->name('incident-followups.update');
+    Route::delete('/incident-followups/{followup}', [IncidentFollowupController::class, 'destroy'])->name('incident-followups.destroy');
 
     // ================= المرحلة الرابعة: المؤشر (KRI) =================
     Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicators.index');

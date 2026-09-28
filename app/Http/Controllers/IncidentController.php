@@ -29,6 +29,7 @@ use Illuminate\View\View;
  */
 class IncidentController extends Controller
 {
+    
     public function index(IncidentDataTable $dataTable)
     {
         return $dataTable->render('incidents.index');
@@ -116,6 +117,7 @@ class IncidentController extends Controller
 
     public function show(Incident $incident): View
     {
+                abort_unless(\App\Support\IncidentAccess::canView(auth()->user(), $incident), 403, 'ليس لديك صلاحية على هذا الحدث.');
         $incident->load([
             'potentialRiskRegister.eventDetail.eventSubcategory.event.eventType',
             'department.sector',

@@ -9,75 +9,176 @@ use App\Models\FollowupStatus;
 use App\Models\Incident;
 use App\Models\IncidentFollowup;
 use App\Models\IncidentSectorResponsibility;
+use App\Support\IncidentAccess;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
- * المرحلة الثالثة: متابعة الحدث (Incident Follow-Up Workflow).
- *
- * 1) تحديد القطاع الإداري تلقائياً  2) اختيار الحدث (المحوَّل لقطاع
- * المستخدم بحالة "حل جزئي/غير مقبول" أو كانت آخر متابعة له "جارى المتابعة")
- * 3) تسجيل نص المتابعة  4) تصنيف المتابعة (توصية/رد/رأي)
- * 5) حالة المتابعة (يحددها القطاع المركزي للمخاطر)  6) الحفظ.
+ * متابعة الحدث — نفس نظام "الرد على البيان" في الشكاوى:
+ * سجل متابعات لكل حدث + إضافة/تعديل/عرض/حذف بنفس القواعد.
  */
 class IncidentFollowupController extends Controller
 {
-        public function index(IncidentFollowupDataTable $dataTable)
+    // سجل متابعات حدث معيّن
+    public function index(Incident $incident, IncidentFollowupDataTable $dataTable)
     {
-        return $dataTable->render('incident_followups.index');
+        $this->ensureCanView($incident);
+        $incident->load(['potentialRiskRegister', 'department']);
+
+        return $dataTable->withIncident($incident)->render('incident_followups.index', [
+            'incident'     => $incident,
+            'lastFollowup' => $incident->lastFollowup(),
+            'isClosed'     => $incident->isFollowupClosed(),
+        ]);
     }
 
-    public function create()
+    public function create(Incident $incident)
     {
-        $user = Auth::user();
-        $sectorId = $user->department?->sector?->sec_id;
+        $this->ensureCanView($incident);
 
-        if (! $sectorId) {
-            return back()->with('error', 'يجب أن يكون لديك قطاع/إدارة مرتبطة بحسابك لتسجيل متابعة.');
+        if ($incident->isFollowupClosed()) {
+            return redirect()->route('incident-followups.index', $incident)
+                ->with('error', 'لا يمكن إضافة متابعة على حدث مغلق.');
         }
 
-        $eligibleIncidents = Incident::whereHas('sectorResponsibilities', function ($q) use ($sectorId) {
-            $q->where('sectors_sec_id', $sectorId);
-        })->where(function ($q) use ($sectorId) {
-            $q->whereHas('resolutionStatus', fn ($qq) => $qq->whereIn('status_name', ['حل جزئي', 'غير مقبول']))
-                ->orWhereHas('sectorResponsibilities', function ($qq) use ($sectorId) {
-                    $qq->where('sectors_sec_id', $sectorId)
-                        ->whereHas('latestFollowup.followupStatus', fn ($s) => $s->where('status_name', 'جارى المتابعة'));
-                });
-        })->with('potentialRiskRegister')->get();
+        if (! IncidentAccess::sector(Auth::user())) {
+            return redirect()->route('incident-followups.index', $incident)
+                ->with('error', 'يجب أن يكون لديك قطاع مرتبط بحسابك لتسجيل متابعة.');
+        }
 
-        return view('incident_followups.create', [
-            'incidents' => $eligibleIncidents,
-            'entryTypes' => FollowupEntryType::active()->get(),
-            'statuses' => FollowupStatus::active()->get(),
-            'canDecide' => $user->can('incident-followups.decide'),
-        ]);
+        return view('incident_followups.create_edit', $this->formData($incident));
     }
 
-    public function store(StoreIncidentFollowupRequest $request): RedirectResponse
+    public function store(StoreIncidentFollowupRequest $request, Incident $incident): RedirectResponse
     {
-        $user = Auth::user();
-        $sectorId = $user->department?->sector?->sec_id;
+        $this->ensureCanView($incident);
+        abort_if($incident->isFollowupClosed(), 403, 'لا يمكن إضافة متابعة على حدث مغلق.');
 
-        abort_unless($sectorId, 403, 'لا يوجد قطاع/إدارة مرتبطة بحسابك.');
+        $sector = IncidentAccess::sector(Auth::user());
+        abort_unless($sector, 403, 'لا يوجد قطاع مرتبط بحسابك.');
 
-        $data = $request->validated();
-
+        // المتابعة بتتسجل باسم قطاع المستخدم
         $responsibility = IncidentSectorResponsibility::firstOrCreate([
-            'incident_id' => $data['incident_id'],
-            'sectors_sec_id' => $sectorId,
+            'incident_id'    => $incident->id,
+            'sectors_sec_id' => $sector->sec_id,
         ]);
 
-        IncidentFollowup::create([
-            'incident_sectors_responsibilities_id' => $responsibility->id,
-            'followup_status_id' => $data['followup_status_id'],
-            'followup_entry_type_id' => $data['followup_entry_type_id'],
-            'followup_date' => $data['followup_date'],
-            'entry_text' => $data['entry_text'],
+        $responsibility->followups()->create($request->validated());
+
+        return redirect()->route('incident-followups.index', $incident)
+            ->with('success', 'تم تسجيل المتابعة بنجاح.');
+    }
+
+    public function show(IncidentFollowup $followup): View
+    {
+        $followup->load([
+            'incidentSectorResponsibility.incident.potentialRiskRegister',
+            'incidentSectorResponsibility.sector',
+            'followupStatus',
+            'followupEntryType',
         ]);
 
-        return redirect()->route('incidents.show', $data['incident_id'])
-            ->with('success', 'تم تسجيل متابعة الحدث بنجاح.');
+        $incident = $followup->incidentSectorResponsibility->incident;
+        $this->ensureCanView($incident);
+
+        return view('incident_followups.show', compact('followup', 'incident'));
+    }
+
+    public function edit(IncidentFollowup $followup)
+    {
+        [$incident, $error] = $this->checkModify($followup, forEdit: true);
+
+        if ($error) {
+            return redirect()->route('incident-followups.index', $incident)->with('error', $error);
+        }
+
+        return view('incident_followups.create_edit', $this->formData($incident, $followup));
+    }
+
+    public function update(StoreIncidentFollowupRequest $request, IncidentFollowup $followup): RedirectResponse
+    {
+        [$incident, $error] = $this->checkModify($followup, forEdit: true);
+
+        if ($error) {
+            return redirect()->route('incident-followups.index', $incident)->with('error', $error);
+        }
+
+        $followup->update($request->validated());
+
+        return redirect()->route('incident-followups.index', $incident)
+            ->with('success', 'تم تعديل المتابعة بنجاح.');
+    }
+
+    // AJAX من زر 🗑 (delete-confirm.js)
+    public function destroy(Request $request, IncidentFollowup $followup)
+    {
+        [$incident, $error] = $this->checkModify($followup, forEdit: false);
+
+        if ($error) {
+            return $request->expectsJson()
+                ? response()->json(['message' => $error], 422)
+                : back()->with('error', $error);
+        }
+
+        $followup->delete();
+        $message = 'تم حذف المتابعة بنجاح.';
+
+        return $request->expectsJson()
+            ? response()->json(['message' => $message])
+            : redirect()->route('incident-followups.index', $incident)->with('success', $message);
+    }
+
+    /**
+     * نفس قواعد الشكاوى:
+     * - التعديل/الحذف لقطاع المتابعة نفسه (أو المركزي/مدير النظام)
+     * - الحدث المقفول: مفيش حذف، والتعديل لآخر متابعة بس
+     */
+    private function checkModify(IncidentFollowup $followup, bool $forEdit): array
+    {
+        $incident = $followup->incidentSectorResponsibility->incident;
+        $this->ensureCanView($incident);
+
+        if (! IncidentAccess::canModify(Auth::user(), $followup)) {
+            return [$incident, 'لا يمكنك تعديل أو حذف متابعة سجّلها قطاع آخر.'];
+        }
+
+        if ($incident->isFollowupClosed()) {
+            if (! $forEdit) {
+                return [$incident, 'لا يمكن حذف متابعات حدث مغلق.'];
+            }
+
+            if ((int) $incident->lastFollowup()?->id !== (int) $followup->id) {
+                return [$incident, 'لا يمكن تعديل متابعات حدث مغلق إلا آخر متابعة.'];
+            }
+        }
+
+        return [$incident, null];
+    }
+
+    /** بيانات الفورم: الحالات المتاحة (من غير المستخدمة، ما عدا جارى المتابعة) */
+    private function formData(Incident $incident, ?IncidentFollowup $followup = null): array
+    {
+        $used = $incident->followups()
+            ->when($followup, fn ($q) => $q->where('incident_followups.id', '!=', $followup->id))
+            ->pluck('followup_status_id');
+
+        $statuses = FollowupStatus::active()->get()->filter(
+            fn ($status) => in_array($status->status_name, IncidentAccess::REPEATABLE_STATUSES, true)
+                || ! $used->contains($status->id)
+        );
+
+        return [
+            'incident'   => $incident->loadMissing(['potentialRiskRegister', 'department']),
+            'followup'   => $followup,
+            'statuses'   => $statuses,
+            'entryTypes' => FollowupEntryType::active()->get(),
+        ];
+    }
+
+    private function ensureCanView(Incident $incident): void
+    {
+        abort_unless(IncidentAccess::canView(Auth::user(), $incident), 403, 'ليس لديك صلاحية على هذا الحدث.');
     }
 }

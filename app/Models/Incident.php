@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Concerns\HasArabicAudit;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Support\IncidentAccess;
 /**
  * INCIDENT — الحدث (المرحلة الثانية).
  */
@@ -52,6 +52,31 @@ class Incident extends Model
     public function sectorResponsibilities()
     {
         return $this->hasMany(IncidentSectorResponsibility::class, 'incident_id');
+    }
+
+    /** كل متابعات الحدث من كل القطاعات */
+    public function followups()
+    {
+        return $this->hasManyThrough(
+            IncidentFollowup::class,
+            IncidentSectorResponsibility::class,
+            'incident_id',                          // FK على incident_sectors_responsibilities
+            'incident_sectors_responsibilities_id', // FK على incident_followups
+            'id',
+            'id'
+        );
+    }
+
+    /** آخر متابعة على الحدث (زي آخر رد على البيان في الشكاوى) */
+    public function lastFollowup(): ?IncidentFollowup
+    {
+        return $this->followups()->with('followupStatus')->reorder()->orderByDesc('incident_followups.id')->first();
+    }
+
+    /** الحدث مقفول لو آخر متابعة حالتها إغلاق أو قبول الخطر */
+    public function isFollowupClosed(): bool
+    {
+        return in_array($this->lastFollowup()?->followupStatus?->status_name, IncidentAccess::CLOSING_STATUSES, true);
     }
 
     // public function responsibleSectors()

@@ -20,7 +20,7 @@
 
     @canany(['incidents.index'])
     <li class="nav-item">
-      <a class="nav-link {{ request()->routeIs('incidents.*') ? '' : 'collapsed' }}" href="{{ route('incidents.index') }}">
+      <a class="nav-link {{ request()->routeIs('incidents.*', 'incident-followups.*') ? '' : 'collapsed' }}" href="{{ route('incidents.index') }}">
         <i class="bi bi-exclamation-triangle"></i>
         <span>الأحداث التشغيلية</span>
       </a>

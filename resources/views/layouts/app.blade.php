@@ -97,6 +97,8 @@
   <script src="{{ asset('assets/js/main.js') }}"></script>
   <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
   <script src="{{ asset('assets/js/delete-confirm.js') }}"></script>
+  {{-- أخطاء التحقق من الخادم — wizard.js بيعلّم بيها الحقول ويفتح الخطوة اللي فيها الخطأ --}}
+  <script>window.serverErrors = @json($errors->getBag('default')->getMessages());</script>
   <script src="{{ asset('assets/js/wizard.js') }}"></script>
 
   @stack('scripts')

@@ -40,7 +40,7 @@ class RolePermissionSeeder extends Seeder
             // مسئولو المخاطر بالقطاع المركزي للمخاطر
             'central-risk-officer' => [
                 'risks.index', 'risks.show', 'risks.create', 'risks.edit',
-                'indicators.*', 'reports.index',
+                'indicators.*', 'indicator-followups.index', 'indicator-followups.show', 'reports.index',
             ],
 
             // رئيس قطاع المخاطر الشاملة

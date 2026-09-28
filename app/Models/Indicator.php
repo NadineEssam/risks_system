@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Concerns\HasArabicAudit;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\ThresholdLevel;
 /**
  * INDICATORS — المؤشرات (المرحلة الرابعة - KRI).
  */
@@ -79,6 +79,55 @@ class Indicator extends Model
     public function followups()
     {
         return $this->hasMany(IndicatorFollowup::class, 'indicators_id');
+    }
+
+    /** آخر قياس (بالتاريخ ثم الأحدث تسجيلاً) */
+    public function lastFollowup(): ?IndicatorFollowup
+    {
+        return $this->followups()->with('thresholdLevel')
+            ->orderByDesc('measurement_date')->orderByDesc('id')->first();
+    }
+
+    public function isDecreasing(): bool
+    {
+        return trim((string) $this->nature?->nature_name) === 'متناقص';
+    }
+
+    /**
+     * حدود المتوسط والمرتفع (sort_order: 1 مقبول، 2 متوسط، 3 مرتفع)
+     * @return array{medium: ?float, high: ?float}
+     */
+    public function thresholdLimits(): array
+    {
+        $details = $this->thresholdDetails()->with('thresholdLevel')->get()
+            ->keyBy(fn ($d) => (int) $d->thresholdLevel?->sort_order);
+
+        return [
+            'medium' => $details->get(2)?->threshold_value !== null ? (float) $details->get(2)->threshold_value : null,
+            'high'   => $details->get(3)?->threshold_value !== null ? (float) $details->get(3)->threshold_value : null,
+        ];
+    }
+
+    /**
+     * مستوى حد الخطر تلقائياً من القيمة الفعلية + طبيعة المؤشر:
+     * متزايد: < متوسط = مقبول | ≥ متوسط و < مرتفع = متوسط | ≥ مرتفع = مرتفع
+     * متناقص: > متوسط = مقبول | ≤ متوسط و > مرتفع = متوسط | ≤ مرتفع = مرتفع
+     */
+    public function calculateThresholdLevel($value): ?ThresholdLevel
+    {
+        ['medium' => $medium, 'high' => $high] = $this->thresholdLimits();
+
+        if ($value === null || $value === '' || ! is_numeric($value) || $medium === null || $high === null) {
+            return null;
+        }
+
+        $v = (float) $value;
+
+        $order = $this->isDecreasing()
+            ? ($v <= $high ? 3 : ($v <= $medium ? 2 : 1))
+            : ($v >= $high ? 3 : ($v >= $medium ? 2 : 1));
+
+        return ThresholdLevel::where('sort_order', $order)->first();
     }
 
     public function scopeActive($query)

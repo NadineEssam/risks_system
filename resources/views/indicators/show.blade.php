@@ -75,7 +75,9 @@
           </tbody>
         </table>
         @can('indicator-followups.create')
-          <a href="{{ route('indicator-followups.create') }}" class="btn btn-sm btn-outline-primary">تسجيل متابعة جديدة</a>
+          <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary">
+            <i class="bx bx-line-chart"></i> سجل قياسات المؤشر
+          </a>
         @endcan
       </div>
     </div>

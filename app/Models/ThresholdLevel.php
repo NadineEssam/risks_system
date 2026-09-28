@@ -42,4 +42,22 @@ class ThresholdLevel extends Model
     {
         return trim($this->level_name) === self::ACCEPTABLE;
     }
+
+        /** بادج ملوّن للمستوى: 🟢 مقبول — 🟠 متوسط — 🔴 مرتفع */
+    public function badge(): string
+    {
+        $style = match ((int) $this->sort_order) {
+            1       => 'background:#28a745;color:#fff;',
+            2       => 'background:#f0ad4e;color:#fff;',
+            3       => 'background:#dc3545;color:#fff;',
+            default => 'background:#6c757d;color:#fff;',
+        };
+
+        return '<span class="badge" style="'.$style.'font-size:12px;padding:6px 10px;">'.e($this->level_name).'</span>';
+    }
+
+    public static function emptyBadge(string $text = 'لا يوجد قياس'): string
+    {
+        return '<span class="badge" style="background:#6c757d;color:#fff;font-size:12px;padding:6px 10px;">'.e($text).'</span>';
+    }
 }

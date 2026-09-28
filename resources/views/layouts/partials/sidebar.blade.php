@@ -30,21 +30,13 @@
 
     @canany(['indicators.index'])
     <li class="nav-item">
-      <a class="nav-link {{ request()->routeIs('indicators.*') ? '' : 'collapsed' }}" href="{{ route('indicators.index') }}">
+      <a class="nav-link {{ request()->routeIs('indicators.*', 'indicator-followups.*') ? '' : 'collapsed' }}" href="{{ route('indicators.index') }}">
         <i class="bi bi-speedometer2"></i>
         <span>مؤشرات قياس المخاطر KRI</span>
       </a>
     </li>
     @endcanany
 
-    @canany(['indicator-followups.index'])
-    <li class="nav-item">
-      <a class="nav-link {{ request()->routeIs('indicator-followups.*') ? '' : 'collapsed' }}" href="{{ route('indicator-followups.index') }}">
-        <i class="bi bi-graph-up-arrow"></i>
-        <span>متابعة المؤشرات</span>
-      </a>
-    </li>
-    @endcanany
 
     @canany(['reports.index'])
     <li class="nav-item">

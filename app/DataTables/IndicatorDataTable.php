@@ -30,8 +30,13 @@ class IndicatorDataTable extends BaseDataTable
             ->addColumn('unit', fn ($row) => $row->measurementUnit?->unit_name ?? '—')
             ->addColumn('frequency', fn ($row) => $row->reportingFrequency?->frequency_name ?? '—')
             ->editColumn('validity', fn ($row) => $this->validityBadge($row->validity))
-            ->addColumn('action', fn ($row) => $this->actionButtons('indicators', $row->getKey(), 'المؤشر', ['show']))
-            ->rawColumns(['validity', 'action'])
+            // آخر مستوى قياس للمؤشر
+            ->addColumn('last_level', fn ($row) => $row->lastFollowup()?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge())
+            // 👁 عرض المؤشر + 📈 سجل القياسات
+            ->addColumn('action', fn ($row) => $this->actionButtons('indicators', $row->getKey(), 'المؤشر', ['show'],
+                $this->iconButton('indicator-followups.index', $row->getKey(), 'bx bx-line-chart', 'سجل قياسات المؤشر')
+            ))
+            ->rawColumns(['validity', 'last_level', 'action'])
             ->setRowId(fn ($row) => $row->getKey());
     }
 
@@ -49,6 +54,7 @@ class IndicatorDataTable extends BaseDataTable
             Column::computed('nature')->title('طبيعة المؤشر'),
             Column::computed('unit')->title('وحدة القياس'),
             Column::computed('frequency')->title('دورية الإبلاغ'),
+            Column::computed('last_level')->title('آخر مستوى'),
             Column::make('validity')->title('الحالة')->searchable(false),
             Column::computed('action')->title('الإجراءات')->exportable(false)->printable(false)->addClass('text-center'),
         ];

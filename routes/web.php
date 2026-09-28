@@ -81,9 +81,16 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::get('/indicators/{indicator}', [IndicatorController::class, 'show'])->name('indicators.show');
 
     // ================= المرحلة الخامسة: متابعة المؤشر =================
-    Route::get('/indicator-followups', [IndicatorFollowupController::class, 'index'])->name('indicator-followups.index');
-    Route::get('/indicator-followups-create', [IndicatorFollowupController::class, 'create'])->name('indicator-followups.create');
-    Route::post('/indicator-followups', [IndicatorFollowupController::class, 'store'])->name('indicator-followups.store');
+    // ========= المرحلة الخامسة: متابعة المؤشر (نفس متابعة الحدث) =========
+    // سجل قياسات مؤشر معيّن
+    Route::get('/indicators/{indicator}/followups', [IndicatorFollowupController::class, 'index'])->name('indicator-followups.index');
+    Route::get('/indicators/{indicator}/followups/create', [IndicatorFollowupController::class, 'create'])->name('indicator-followups.create');
+    Route::post('/indicators/{indicator}/followups', [IndicatorFollowupController::class, 'store'])->name('indicator-followups.store');
+    // قياس واحد
+    Route::get('/indicator-followups/{followup}', [IndicatorFollowupController::class, 'show'])->name('indicator-followups.show');
+    Route::get('/indicator-followups/{followup}/edit', [IndicatorFollowupController::class, 'edit'])->name('indicator-followups.edit');
+    Route::put('/indicator-followups/{followup}', [IndicatorFollowupController::class, 'update'])->name('indicator-followups.update');
+    Route::delete('/indicator-followups/{followup}', [IndicatorFollowupController::class, 'destroy'])->name('indicator-followups.destroy');
 
     // ============================= التقارير =============================
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

@@ -27,11 +27,8 @@ class IncidentDataTable extends BaseDataTable
     {
         return (new EloquentDataTable($query))
             ->editColumn('discovery_date', fn ($row) => $row->discovery_date?->format('Y-m-d') ?? '—')
-            ->addColumn('risk', fn ($row) => Str::limit($row->potentialRiskRegister?->risk_description, 50) ?: '—')
-            // البحث في وصف الخطر (نفس Oracle)
-            ->filterColumn('risk', function ($q, $keyword) {
-                $q->whereHas('potentialRiskRegister', fn ($r) => $r->whereRaw('LOWER(risk_description) LIKE ?', ['%'.mb_strtolower($keyword).'%']));
-            })
+            // وصف الحدث نفسه (بدل وصف الخطر المحتمل)
+            ->editColumn('description', fn ($row) => Str::limit($row->description, 60) ?: '—')
             ->addColumn('department', fn ($row) => $row->department?->depname_ar ?? '—')
             ->editColumn('risk_degree', fn ($row) => RiskDegreeHelper::badge($row->risk_degree))
             ->addColumn('status', fn ($row) => $row->resolutionStatus?->status_name ?? '—')
@@ -54,7 +51,7 @@ class IncidentDataTable extends BaseDataTable
     {
         return [
             Column::make('discovery_date')->title('تاريخ الاكتشاف')->searchable(false),
-            Column::make('risk')->title('الخطر المحتمل المرتبط')->orderable(false),
+            Column::make('description')->title('وصف الحدث')->orderable(false),
             Column::computed('department')->title('الإدارة'),
             Column::make('frequency_score')->title('التكرار')->searchable(false),
             Column::make('impact_score')->title('الأثر')->searchable(false),

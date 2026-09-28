@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
 
                
                 // على السيرفر فقط (subpath /risk_management) — محلياً تشتغل الروابط عادي
-        if ($this->app->environment('production')) {
+        if (! $this->app->environment('local')) {
             $this->app['request']->server->set('SCRIPT_NAME', '/risk_management/index.php');
 
             \Illuminate\Support\Facades\URL::forceRootUrl('http://192.168.161.89/risk_management');

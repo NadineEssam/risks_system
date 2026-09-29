@@ -6,7 +6,7 @@
 @section('page-title', ($isEdit ? 'تعديل ' : 'إضافة ').($definition['singular'] ?? '').' — '.$definition['title'])
 @section('breadcrumbs')
   <li class="breadcrumb-item">البيانات المرجعية</li>
-  <li class="breadcrumb-item"><a href="{{ route("admin.{$type}.index") }}">{{ $definition['title'] }}</a></li>
+  <li class="breadcrumb-item"><a href="{{ route('admin.'.$type.'.index') }}">{{ $definition['title'] }}</a></li>
   <li class="breadcrumb-item active">{{ $isEdit ? 'تعديل' : 'إضافة' }}</li>
 @endsection
 
@@ -29,7 +29,7 @@
       </div>
     @endif
 
-    <form method="POST" action="{{ $isEdit ? route("admin.{$type}.update", $item->getKey()) : route("admin.{$type}.store") }}">
+    <form method="POST" action="{{ $isEdit ? route('admin.'.$type.'.update', $item->getKey()) : route('admin.'.$type.'.store') }}">
       @csrf
       @if($isEdit) @method('PUT') @endif
 
@@ -84,7 +84,7 @@
 
       <div class="d-flex gap-2 mt-4">
         <button class="btn btn-primary"><i class="bx bx-save"></i> {{ $isEdit ? 'حفظ التعديل' : 'حفظ' }}</button>
-        <a href="{{ route("admin.{$type}.index") }}" class="btn btn-outline-secondary"><i class="bx bx-arrow-back"></i> رجوع</a>
+        <a href="{{ route('admin.'.$type.'.index') }}" class="btn btn-outline-secondary"><i class="bx bx-arrow-back"></i> رجوع</a>
       </div>
     </form>
   </div>

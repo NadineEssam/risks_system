@@ -4,7 +4,7 @@
 @section('page-title', 'عرض '.($definition['singular'] ?? '').' — '.$definition['title'])
 @section('breadcrumbs')
   <li class="breadcrumb-item">البيانات المرجعية</li>
-  <li class="breadcrumb-item"><a href="{{ route("admin.{$type}.index") }}">{{ $definition['title'] }}</a></li>
+  <li class="breadcrumb-item"><a href="{{ route('admin.'.$type.'.index') }}">{{ $definition['title'] }}</a></li>
   <li class="breadcrumb-item active">#{{ $item->getKey() }}</li>
 @endsection
 
@@ -15,8 +15,8 @@
     <div class="card"><div class="card-body pt-3">
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-title"><i class="bx bx-show text-primary"></i> البيانات</h5>
-        @if(PerUser("admin.{$type}.edit"))
-          <a href="{{ route("admin.{$type}.edit", $item->getKey()) }}" class="btn btn-sm btn-outline-primary">
+        @if(PerUser('admin.'.$type.'.edit'))
+          <a href="{{ route('admin.'.$type.'.edit', $item->getKey()) }}" class="btn btn-sm btn-outline-primary">
             <i class="bx bx-edit-alt"></i> تعديل
           </a>
         @endif
@@ -68,7 +68,7 @@
 
 </div>
 
-<a href="{{ route('admin.{$type}.index') }}" class="btn btn-outline-secondary">
+<a href="{{ route('admin.'.$type.'.index') }}" class="btn btn-outline-secondary">
   <i class="bx bx-arrow-back"></i> رجوع للقائمة
 </a>
 @endsection

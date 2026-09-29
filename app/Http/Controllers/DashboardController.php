@@ -9,6 +9,7 @@ use App\Models\PotentialRiskRegister;
 use App\Models\ThresholdLevel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Support\IncidentAccess;
 
 class DashboardController extends Controller
 {
@@ -18,15 +19,20 @@ class DashboardController extends Controller
 
         $stats = [
             'potential_risks' => PotentialRiskRegister::active()->count(),
-            'open_incidents' => Incident::active()
+            // الأحداث حسب رؤية القطاع (المركزي يشوف الكل)
+            'open_incidents' => IncidentAccess::scopeVisible(Incident::active(), $user)
                 ->whereHas('resolutionStatus', fn ($q) => $q->whereIn('status_name', ['حل جزئي', 'غير مقبول']))
                 ->count(),
             'active_indicators' => Indicator::active()->count(),
-            'high_risk_incidents' => Incident::active()->where('risk_degree', '>=', 15)->count(),
+            'high_risk_incidents' => IncidentAccess::scopeVisible(Incident::active(), $user)
+                ->where('risk_degree', '>=', 15)
+                ->count(),
         ];
 
-        $recentIncidents = Incident::with(['potentialRiskRegister', 'department', 'resolutionStatus'])
-            ->latest('creation_date')
+        $recentIncidents = IncidentAccess::scopeVisible(
+                Incident::with(['potentialRiskRegister', 'department', 'resolutionStatus']), $user
+            )
+            ->latest('id')
             ->limit(8)
             ->get();
 

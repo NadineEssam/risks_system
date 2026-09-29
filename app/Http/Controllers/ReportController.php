@@ -7,12 +7,17 @@ use App\Models\IndicatorFollowup;
 use App\Models\PotentialRiskRegister;
 use App\Models\ThresholdLevel;
 use Illuminate\View\View;
+use App\Support\IncidentAccess;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
     public function index(): View
     {
-        $incidents = Incident::active()->get(['risk_degree', 'resolution_status_id']);
+        $user = Auth::user();
+
+        // كل أرقام الأحداث حسب رؤية القطاع (المركزي يشوف الكل)
+        $incidents = IncidentAccess::scopeVisible(Incident::active(), $user)->get(['risk_degree', 'resolution_status_id']);
 
         $degreeBuckets = [
             'مقبول (أقل من 8)' => $incidents->where('risk_degree', '<', 8)->count(),
@@ -21,7 +26,7 @@ class ReportController extends Controller
         ];
 
         // validity موجود في الجدولين — لازم نحدد incidents.validity (Oracle ORA-00918)
-        $statusBreakdown = Incident::query()
+        $statusBreakdown = IncidentAccess::scopeVisible(Incident::query(), $user)
             ->where('incidents.validity', 1)
             ->join('resolution_statuses', 'incidents.resolution_status_id', '=', 'resolution_statuses.id')
             ->selectRaw('resolution_statuses.status_name as status_name, count(*) as total')
@@ -29,7 +34,10 @@ class ReportController extends Controller
             ->pluck('total', 'status_name');
 
         $topRisks = PotentialRiskRegister::active()
-            ->withCount(['incidents', 'sectorDetails'])
+            ->withCount([
+                'incidents' => fn ($q) => IncidentAccess::scopeVisible($q, $user),
+                'sectorDetails',
+            ])
             ->orderByDesc('incidents_count')
             ->limit(10)
             ->with('eventDetail.eventSubcategory.event.eventType')

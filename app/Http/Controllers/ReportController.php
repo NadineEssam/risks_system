@@ -20,7 +20,9 @@ class ReportController extends Controller
             'مرتفع (15 فأكثر)' => $incidents->where('risk_degree', '>=', 15)->count(),
         ];
 
-        $statusBreakdown = Incident::active()
+        // validity موجود في الجدولين — لازم نحدد incidents.validity (Oracle ORA-00918)
+        $statusBreakdown = Incident::query()
+            ->where('incidents.validity', 1)
             ->join('resolution_statuses', 'incidents.resolution_status_id', '=', 'resolution_statuses.id')
             ->selectRaw('resolution_statuses.status_name as status_name, count(*) as total')
             ->groupBy('resolution_statuses.status_name')

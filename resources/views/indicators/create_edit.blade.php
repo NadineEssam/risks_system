@@ -24,7 +24,7 @@
       @csrf
       @if($isEdit) @method('PUT') @endif
 
-      {{-- 1) الخطر المحتمل المرتبط --}}
+      {{-- 1 الخطر المحتمل المرتبط --}}
       <div class="wizard-step" data-step-title="الخطر المحتمل المرتبط">
         <div class="row g-3">
           <div class="col-12">
@@ -33,9 +33,9 @@
               <option value="">-- اختر الخطر المحتمل --</option>
               @foreach($risks as $risk)
                 <option value="{{ $risk->id }}"
-                        title="{{ $risk->classification_label }} — {{ $risk->risk_description }}"
-                        @selected(old('potential_risk_register_id', $selectedRiskId) == $risk->id)>
-                  {{ \Illuminate\Support\Str::limit($risk->risk_description, 70) }}@if($risk->eventDetail) ({{ \Illuminate\Support\Str::limit($risk->eventDetail->detail_name, 35) }})@endif
+                    title="{{ $risk->classification_label }} — {{ $risk->risk_description }}"
+                    @selected(old('potential_risk_register_id') == $risk->id)>
+                    {{ \Illuminate\Support\Str::limit($risk->risk_description, 70) }}@if($risk->eventDetail) ({{ \Illuminate\Support\Str::limit($risk->eventDetail->detail_name, 35) }})@endif
                 </option>
               @endforeach
             </select>
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      {{-- 2) خصائص المؤشر --}}
+      {{-- 2 خصائص المؤشر --}}
       <div class="wizard-step" data-step-title="خصائص المؤشر">
         <div class="row g-3">
           <div class="col-12">
@@ -82,7 +82,7 @@
         </div>
       </div>
 
-      {{-- 3) مستويات حدود المؤشر --}}
+      {{-- 3 مستويات حدود المؤشر --}}
       <div class="wizard-step" data-step-title="مستويات حدود المؤشر">
         <div class="alert alert-info small mb-3">
           <i class="bx bx-info-circle"></i>
@@ -112,7 +112,7 @@
         </div>
       </div>
 
-      {{-- 4) مسئولو المؤشر --}}
+      {{-- 4 مسئولو المؤشر --}}
       <div class="wizard-step" data-step-title="مسئولو المؤشر">
         <div id="responsibles-wrapper">
           @foreach($responsibleRows as $r => $row)

@@ -30,8 +30,9 @@
               <select name="potential_risk_register_id" class="form-select @error('potential_risk_register_id') is-invalid @enderror" required>
                 <option value="">-- اختر الخطر المحتمل --</option>
                 @foreach($risks as $risk)
-                  <option value="{{ $risk->id }}" @selected(old('potential_risk_register_id') == $risk->id)>
-                    title="{{ $risk->classification_label }} — {{ $risk->risk_description }}"
+                  <option value="{{ $risk->id }}"
+                        title="{{ $risk->classification_label }} — {{ $risk->risk_description }}"
+                        @selected(old('potential_risk_register_id') == $risk->id)>
                     {{ \Illuminate\Support\Str::limit($risk->risk_description, 70) }}@if($risk->eventDetail) ({{ \Illuminate\Support\Str::limit($risk->eventDetail->detail_name, 35) }})@endif
                   </option>
                 @endforeach

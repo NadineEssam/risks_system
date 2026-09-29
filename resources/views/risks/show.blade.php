@@ -187,6 +187,14 @@
               {{-- آخر مستوى --}}
               {!! $last?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge() !!}
 
+              {{-- 👁 عرض المؤشر (نفس أيقونة الجداول) --}}
+              @if(PerUser('indicators.show'))
+                <a href="{{ route('indicators.show', $indicator) }}" class="btn btn-sm btn-outline-info action-btn"
+                   data-bs-toggle="tooltip" title="عرض المؤشر">
+                  <i class="bx bx-show"></i>
+                </a>
+              @endif
+
               {{-- 📈 سجل القياسات --}}
               @if(PerUser('indicator-followups.index'))
                 <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary action-btn"

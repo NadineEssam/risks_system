@@ -175,7 +175,26 @@
         <h5 class="card-title">مؤشرات قياس المخاطر المرتبطة ({{ $risk->indicators->count() }})</h5>
         <ul class="list-group list-group-flush">
           @forelse($risk->indicators as $indicator)
-            <li class="list-group-item px-0">{{ \Illuminate\Support\Str::limit($indicator->indicator_name, 60) }}</li>
+            @php $last = $indicator->lastFollowup(); @endphp
+            <li class="list-group-item px-0 d-flex justify-content-between align-items-center gap-2">
+              {{-- اسم المؤشر → صفحة المؤشر --}}
+              <a href="{{ route('indicators.show', $indicator) }}" class="text-decoration-none flex-grow-1"
+                 data-bs-toggle="tooltip" title="عرض المؤشر">
+                <i class="bx bx-bar-chart-alt-2 text-primary"></i>
+                {{ \Illuminate\Support\Str::limit($indicator->indicator_name, 50) }}
+              </a>
+
+              {{-- آخر مستوى --}}
+              {!! $last?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge() !!}
+
+              {{-- 📈 سجل القياسات --}}
+              @if(PerUser('indicator-followups.index'))
+                <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary action-btn"
+                   data-bs-toggle="tooltip" title="سجل قياسات المؤشر">
+                  <i class="bx bx-line-chart"></i>
+                </a>
+              @endif
+            </li>
           @empty
             <li class="list-group-item px-0 text-muted small">لا توجد مؤشرات مرتبطة بعد.</li>
           @endforelse

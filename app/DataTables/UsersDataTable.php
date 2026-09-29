@@ -26,7 +26,7 @@ class UsersDataTable extends BaseDataTable
                 ->map(fn ($role) => '<span class="badge bg-info me-1">'.e($role->name).'</span>')
                 ->implode('') ?: '—')
             ->editColumn('is_active', fn ($row) => $this->validityBadge($row->is_active))
-            ->addColumn('action', fn ($row) => $this->actionButtons('admin.users', $row->id, 'المستخدم', ['edit']))
+            ->addColumn('action', fn ($row) => $this->actionButtons('admin.users', $row->id, 'المستخدم', ['show', 'edit']))
             ->rawColumns(['domain_username', 'org', 'roles_list', 'is_active', 'action'])
             ->setRowId('id');
     }

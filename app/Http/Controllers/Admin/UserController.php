@@ -21,6 +21,13 @@ class UserController extends Controller
         return $dataTable->render('admin.users.index', $this->formData());
     }
 
+    public function show(User $user): View
+    {
+        $user->load(['roles.permissions', 'sector', 'department']);
+
+        return view('admin.users.show', compact('user'));
+    }
+
     public function edit(User $user): View
     {
         $user->load(['roles', 'sector', 'department']);

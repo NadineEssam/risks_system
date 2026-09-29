@@ -45,31 +45,7 @@
       </nav>
     </div><!-- End Page Title -->
 
-    @if(session('success'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
-
-    @if(session('error'))
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
-
-    @if($errors->any())
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>يرجى تصحيح الأخطاء التالية:</strong>
-        <ul class="mb-0">
-          @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
+    
 
     <section class="section">
       @yield('content')
@@ -97,6 +73,35 @@
   <script src="{{ asset('assets/js/main.js') }}"></script>
   <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
   <script src="{{ asset('assets/js/delete-confirm.js') }}"></script>
+
+  {{-- رسائل النظام بـ SweetAlert (نفس نظام الشكاوى) --}}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const flash = @json([
+        'success'   => session('success'),
+        'warning'   => session('warning'),
+        'error'     => session('error'),
+        'hasErrors' => $errors->any(),
+      ]);
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBar: true,
+      });
+
+      if (flash.success) Toast.fire({ icon: 'success', title: flash.success });
+      if (flash.warning) Toast.fire({ icon: 'warning', title: flash.warning });
+
+      if (flash.error) {
+        Swal.fire({ icon: 'error', title: 'تنبيه', text: flash.error, confirmButtonText: 'حسناً' });
+      } else if (flash.hasErrors) {
+        Toast.fire({ icon: 'error', title: 'يوجد أخطاء في البيانات — راجع الحقول المظللة باللون الأحمر.', timer: 5000 });
+      }
+    });
+  </script>
   {{-- أخطاء التحقق من الخادم — wizard.js بيعلّم بيها الحقول ويفتح الخطوة اللي فيها الخطأ --}}
   <script>window.serverErrors = @json($errors->getBag('default')->getMessages());</script>
   <script src="{{ asset('assets/js/wizard.js') }}"></script>

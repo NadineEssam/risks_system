@@ -9,68 +9,31 @@
 
 @section('content')
 <div class="card">
-  <div class="card-body">
+  <div class="card-body pt-3">
 
-    <h5 class="card-title">إضافة عنصر جديد</h5>
-    <form method="POST" action="{{ route('admin.lookups.store', $type) }}" class="row g-2 mb-4">
-      @csrf
-      <div class="col-md-{{ ($definition['has_sort_order'] ?? false) ? 6 : 9 }}">
-        <input type="text" name="{{ $definition['field'] }}" class="form-control" placeholder="{{ $definition['label'] }}" required>
-      </div>
-      @if($definition['has_sort_order'] ?? false)
-        <div class="col-md-3">
-          <input type="number" name="sort_order" class="form-control" placeholder="ترتيب العرض">
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="card-title m-0 p-0">قائمة {{ $definition['title'] }}</h5>
+      @if(PerUser("admin.{$type}.create"))
+        <a href="{{ route("admin.{$type}.create") }}" class="btn btn-primary">
+          <i class="bx bx-plus"></i> إضافة {{ $definition['singular'] ?? '' }}
+        </a>
       @endif
-      <div class="col-md-3">
-        <button class="btn btn-primary w-100">إضافة</button>
-      </div>
-    </form>
+    </div>
 
-    @if($items->isEmpty())
-      <p class="text-center text-muted py-3">لا توجد عناصر مسجلة بعد.</p>
-    @else
-      <div class="table-responsive">
-        <table class="table table-striped align-middle datatable">
-          <thead>
-            <tr>
-              <th>{{ $definition['label'] }}</th>
-              @if($definition['has_sort_order'] ?? false)<th>الترتيب</th>@endif
-              <th>الحالة</th>
-              <th style="width: 160px;">إجراءات</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($items as $item)
-              <tr>
-                <td>{{ $item->{$definition['field']} }}</td>
-                @if($definition['has_sort_order'] ?? false)<td>{{ $item->sort_order }}</td>@endif
-                <td>
-                  @if($item->validity)
-                    <span class="badge bg-success">مفعل</span>
-                  @else
-                    <span class="badge bg-secondary">غير مفعل</span>
-                  @endif
-                </td>
-                <td>
-                  <form method="POST" action="{{ route('admin.lookups.toggle', [$type, $item->id]) }}">
-                    @csrf
-                    <button class="btn btn-sm btn-outline-{{ $item->validity ? 'danger' : 'success' }}">
-                      {{ $item->validity ? 'إلغاء التفعيل' : 'تفعيل' }}
-                    </button>
-                  </form>
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
+    @if(! empty($definition['note']))
+      <div class="alert alert-warning small py-2">
+        <i class="bx bx-error"></i> {{ $definition['note'] }}
       </div>
     @endif
 
-    <p class="text-muted small mb-0">
-      لتعديل اسم عنصر موجود: أضف عنصراً بديلاً بالاسم الصحيح ثم قم بإلغاء تفعيل العنصر القديم للحفاظ على سجل تاريخي كامل بالبيانات المرتبطة به.
-    </p>
+    <div class="table-responsive">
+      {{ $dataTable->table(['class' => 'table text-center align-middle datatable-custom', 'style' => 'width:100%']) }}
+    </div>
 
   </div>
 </div>
 @endsection
+
+@push('scripts')
+  {{ $dataTable->scripts() }}
+@endpush

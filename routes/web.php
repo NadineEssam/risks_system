@@ -1,9 +1,9 @@
 <?php
 
 
-use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\Admin\EventDetailController;
-use App\Http\Controllers\Admin\EventSubcategoryController;
+// use App\Http\Controllers\Admin\EventController;
+// use App\Http\Controllers\Admin\EventDetailController;
+// use App\Http\Controllers\Admin\EventSubcategoryController;
 use App\Http\Controllers\Admin\LookupController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -99,25 +99,19 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
 
     // ===================== الإدارة والبيانات المرجعية =====================
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('/events', [EventController::class, 'index'])->name('events.index');
-        Route::post('/events', [EventController::class, 'store'])->name('events.store');
-        Route::post('/events/{event}/toggle', [EventController::class, 'toggle'])->name('events.toggle');
-
-        Route::get('/event-subcategories', [EventSubcategoryController::class, 'index'])->name('event-subcategories.index');
-        Route::post('/event-subcategories', [EventSubcategoryController::class, 'store'])->name('event-subcategories.store');
-        Route::post('/event-subcategories/{eventSubcategory}/toggle', [EventSubcategoryController::class, 'toggle'])->name('event-subcategories.toggle');
-
-        Route::get('/event-details', [EventDetailController::class, 'index'])->name('event-details.index');
-        Route::post('/event-details', [EventDetailController::class, 'store'])->name('event-details.store');
-        Route::post('/event-details/{eventDetail}/toggle', [EventDetailController::class, 'toggle'])->name('event-details.toggle');
-
-        // البيانات المرجعية أحادية العمود (Lookups)
-        Route::post('/lookups/{type}', [LookupController::class, 'store'])->name('lookups.store');
-        Route::post('/lookups/{type}/{id}/toggle', [LookupController::class, 'toggle'])->name('lookups.toggle');
-
+        // ===== البيانات المرجعية (Lookups) + تصنيف بازل — CRUD عام واحد للكل =====
+        // كل slug من LookupRegistry بياخد: index / create / store / show / edit / update / destroy
+        // (create قبل {id} عشان "create" متتقريش كـ id)
         foreach (array_keys(LookupRegistry::definitions()) as $slug) {
-            Route::get("/{$slug}", fn (LookupController $controller) => $controller->index($slug))
-                ->name("{$slug}.index");
+            Route::prefix($slug)->name("{$slug}.")->group(function () use ($slug) {
+                Route::get('/', [LookupController::class, 'index'])->name('index')->defaults('type', $slug);
+                Route::get('/create', [LookupController::class, 'create'])->name('create')->defaults('type', $slug);
+                Route::post('/', [LookupController::class, 'store'])->name('store')->defaults('type', $slug);
+                Route::get('/{id}', [LookupController::class, 'show'])->name('show')->defaults('type', $slug);
+                Route::get('/{id}/edit', [LookupController::class, 'edit'])->name('edit')->defaults('type', $slug);
+                Route::put('/{id}', [LookupController::class, 'update'])->name('update')->defaults('type', $slug);
+                Route::delete('/{id}', [LookupController::class, 'destroy'])->name('destroy')->defaults('type', $slug);
+            });
         }
 
         // المستخدمون

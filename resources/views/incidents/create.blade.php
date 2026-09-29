@@ -1,10 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'تسجيل حدث جديد')
-@section('page-title', 'تسجيل حدث جديد')
+@php
+  $isEdit = isset($incident) && $incident;
+  $checkedSectors = old('responsible_sectors', $selectedSectors ?? []);
+@endphp
+
+@section('title', $isEdit ? 'تعديل حدث' : 'تسجيل حدث جديد')
+@section('page-title', $isEdit ? 'تعديل الحدث #'.$incident->id : 'تسجيل حدث جديد')
 @section('breadcrumbs')
   <li class="breadcrumb-item"><a href="{{ route('incidents.index') }}">الأحداث التشغيلية</a></li>
-  <li class="breadcrumb-item active">تسجيل جديد</li>
+  <li class="breadcrumb-item active">{{ $isEdit ? 'تعديل' : 'تسجيل جديد' }}</li>
 @endsection
 
 @section('content')
@@ -15,18 +20,23 @@
       القطاع الإداري المتابع للحدث: <strong>{{ $department->depname_ar }}</strong> (يُحدَّد تلقائياً وفقاً لقطاعك).
     </div>
 
-    @if($risks->isEmpty())
+    @if(! $isEdit && $risks->isEmpty())
       <div class="alert alert-warning">
         لا توجد مخاطر محتملة مرتبطة بقطاعك الإداري حتى الآن. يجب ربط قطاعك بخطر محتمل من سجل المخاطر المحتملة أولاً.
       </div>
     @else
-      <form method="POST" action="{{ route('incidents.store') }}" data-wizard>
+      <form method="POST" action="{{ $isEdit ? route('incidents.update', $incident) : route('incidents.store') }}" data-wizard>
         @csrf
+        @if($isEdit) @method('PUT') @endif
 
         <div class="wizard-step" data-step-title="الخطر المرتبط">
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label">الخطر المحتمل المرتبط <span class="required-mark">*</span></label>
+              @if($isEdit)
+                <div class="form-control bg-light" style="height:auto;white-space:pre-wrap;">{{ $incident->potentialRiskRegister?->risk_description }}</div>
+                <div class="form-text"><i class="bx bx-lock-alt"></i> لا يمكن تغيير الخطر المحتمل بعد تسجيل الحدث.</div>
+              @else
               <select name="potential_risk_register_id" class="form-select @error('potential_risk_register_id') is-invalid @enderror" required>
                 <option value="">-- اختر الخطر المحتمل --</option>
                 @foreach($risks as $risk)
@@ -38,6 +48,7 @@
                 @endforeach
               </select>
               @error('potential_risk_register_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+              @endif
             </div>
           </div>
         </div>
@@ -121,11 +132,11 @@
         <div class="wizard-controls d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
           <div>
             <button type="button" class="btn btn-outline-secondary wizard-prev d-none"><i class="bi bi-arrow-right"></i> السابق</button>
-            <a href="{{ route('incidents.index') }}" class="btn btn-link text-muted">إلغاء</a>
+            <a href="{{ $isEdit ? route('incidents.show', $incident) : route('incidents.index') }}" class="btn btn-link text-muted">إلغاء</a>
           </div>
           <div>
             <button type="button" class="btn btn-primary wizard-next">التالي <i class="bi bi-arrow-left"></i></button>
-            <button type="submit" class="btn btn-success wizard-submit d-none">حفظ الحدث</button>
+            <button type="submit" class="btn btn-success wizard-submit d-none">{{ $isEdit ? 'حفظ التعديل' : 'حفظ الحدث' }}</button>
           </div>
         </div>
       </form>

@@ -14,7 +14,10 @@ class StoreIncidentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'potential_risk_register_id' => ['required', 'integer', 'exists:potential_risk_registers,id'],
+            // عند التعديل الخطر المحتمل ثابت ومش بيتبعت من الفورم
+            'potential_risk_register_id' => $this->route('incident')
+                ? ['nullable']
+                : ['required', 'integer', 'exists:potential_risk_registers,id'],
             'discovery_date' => ['required', 'date', 'before_or_equal:today'],
             'start_date' => ['nullable', 'date'],
             'impact_score' => ['required', 'integer', 'min:1', 'max:5'],

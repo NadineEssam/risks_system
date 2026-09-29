@@ -35,7 +35,9 @@ class IncidentDataTable extends BaseDataTable
             // آخر حالة متابعة للحدث (زي عمود الحالة في الشكاوى)
             ->addColumn('followup_status', fn ($row) => IncidentAccess::statusBadge($row->lastFollowup()?->followupStatus?->status_name))
             // 👁 عرض الحدث + 💬 متابعات الحدث (نفس أيقونة "الرد على البيان")
-            ->addColumn('action', fn ($row) => $this->actionButtons('incidents', $row->id, 'الحدث', ['show'],
+            // ✏️ للقطاع المنشئ/المركزي، والحدث مش مقفول
+            ->addColumn('action', fn ($row) => $this->actionButtons('incidents', $row->id, 'الحدث',
+                IncidentAccess::canEdit(Auth::user(), $row) && ! $row->isFollowupClosed() ? ['show', 'edit'] : ['show'],
                 $this->iconButton('incident-followups.index', $row->id, 'bx bx-message-square-detail', 'متابعات الحدث')
             ))
             ->rawColumns(['risk_degree', 'followup_status', 'action'])

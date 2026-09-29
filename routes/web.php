@@ -61,6 +61,8 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::get('/incidents-create', [IncidentController::class, 'create'])->name('incidents.create');
     Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
     Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
+    Route::get('/incidents/{incident}/edit', [IncidentController::class, 'edit'])->name('incidents.edit');
+    Route::put('/incidents/{incident}', [IncidentController::class, 'update'])->name('incidents.update');
     Route::post('/incidents/{incident}/status', [IncidentController::class, 'updateStatus'])->name('incidents.status.update');
 
     // ======= المرحلة الثالثة: متابعة الحدث (نفس "الرد على البيان" في الشكاوى) =======

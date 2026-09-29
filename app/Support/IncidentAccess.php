@@ -88,4 +88,16 @@ class IncidentAccess
 
         return '<span class="badge" style="'.$style.'font-size:12px;padding:6px 10px;">'.e($name ?? 'جديد').'</span>';
     }
+
+        /** تعديل الحدث: القطاع المنشئ (قطاع إدارة الحدث) + القطاع المركزي + مدير النظام */
+    public static function canEdit(User $user, Incident $incident): bool
+    {
+        if (self::isCentral($user)) {
+            return true;
+        }
+
+        $sector = self::sector($user);
+
+        return $sector && (string) $incident->department?->sector_code === (string) $sector->sector_code;
+    }
 }

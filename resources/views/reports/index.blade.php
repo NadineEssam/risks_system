@@ -7,6 +7,34 @@
 @endsection
 
 @section('content')
+{{-- التقارير الخمسة — كل كارت يفتح صفحة التقرير بالفلاتر --}}
+@if(! empty($reports))
+  <h5 class="fw-bold mb-3"><i class="bx bx-file text-primary"></i> التقارير</h5>
+  <div class="row">
+    @foreach($reports as $report)
+      <div class="col-xl-4 col-md-6 mb-3">
+        <a href="{{ route('reports.show', $report->key()) }}" class="text-decoration-none">
+          <div class="card info-card h-100 mb-0">
+            <div class="card-body pt-3">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center bg-light" style="width:56px;height:56px;min-width:56px;">
+                  <i class="{{ $report->icon() }} fs-3 text-primary"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-dark">{{ $report->label() }}</h6>
+                  <small class="text-muted">{{ $report->description() }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    @endforeach
+  </div>
+  <hr class="my-4">
+  <h5 class="fw-bold mb-3"><i class="bx bx-bar-chart-alt-2 text-primary"></i> ملخص إحصائي</h5>
+@endif
+
 <div class="row">
   <div class="col-lg-6">
     <div class="card">

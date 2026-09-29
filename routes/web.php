@@ -98,6 +98,9 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
 
     // ============================= التقارير =============================
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    // تقرير واحد: الفلاتر + النتائج — والتصدير (xlsx / csv / pdf)
+    Route::get('/reports/{key}', [ReportController::class, 'show'])->name('reports.show');
+    Route::get('/reports/{key}/export', [ReportController::class, 'export'])->name('reports.export');
 
     // ===================== الإدارة والبيانات المرجعية =====================
     Route::prefix('admin')->name('admin.')->group(function () {

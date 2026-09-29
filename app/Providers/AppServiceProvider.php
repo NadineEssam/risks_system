@@ -6,12 +6,32 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Pagination\Paginator;
+use App\Reports\ReportRegistry;
+use App\Reports\IncidentFollowupsReport;
+use App\Reports\IncidentsRegisterReport;
+use App\Reports\IncidentsResolvedReport;
+use App\Reports\IndicatorAlertsReport;
+use App\Reports\IndicatorComplianceReport;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void
+        public function register(): void
     {
-        //
+        // سجل التقارير — التقارير نفسها بتتسجل في الخطوة 3
+        $this->app->singleton(ReportRegistry::class, function () {
+            $registry = new ReportRegistry();
+
+            // التقارير الخمسة (بنفس ترتيب ملف التقارير)
+            $registry->register(
+                new IncidentsRegisterReport(),
+                new IncidentFollowupsReport(),
+                new IndicatorAlertsReport(),
+                new IncidentsResolvedReport(),
+                new IndicatorComplianceReport(),
+            );
+
+            return $registry;
+        });
     }
 
     public function boot(): void

@@ -10,6 +10,8 @@
         "ext-ldap": "*",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "maatwebsite/excel": "^3.1",
+        "mpdf/mpdf": "^8.3",
         "realrashid/sweet-alert": "^7",
         "spatie/laravel-permission": "^6.9",
         "yajra/laravel-datatables-buttons": "^11",

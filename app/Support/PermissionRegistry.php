@@ -21,6 +21,9 @@ class PermissionRegistry
         'risks.sectors.destroy'      => 'risks.edit',
         'risk-sectors.actions.store' => 'risks.edit',
         'required-actions.destroy'   => 'risks.edit',
+        // صفحة التقرير والتصدير — وكمان كل تقرير بصلاحيته (reports.{key})
+        'reports.show'               => 'reports.index',
+        'reports.export'             => 'reports.index',
     ];
 
     /** آخر جزء في اسم المسار => الصلاحية المقابلة (لو المسار ده موجود) */
@@ -112,6 +115,11 @@ class PermissionRegistry
             $names[$extra] = true;
         }
 
+        // صلاحية لكل تقرير (زي الشكاوى): reports.{key}
+        foreach (app(\App\Reports\ReportRegistry::class)->all() as $report) {
+            $names[$report->permission()] = true;
+        }
+
         $result = [];
         foreach (array_keys($names) as $name) {
             $result[$name] = self::meta($name);
@@ -130,7 +138,18 @@ class PermissionRegistry
         return [
             'group'    => $group,
             'group_ar' => self::GROUPS[$group] ?? ($lookups[$group]['title'] ?? $group),
-            'ar_name'  => self::LABELS[$name] ?? self::ACTIONS[$action] ?? $name,
+            'ar_name'  => self::LABELS[$name] ?? self::reportLabel($name) ?? self::ACTIONS[$action] ?? $name,
         ];
+    }
+        /** اسم التقرير لو الصلاحية دي صلاحية تقرير */
+    protected static function reportLabel(string $name): ?string
+    {
+        foreach (app(\App\Reports\ReportRegistry::class)->all() as $report) {
+            if ($report->permission() === $name) {
+                return $report->label();
+            }
+        }
+
+        return null;
     }
 }

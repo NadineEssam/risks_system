@@ -75,14 +75,17 @@
   <script src="{{ asset('assets/js/delete-confirm.js') }}"></script>
 
   {{-- رسائل النظام بـ SweetAlert (نفس نظام الشكاوى) --}}
+  @php
+    $flashMessages = [
+      'success'   => session('success'),
+      'warning'   => session('warning'),
+      'error'     => session('error'),
+      'hasErrors' => $errors->any(),
+    ];
+  @endphp
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const flash = @json([
-        'success'   => session('success'),
-        'warning'   => session('warning'),
-        'error'     => session('error'),
-        'hasErrors' => $errors->any(),
-      ]);
+      const flash = @json($flashMessages);
 
       const Toast = Swal.mixin({
         toast: true,

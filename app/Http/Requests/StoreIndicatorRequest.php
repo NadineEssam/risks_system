@@ -34,7 +34,8 @@ class StoreIndicatorRequest extends FormRequest
             'responsibles' => ['required', 'array', 'min:1'],
             'responsibles.*.full_name' => ['required', 'string'],
             'responsibles.*.job_title' => ['nullable', 'string'],
-            'responsibles.*.email' => ['nullable', 'email'],
+            // email:filter بيرفض CRLF — حماية لحين الترقية للارافيل 12
+            'responsibles.*.email' => ['nullable', 'email:filter'],
             'responsibles.*.responsible_role_id' => ['required', 'integer', 'exists:responsible_roles,id'],
         ];
     }

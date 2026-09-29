@@ -59,7 +59,8 @@ class UserController extends Controller
             // تُحفَظ على عمود domain_username — راجع ملاحظة إعادة تسمية
             // العمود في الهجرة (تفادياً لعطل الحالة المختلطة مع Oracle).
             'userID' => ['required', 'string', 'max:100', 'unique:users,domain_username'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            // email:filter (FILTER_VALIDATE_EMAIL) بيرفض CRLF — حماية لحين الترقية للارافيل 12
+            'email' => ['required', 'email:filter', 'unique:users,email'],
             'job_title' => ['nullable', 'string', 'max:255'],
             'sector_id' => ['nullable', 'integer', 'exists:new_po.sectors,sec_id'],
             'department_id' => ['nullable', 'integer', 'exists:new_po.departments,dep_id', $this->departmentBelongsToSectorRule($request)],

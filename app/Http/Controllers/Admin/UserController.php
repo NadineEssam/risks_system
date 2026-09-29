@@ -18,7 +18,12 @@ class UserController extends Controller
 {
     public function index(UsersDataTable $dataTable)
     {
-        return $dataTable->render('admin.users.index', $this->formData());
+        return $dataTable->render('admin.users.index');
+    }
+
+    public function create(): View
+    {
+        return view('admin.users.create', $this->formData());
     }
 
     public function show(User $user): View
@@ -82,7 +87,7 @@ class UserController extends Controller
 
         $user->syncRoles($data['roles']);
 
-        return back()->with('success', 'تمت إضافة المستخدم بنجاح.');
+        return redirect()->route('admin.users.index')->with('success', 'تمت إضافة المستخدم بنجاح.');
     }
 
     public function toggle(User $user): RedirectResponse

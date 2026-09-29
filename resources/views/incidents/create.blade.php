@@ -31,7 +31,8 @@
                 <option value="">-- اختر الخطر المحتمل --</option>
                 @foreach($risks as $risk)
                   <option value="{{ $risk->id }}" @selected(old('potential_risk_register_id') == $risk->id)>
-                    {{ $risk->classification_label }} — {{ \Illuminate\Support\Str::limit($risk->risk_description, 60) }}
+                    title="{{ $risk->classification_label }} — {{ $risk->risk_description }}"
+                    {{ \Illuminate\Support\Str::limit($risk->risk_description, 70) }}@if($risk->eventDetail) ({{ \Illuminate\Support\Str::limit($risk->eventDetail->detail_name, 35) }})@endif
                   </option>
                 @endforeach
               </select>

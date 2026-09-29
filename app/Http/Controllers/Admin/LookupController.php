@@ -49,7 +49,8 @@ class LookupController extends Controller
         return redirect()->route("admin.{$type}.index")->with('success', 'تمت الإضافة بنجاح.');
     }
 
-    public function show(string $type, string $id): View
+    // ملاحظة: Laravel بيبعت {id} الأول وبعده type (من defaults) — فالترتيب مهم
+    public function show(string $id, string $type): View
     {
         $definition = $this->resolve($type);
         $item = $this->findItem($definition, $id);
@@ -62,7 +63,7 @@ class LookupController extends Controller
         ]);
     }
 
-    public function edit(string $type, string $id): View
+    public function edit(string $id, string $type): View
     {
         $definition = $this->resolve($type);
 
@@ -74,7 +75,7 @@ class LookupController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $type, string $id): RedirectResponse
+    public function update(Request $request, string $id, string $type): RedirectResponse
     {
         $definition = $this->resolve($type);
         $item = $this->findItem($definition, $id);
@@ -88,7 +89,7 @@ class LookupController extends Controller
     }
 
     // AJAX من زر 🗑 — الحذف ممنوع لو القيمة مستخدمة في أي جدول
-    public function destroy(Request $request, string $type, string $id)
+    public function destroy(Request $request, string $id, string $type)
     {
         $definition = $this->resolve($type);
         $item = $this->findItem($definition, $id);

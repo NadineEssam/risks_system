@@ -85,13 +85,15 @@ class DashboardController extends Controller
         $byEventType = $count($incidents->groupBy(fn ($i) =>
             $i->potentialRiskRegister?->eventDetail?->eventSubcategory?->event?->eventType?->type_name ?? 'غير مصنّف'));
 
-        $byDegree = collect(['مقبول' => 0, 'متوسط' => 0, 'مرتفع' => 0]);
+        // array عادي (++ على عنصر Collection مش مسموح في PHP)
+        $byDegree = ['مقبول' => 0, 'متوسط' => 0, 'مرتفع' => 0];
         foreach ($incidents as $incident) {
             if ($incident->risk_degree !== null) {
                 $level = RiskDegreeHelper::classify((int) $incident->risk_degree)[0];
                 $byDegree[$level]++;
             }
         }
+        $byDegree = collect($byDegree);
 
         $byResolution = $count($incidents->groupBy(fn ($i) => $i->resolutionStatus?->status_name ?? 'غير محدد'));
         $bySector     = $count($incidents->groupBy(fn ($i) => $i->department?->sector?->sector_ar ?? 'غير معروف'));

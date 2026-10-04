@@ -27,6 +27,7 @@
           <div class="col-md-3"><strong>الطبيعة:</strong> {{ $indicator->nature?->nature_name }}</div>
           <div class="col-md-3"><strong>وحدة القياس:</strong> {{ $indicator->measurementUnit?->unit_name }}</div>
           <div class="col-md-3"><strong>دورية الإبلاغ:</strong> {{ $indicator->reportingFrequency?->frequency_name }}</div>
+          <div class="col-md-3"><strong>تاريخ الاعتماد:</strong> {{ $indicator->approval_date?->format('Y-m-d') ?? '—' }}</div>
           <div class="col-md-3"><strong>وحدة النشاط:</strong> {{ $indicator->activityUnit?->unit_name }}</div>
         </div>
 

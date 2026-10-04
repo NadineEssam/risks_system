@@ -49,6 +49,10 @@
                 <label class="fw-bold text-muted d-block">وحدة القياس</label>
                 {{ $indicator->measurementUnit?->unit_name ?? '—' }}
               </div>
+              <div class="col-6">
+                <label class="fw-bold text-muted d-block">تاريخ الاعتماد</label>
+                {{ $indicator->approval_date?->format('Y-m-d') ?? '—' }}
+              </div>
             </div>
 
             <label class="fw-bold text-muted mb-2 d-block"><i class="bx bx-slider-alt"></i> حدود المؤشر</label>

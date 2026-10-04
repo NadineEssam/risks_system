@@ -18,7 +18,7 @@ class Indicator extends Model
 
     protected $fillable = [
         'potential_risk_register_id', 'indicator_nature_id', 'measurement_unit_id',
-        'reporting_frequency_id', 'activity_unit_id', 'indicator_name', 'related_actions',
+        'reporting_frequency_id', 'activity_unit_id', 'indicator_name', 'approval_date','related_actions',
         'data_sources', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
 
@@ -28,6 +28,7 @@ class Indicator extends Model
             'creation_date' => 'datetime',
             'update_date' => 'datetime',
             'validity' => 'boolean',
+            'approval_date' => 'date',
         ];
     }
 

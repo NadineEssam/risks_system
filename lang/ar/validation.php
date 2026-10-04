@@ -41,6 +41,7 @@ return [
     'not_in'          => 'القيمة المختارة في حقل :attribute غير صحيحة.',
     'numeric'         => 'حقل :attribute يجب أن يكون رقماً.',
     'present'         => 'حقل :attribute يجب أن يكون موجوداً.',
+    'prohibited'      => 'لا يمكن تعديل حقل :attribute.',
     'required'        => 'حقل :attribute مطلوب.',
     'required_if'     => 'حقل :attribute مطلوب عندما يكون :other هو :value.',
     'required_with'   => 'حقل :attribute مطلوب عند وجود :values.',
@@ -58,6 +59,7 @@ return [
         'followup_date'    => ['today' => 'اليوم'],
         'measurement_date' => ['today' => 'اليوم'],
         'start_date'       => ['today' => 'اليوم'],
+        'approval_date'    => ['today' => 'اليوم'],
     ],
 
     // أسماء الحقول بالعربي
@@ -100,6 +102,7 @@ return [
         'activity_unit_id'              => 'وحدة النشاط',
         'data_sources'                  => 'مصادر البيانات',
         'start_date'                    => 'تاريخ البدء',
+        'approval_date'                 => 'تاريخ الاعتماد',
         'notes'                         => 'الملاحظات',
         'thresholds'                    => 'حدود المؤشر',
         'thresholds.*.threshold_level_id' => 'مستوى الحد',

@@ -105,6 +105,7 @@ class IndicatorController extends Controller
                 'measurement_unit_id' => $data['measurement_unit_id'],
                 'reporting_frequency_id' => $data['reporting_frequency_id'],
                 'activity_unit_id' => $data['activity_unit_id'],
+                'approval_date'              => $data['approval_date'],
                 'indicator_name' => $data['indicator_name'],
                 'related_actions' => $data['related_actions'] ?? null,
                 'data_sources' => $data['data_sources'] ?? null,

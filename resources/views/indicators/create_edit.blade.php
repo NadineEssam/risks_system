@@ -71,6 +71,22 @@
             </div>
           @endforeach
 
+          {{-- تاريخ الاعتماد: مرة واحدة عند الإضافة — ثابت بعد كده --}}
+          <div class="col-md-4">
+            <label class="form-label">تاريخ الاعتماد <span class="required-mark">*</span></label>
+            @if($isEdit)
+              <div class="form-control bg-light">{{ $indicator->approval_date?->format('Y-m-d') ?? '—' }}</div>
+              <div class="form-text"><i class="bx bx-lock-alt"></i> لا يمكن تعديل تاريخ الاعتماد بعد التوثيق.</div>
+            @else
+              <input type="date" name="approval_date" max="{{ now()->toDateString() }}"
+                     value="{{ old('approval_date') }}"
+                     class="form-control @error('approval_date') is-invalid @enderror" required>
+              @error('approval_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
+              <div class="form-text">تاريخ الاتفاق مع القطاع على توثيق المؤشر — منه تُحسب تواريخ المتابعة حسب دورية الإبلاغ.</div>
+            @endif
+          </div>
+          <div class="col-md-8"></div>
+
           <div class="col-md-6">
             <label class="form-label">الإجراءات ذات الصلة</label>
             <textarea name="related_actions" rows="2" class="form-control">{{ old('related_actions', $indicator?->related_actions) }}</textarea>

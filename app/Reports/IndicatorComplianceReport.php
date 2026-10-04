@@ -18,7 +18,7 @@ class IndicatorComplianceReport extends BaseReport
 
     public function key(): string { return 'indicator-compliance'; }
     public function label(): string { return 'تقرير مؤشرات الخطر غير المستوفاة في تاريخ الاستحقاق'; }
-    public function description(): string { return 'لكل مؤشر: تواريخ الاستحقاق حسب دورية الإبلاغ، وهل تم القياس في موعده (منتظم / غير منتظم).'; }
+    public function description(): string { return 'لكل مؤشر: تواريخ الاستحقاق من تاريخ الاعتماد حسب دورية الإبلاغ، وهل تم إدخال القياس في موعده (منتظم / غير منتظم).'; }
     public function icon(): string { return 'bx bx-calendar-exclamation'; }
 
     public function filters(): array
@@ -41,14 +41,19 @@ class IndicatorComplianceReport extends BaseReport
 
         foreach ($indicators as $indicator) {
             $months = self::FREQUENCY_MONTHS[trim((string) $indicator->reportingFrequency?->frequency_name)] ?? null;
-            $start  = $indicator->creation_date ?? $indicator->followups->min('measurement_date');
+            // البداية = تاريخ الاعتماد (تاريخ الاتفاق مع القطاع) — المؤشر بدونه مش بيدخل التقرير
+            $start  = $indicator->approval_date;
 
             if (! $months || ! $start) {
                 continue;
             }
 
             $periodStart = Carbon::parse($start)->startOfDay();
-            $dates = $indicator->followups->pluck('measurement_date')->filter()->map(fn ($d) => Carbon::parse($d));
+            // تاريخ إدخال القياس على النظام (ولو مش موجود: تاريخ القياس) — ده مقياس الالتزام
+            $dates = $indicator->followups
+                ->map(fn ($f) => $f->creation_date ?? $f->measurement_date)
+                ->filter()
+                ->map(fn ($d) => Carbon::parse($d));
 
             // كل فترة استحق موعدها (بحد أقصى 120 فترة كحماية)
             for ($i = 0; $i < 120; $i++) {
@@ -61,6 +66,7 @@ class IndicatorComplianceReport extends BaseReport
                 $fulfilled = $dates->contains(fn ($d) => $d->gte($periodStart) && $d->lt($due));
 
                 $rows->push([
+                    'approval'   => $indicator->approval_date,
                     'due'        => $due->copy(),
                     'from'       => $periodStart->copy(),
                     'sectors'    => $this->responsibleSectors($indicator->potentialRiskRegister),
@@ -84,7 +90,7 @@ class IndicatorComplianceReport extends BaseReport
 
     public function headings(): array
     {
-        return ['تاريخ الاستحقاق', 'الفترة', 'القطاعات المسؤولة', 'وصف المؤشر', 'دورية الإبلاغ', 'منتظم / غير منتظم'];
+        return ['تاريخ الاستحقاق', 'الفترة', 'القطاعات المسؤولة', 'وصف المؤشر', 'دورية الإبلاغ', 'تاريخ الاعتماد', 'منتظم / غير منتظم'];
     }
 
     public function map(mixed $row): array
@@ -95,6 +101,7 @@ class IndicatorComplianceReport extends BaseReport
             $row['sectors'],
             $row['indicator'] ?? '—',
             $row['frequency'] ?? '—',
+            $this->date($row['approval']),
             $row['regular'] ? 'منتظم' : 'غير منتظم',
         ];
     }

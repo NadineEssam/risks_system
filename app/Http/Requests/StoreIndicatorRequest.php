@@ -22,6 +22,10 @@ class StoreIndicatorRequest extends FormRequest
             'measurement_unit_id' => ['required', 'integer', 'exists:measurement_units,id'],
             'reporting_frequency_id' => ['required', 'integer', 'exists:reporting_frequencies,id'],
             'activity_unit_id' => ['required', 'integer', 'exists:activity_units,id'],
+                        // تاريخ الاعتماد: مطلوب عند الإضافة — وممنوع تعديله بعد كده
+            'approval_date' => $this->route('indicator')
+                ? ['prohibited']
+                : ['required', 'date', 'before_or_equal:today'],
             'indicator_name' => ['required', 'string'],
             'related_actions' => ['nullable', 'string'],
             'data_sources' => ['nullable', 'string'],

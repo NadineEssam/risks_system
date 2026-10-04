@@ -57,13 +57,13 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label">تاريخ اكتشاف المشكلة <span class="required-mark">*</span></label>
-              <input type="date" name="discovery_date" value="{{ old('discovery_date', now()->format('Y-m-d')) }}" class="form-control @error('discovery_date') is-invalid @enderror" required>
+              <input type="date" name="discovery_date" value="{{ old('discovery_date', $isEdit ? $incident->discovery_date?->format('Y-m-d') : now()->format('Y-m-d')) }}" class="form-control @error('discovery_date') is-invalid @enderror" required>
               @error('discovery_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
             <div class="col-md-6">
               <label class="form-label">تاريخ بداية الحدث</label>
-              <input type="date" name="start_date" value="{{ old('start_date') }}" class="form-control">
+              <input type="date" name="start_date" value="{{ old('start_date', $isEdit && $incident->start_date ? \Illuminate\Support\Carbon::parse($incident->start_date)->format('Y-m-d') : '') }}" class="form-control">
             </div>
 
             <div class="col-md-6">
@@ -71,7 +71,7 @@
               <select name="impact_score" class="form-select @error('impact_score') is-invalid @enderror" required>
                 <option value="">-- اختر درجة الأثر --</option>
                 @for($i = 1; $i <= 5; $i++)
-                  <option value="{{ $i }}" @selected(old('impact_score') == $i)>{{ $i }}</option>
+                  <option value="{{ $i }}" @selected(old('impact_score', $isEdit ? $incident->impact_score : null) == $i)>{{ $i }}</option>
                 @endfor
               </select>
               @error('impact_score')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -84,22 +84,22 @@
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label">وصف الحدث</label>
-              <textarea name="description" rows="2" class="form-control">{{ old('description') }}</textarea>
+              <textarea name="description" rows="2" class="form-control">{{ old('description', $isEdit ? $incident->description : '') }}</textarea>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">الإجراء الحالي</label>
-              <textarea name="current_procedure" rows="2" class="form-control">{{ old('current_procedure') }}</textarea>
+              <textarea name="current_procedure" rows="2" class="form-control">{{ old('current_procedure', $isEdit ? $incident->current_procedure : '') }}</textarea>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">الإجراء المقترح</label>
-              <textarea name="proposed_procedure" rows="2" class="form-control">{{ old('proposed_procedure') }}</textarea>
+              <textarea name="proposed_procedure" rows="2" class="form-control">{{ old('proposed_procedure', $isEdit ? $incident->proposed_procedure : '') }}</textarea>
             </div>
 
             <div class="col-12">
               <label class="form-label">الأثر الفعلي للمشكلة</label>
-              <textarea name="actual_impact_problem" rows="2" class="form-control">{{ old('actual_impact_problem') }}</textarea>
+              <textarea name="actual_impact_problem" rows="2" class="form-control">{{ old('actual_impact_problem', $isEdit ? $incident->actual_impact_problem : '') }}</textarea>
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@
                   <div class="col-md-4">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="responsible_sectors[]" value="{{ $sector->sec_id }}"
-                             id="sector{{ $sector->sec_id }}" @checked(in_array($sector->sec_id, old('responsible_sectors', [])))>
+                             id="sector{{ $sector->sec_id }}" @checked(in_array((int) $sector->sec_id, array_map('intval', $checkedSectors)))>
                       <label class="form-check-label" for="sector{{ $sector->sec_id }}">{{ $sector->sector_ar }}</label>
                     </div>
                   </div>

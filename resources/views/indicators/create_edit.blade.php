@@ -34,7 +34,7 @@
               @foreach($risks as $risk)
                 <option value="{{ $risk->id }}"
                     title="{{ $risk->classification_label }} — {{ $risk->risk_description }}"
-                    @selected(old('potential_risk_register_id') == $risk->id)>
+                    @selected((string) old('potential_risk_register_id', $selectedRiskId ?? '') === (string) $risk->id)>
                     {{ \Illuminate\Support\Str::limit($risk->risk_description, 70) }}@if($risk->eventDetail) ({{ \Illuminate\Support\Str::limit($risk->eventDetail->detail_name, 35) }})@endif
                 </option>
               @endforeach

@@ -58,7 +58,6 @@
       </h5>
       <div class="d-flex gap-2">
         <a href="{{ $exportUrl('xlsx') }}" class="btn btn-sm btn-success"><i class="bx bxs-file-export"></i> Excel</a>
-        <a href="{{ $exportUrl('csv') }}" class="btn btn-sm btn-outline-success"><i class="bx bx-file"></i> CSV</a>
         <a href="{{ $exportUrl('pdf') }}" class="btn btn-sm btn-danger"><i class="bx bxs-file-pdf"></i> PDF</a>
       </div>
     </div>

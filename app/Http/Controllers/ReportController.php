@@ -47,8 +47,7 @@ class ReportController extends Controller
 
         return match ($request->input('format', 'xlsx')) {
             'xlsx'  => Excel::download(new ReportExport($report, $filters), "{$filename}.xlsx"),
-            'csv'   => Excel::download(new ReportExport($report, $filters), "{$filename}.csv", \Maatwebsite\Excel\Excel::CSV,
-                ['Content-Type' => 'text/csv; charset=UTF-8']),
+            
             'pdf'   => $this->exportPdf($report, $filters, $filename),
             default => abort(422, 'صيغة التصدير غير مدعومة.'),
         };

@@ -13,14 +13,20 @@
   </style>
 </head>
 <body>
-  <h2>{{ $report->label() }}</h2>
-  <div class="meta">
-    جهاز تنمية المشروعات المتوسطة والصغيرة ومتناهية الصغر — نظام إدارة المخاطر التشغيلية
-    — تاريخ الطباعة: {{ now()->format('Y-m-d H:i') }} — عدد السجلات: {{ $results->count() }}
-    @if(! empty($filters['date_from']) || ! empty($filters['date_to']))
-      — الفترة: {{ $filters['date_from'] ?? '...' }} إلى {{ $filters['date_to'] ?? '...' }}
-    @endif
+  {{-- الهيدر: اللوجو وتحته اسم الجهاز والنظام --}}
+  <div style="text-align:center; margin-bottom:10px;">
+    <img src="{{ public_path('msmeda_logo_web.png') }}" style="height:60px;">
+    <div style="font-size:11px; color:#012970; margin-top:4px;">
+      جهاز تنمية المشروعات المتوسطة والصغيرة ومتناهية الصغر — نظام إدارة المخاطر التشغيلية
+    </div>
   </div>
+
+  <h2 style="text-align:center;">{{ $report->label() }}</h2>
+  @if(! empty($filters['date_from']) || ! empty($filters['date_to']))
+    <div class="meta" style="text-align:center;">
+      الفترة: {{ $filters['date_from'] ?? '...' }} إلى {{ $filters['date_to'] ?? '...' }}
+    </div>
+  @endif
 
   <table>
     <thead>
@@ -34,5 +40,10 @@
       @endforelse
     </tbody>
   </table>
+
+  {{-- تحت التقرير: تاريخ الطباعة + عدد السجلات --}}
+  <div class="meta" style="margin-top:10px;">
+    تاريخ الطباعة: {{ now()->format('d-m-Y H:i') }} — عدد السجلات: {{ $results->count() }}
+  </div>
 </body>
 </html>

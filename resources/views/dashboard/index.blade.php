@@ -5,59 +5,58 @@
 
 @section('content')
 <style>
-  /* ===== نفس تصميم لوحة الشكاوى (محصور جوه .risk-dashboard) ===== */
+  /* ===== تصميم رسمي كلاسيكي (محصور جوه .risk-dashboard) ===== */
   .risk-dashboard {
-    --primary: #4f8cff; --success: #19c37d; --warning: #ffb547; --danger: #ff5d73;
-    --dark: #1f2937; --gray: #6b7280; --border: #edf1f7; --bg: #f4f7fc;
-    background: var(--bg); padding: 24px; border-radius: 24px;
+    --navy: #012970; --steel: #1e3a5f; --blue: #4a6fa5; --teal: #2a9d8f;
+    --gold: #b8860b; --burgundy: #8b2c2c; --gray: #6c757d; --border: #dee4ec; --bg: #f6f8fb;
   }
   .risk-dashboard, .risk-dashboard * { font-family: 'Cairo', 'Tahoma', sans-serif; }
-  .risk-dashboard .bi, .risk-dashboard .bx { font-family: inherit; }
   .risk-dashboard i.bi { font-family: 'bootstrap-icons' !important; }
 
   .risk-dashboard .card {
-    border: none !important; border-radius: 24px !important; overflow: hidden; background: #fff;
-    box-shadow: 0 10px 40px rgba(15, 23, 42, .05); transition: .3s ease;
+    border: 1px solid var(--border) !important; border-radius: 8px !important;
+    box-shadow: 0 1px 3px rgba(1, 41, 112, .06); background: #fff;
   }
-  .risk-dashboard .card:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(15, 23, 42, .08); }
-  .risk-dashboard .card-title { font-size: 15px; font-weight: 700; color: var(--gray); padding: 0; }
+  .risk-dashboard .card-title { font-size: 14px; font-weight: 600; color: var(--gray); padding: 0; }
 
-  .risk-dashboard .form-label { font-size: 13px; color: var(--gray); }
-  .risk-dashboard .form-control-lg { border-radius: 12px; border: 1px solid #e5e7eb; font-size: 15px; }
+  .risk-dashboard .form-label { font-size: 13px; color: var(--steel); }
+  .risk-dashboard .form-control-lg { border-radius: 6px; border: 1px solid var(--border); font-size: 15px; }
+  .risk-dashboard .btn-lg { border-radius: 6px; }
 
-  /* KPI grid (5 كروت) */
-  .risk-dashboard .kpi-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.5rem; }
+  /* KPI: خط علوي ملون + أيقونة بخلفية فاتحة */
+  .risk-dashboard .kpi-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
   @media (max-width: 1200px) { .risk-dashboard .kpi-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 768px)  { .risk-dashboard .kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 480px)  { .risk-dashboard .kpi-row { grid-template-columns: 1fr; } }
-  .risk-dashboard .kpi-card .card-body { padding: 24px; }
+  .risk-dashboard .kpi-card { border-top: 4px solid var(--kpi-color) !important; }
+  .risk-dashboard .kpi-card .card-body { padding: 18px 20px; }
 
   .risk-dashboard .card-icon {
-    width: 65px; height: 65px; min-width: 65px; border-radius: 18px; display: flex;
-    align-items: center; justify-content: center; font-size: 26px; color: #fff;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
+    width: 48px; height: 48px; min-width: 48px; border-radius: 8px; display: flex;
+    align-items: center; justify-content: center; font-size: 22px;
+    color: var(--kpi-color); background: var(--kpi-bg);
   }
-  .bg-primary-gradient { background: linear-gradient(135deg, #5b8cff, #7c4dff); }
-  .bg-success-gradient { background: linear-gradient(135deg, #00c896, #00e5a8); }
-  .bg-warning-gradient { background: linear-gradient(135deg, #ffb547, #ffcc73); }
-  .bg-danger-gradient  { background: linear-gradient(135deg, #ff5d73, #ff8a65); }
-  .bg-info-gradient    { background: linear-gradient(135deg, #00b4d8, #48cae4); }
+  .risk-dashboard .bg-primary-gradient { --kpi-color: #012970; --kpi-bg: #e8edf6; }
+  .risk-dashboard .bg-info-gradient    { --kpi-color: #4a6fa5; --kpi-bg: #edf2f9; }
+  .risk-dashboard .bg-warning-gradient { --kpi-color: #b8860b; --kpi-bg: #f9f3e3; }
+  .risk-dashboard .bg-success-gradient { --kpi-color: #2a9d8f; --kpi-bg: #e6f4f2; }
+  .risk-dashboard .bg-danger-gradient  { --kpi-color: #8b2c2c; --kpi-bg: #f6e9e9; }
 
-  .risk-dashboard .counter { font-size: 32px; font-weight: 800; color: var(--dark); margin: 0; }
-  .risk-dashboard .counter-label { color: #9ca3af; font-size: 13px; font-weight: 500; }
+  .risk-dashboard .counter { font-size: 28px; font-weight: 700; color: var(--navy); margin: 0; }
+  .risk-dashboard .counter-label { color: #8a94a6; font-size: 12px; }
 
+  /* رؤوس الأقسام */
   .risk-dashboard .custom-header {
-    padding: 18px 22px; font-size: 16px; font-weight: 700; border-bottom: 1px solid var(--border);
-    background: #fff; color: var(--dark); display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; font-size: 15px; font-weight: 700; color: var(--navy);
+    background: #fafbfd; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
   }
-  .risk-dashboard .chart-box { padding: 10px; }
+  .risk-dashboard .custom-header i { color: var(--blue); font-size: 17px; }
+  .risk-dashboard .chart-box { padding: 12px; }
+  .risk-dashboard h4.fw-bold { font-size: 16px; color: var(--navy); }
   .risk-dashboard .round-icon {
-    width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: 22px;
-  }
-  @media (max-width: 768px) {
-    .risk-dashboard { padding: 15px; }
-    .risk-dashboard .counter { font-size: 26px; }
+    width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 19px;
   }
 </style>
 
@@ -95,7 +94,7 @@
   @endphp
   <div class="kpi-row mb-4">
     @foreach($kpiCards as [$title, $value, $label, $gradient, $icon])
-      <div class="card kpi-card h-100 mb-0">
+      <div class="card kpi-card h-100 mb-0 {{ $gradient }}">
         <div class="card-body d-flex align-items-center justify-content-between">
           <div>
             <div class="card-title mb-2">{{ $title }}</div>
@@ -141,9 +140,9 @@
 
   {{-- ===== الاتجاه الشهري / القطاعات / الإدارات ===== --}}
   @foreach([
-    ['trendChart',      '📅 الاتجاه الشهري للأحداث',     'عدد الأحداث المكتشفة في كل شهر',     '#eef2ff', '#6366f1', 'bi-calendar3'],
-    ['sectorChart',     '🏛️ الأحداث حسب القطاعات',       'توزيع الأحداث على القطاعات',          '#fce7f3', '#ec4899', 'bi-diagram-3'],
-    ['departmentChart', '🏢 الأحداث حسب الإدارات',        'أعلى 15 إدارة في عدد الأحداث',        '#eef4ff', '#5b8cff', 'bi-building'],
+        ['trendChart',      'الاتجاه الشهري للأحداث',     'عدد الأحداث المكتشفة في كل شهر',     '#e8edf6', '#012970', 'bi-calendar3'],
+    ['sectorChart',     'الأحداث حسب القطاعات',       'توزيع الأحداث على القطاعات',          '#e8edf6', '#012970', 'bi-diagram-3'],
+    ['departmentChart', 'الأحداث حسب الإدارات',        'أعلى 15 إدارة في عدد الأحداث',        '#e8edf6', '#012970', 'bi-building'],
   ] as [$id, $title, $subtitle, $bg, $color, $icon])
     <div class="card mb-4">
       <div class="card-body p-4">
@@ -249,9 +248,10 @@
     }).render();
 
     // 🎯 درجة الخطر — 📌 مستويات المؤشرات — 📡 حالة الحل
-    donut('#degreeChart', data.degree, ['#19c37d', '#ffb547', '#ff5d73']);
-    donut('#levelChart', data.level, ['#19c37d', '#ffb547', '#ff5d73', '#7c4dff']);
-    donut('#resolutionChart', data.resolution, ['#14b8a6', '#5b8cff', '#ffb547', '#ff5d73', '#7c4dff', '#00d4ff']);
+        // ألوان رسمية: أخضر مؤسسي / ذهبي / عنابي للمستويات — كحلي ودرجاته للباقي
+    donut('#degreeChart', data.degree, ['#2a9d8f', '#b8860b', '#8b2c2c']);
+    donut('#levelChart', data.level, ['#2a9d8f', '#b8860b', '#8b2c2c', '#6c757d']);
+    donut('#resolutionChart', data.resolution, ['#012970', '#4a6fa5', '#2a9d8f', '#b8860b', '#8b2c2c', '#6c757d']);
 
     // 📅 الاتجاه الشهري (area بنفس "نوع النشاط")
     new ApexCharts(document.querySelector('#trendChart'), {
@@ -266,8 +266,8 @@
     }).render();
 
     // 🏛️ القطاعات — 🏢 الإدارات
-    hbar('#sectorChart', data.sector, '#14b8a6', 420);
-    hbar('#departmentChart', data.department, '#5b8cff', 480);
+    hbar('#sectorChart', data.sector, '#012970', 420);
+    hbar('#departmentChart', data.department, '#4a6fa5', 480);
   });
 </script>
 @endpush

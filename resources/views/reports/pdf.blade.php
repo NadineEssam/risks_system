@@ -43,7 +43,8 @@
 
   {{-- تحت التقرير: تاريخ الطباعة + عدد السجلات --}}
   <div class="meta" style="margin-top:10px;">
-    تاريخ الطباعة: {{ now()->format('d-m-Y H:i') }} — عدد السجلات: {{ $results->count() }}
+       تاريخ الطباعة: {{ now()->format('Y-m-d H:i') }} — عدد السجلات: {{ $results->count() }}
+    — طُبع بواسطة: {{ auth()->user()?->name ?? '—' }}
   </div>
 </body>
 </html>

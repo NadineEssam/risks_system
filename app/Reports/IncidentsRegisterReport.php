@@ -28,28 +28,6 @@ class IncidentsRegisterReport extends BaseReport
         ]);
     }
 
-    /** الفلاتر المشتركة + حالة الحدث + آخر متابعة */
-    public function filters(): array
-    {
-        return array_merge(parent::filters(), [
-            ['name' => 'resolution_status_id', 'label' => 'حالة الحدث', 'type' => 'select', 'required' => false,
-                'options' => ResolutionStatus::active()->pluck('status_name', 'id')->all()],
-            ['name' => 'followup_status', 'label' => 'آخر متابعة', 'type' => 'select', 'required' => false,
-                'options' => ['new' => 'جديد (بدون متابعة)'] + FollowupStatus::active()->pluck('status_name', 'status_name')->all()],
-        ]);
-    }
-
-    /** الفلاتر المشتركة + حالة الحدث + آخر متابعة */
-    public function filters(): array
-    {
-        return array_merge(parent::filters(), [
-            ['name' => 'resolution_status_id', 'label' => 'حالة الحدث', 'type' => 'select', 'required' => false,
-                'options' => ResolutionStatus::active()->pluck('status_name', 'id')->all()],
-            ['name' => 'followup_status', 'label' => 'آخر متابعة', 'type' => 'select', 'required' => false,
-                'options' => ['new' => 'جديد (بدون متابعة)'] + FollowupStatus::active()->pluck('status_name', 'status_name')->all()],
-        ]);
-    }
-
     public function generate(array $filters): Collection
     {
         $query = Incident::active()->with([

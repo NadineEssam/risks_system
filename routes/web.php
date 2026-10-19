@@ -30,7 +30,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::redirect('/', '/dashboard');
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');

@@ -11,4 +11,4 @@ services:
       - "127.0.0.1:9002:9000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    command: sh -c " mkdir -p /var/www/vendor/mpdf/mpdf/tmp && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/vendor/mpdf/mpdf/tmp && chmod -R 775 /var/www/storage /var/www/bootstrap/cache /var/www/vendor/mpdf/mpdf/tmp && php-fpm"
+    command: sh -c " mkdir -p /var/www/vendor/mpdf/mpdf/tmp && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/vendor/mpdf/mpdf/tmp && chmod -R 775 /var/www/storage /var/www/bootstrap/cache /var/www/vendor/mpdf/mpdf/tmp && php-fpm "

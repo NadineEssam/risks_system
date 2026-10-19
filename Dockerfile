@@ -44,6 +44,7 @@ RUN docker-php-ext-configure gd \
         --with-jpeg \
     && docker-php-ext-configure ldap \
     && docker-php-ext-install \
+        pdo_mysql \
         mbstring \
         zip \
         exif \

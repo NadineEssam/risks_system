@@ -27,6 +27,7 @@
           <div class="col-md-3"><strong>الطبيعة:</strong> {{ $indicator->nature?->nature_name }}</div>
           <div class="col-md-3"><strong>وحدة القياس:</strong> {{ $indicator->measurementUnit?->unit_name }}</div>
           <div class="col-md-3"><strong>دورية الإبلاغ:</strong> {{ $indicator->reportingFrequency?->frequency_name }}</div>
+          <div class="col-md-3"><strong>تاريخ الاعتماد:</strong> {{ $indicator->approval_date?->format('Y-m-d') ?? '—' }}</div>
           <div class="col-md-3"><strong>وحدة النشاط:</strong> {{ $indicator->activityUnit?->unit_name }}</div>
         </div>
 
@@ -74,8 +75,10 @@
             @endforelse
           </tbody>
         </table>
-        @can('create-indicator-followups')
-          <a href="{{ route('indicator-followups.create') }}" class="btn btn-sm btn-outline-primary">تسجيل متابعة جديدة</a>
+        @can('indicator-followups.create')
+          <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary">
+            <i class="bx bx-line-chart"></i> سجل قياسات المؤشر
+          </a>
         @endcan
       </div>
     </div>

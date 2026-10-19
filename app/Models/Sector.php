@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Sector extends Model
 {
+    protected $connection = 'new_po';
+
     protected $table = 'sectors';
 
     protected $primaryKey = 'sec_id';

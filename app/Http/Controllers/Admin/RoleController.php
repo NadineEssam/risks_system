@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\DataTables\RolesDataTable;
 
 /**
  * إدارة الأدوار المخصصة ومصفوفة صلاحياتها — بنفس فكرة "نظام خدمة
@@ -17,11 +18,9 @@ use Spatie\Permission\Models\Role;
  */
 class RoleController extends Controller
 {
-    public function index(): View
+    public function index(RolesDataTable $dataTable)
     {
-        $roles = Role::withCount('permissions')->orderBy('name')->get();
-
-        return view('admin.roles.index', compact('roles'));
+        return $dataTable->render('admin.roles.index');
     }
 
     public function create(): View
@@ -54,19 +53,27 @@ class RoleController extends Controller
         return redirect()->route('admin.roles.index')->with('success', 'تم تحديث بيانات الدور بنجاح.');
     }
 
-    public function destroy(Role $role): RedirectResponse
+    // يرد JSON لو الطلب AJAX (زر 🗑 في الجدول)، وإلا redirect عادي
+    public function destroy(Request $request, Role $role)
     {
-        if ($role->users()->exists()) {
-            return back()->with('error', 'لا يمكن حذف هذا الدور لأنه مُسنَد لمستخدم واحد أو أكثر.');
-        }
+        $error = match (true) {
+            $role->name === 'super-admin' => 'لا يمكن حذف دور مدير النظام.',
+            $role->users()->exists()      => 'لا يمكن حذف هذا الدور لأنه مُسنَد لمستخدم واحد أو أكثر.',
+            default                       => null,
+        };
 
-        if ($role->name === 'super-admin') {
-            return back()->with('error', 'لا يمكن حذف دور مدير النظام.');
+        if ($error) {
+            return $request->expectsJson()
+                ? response()->json(['message' => $error], 422)
+                : back()->with('error', $error);
         }
 
         $role->delete();
+        $message = 'تم حذف الدور بنجاح.';
 
-        return back()->with('success', 'تم حذف الدور بنجاح.');
+        return $request->expectsJson()
+            ? response()->json(['message' => $message])
+            : back()->with('success', $message);
     }
 
     protected function validateRole(Request $request, ?Role $role = null): array

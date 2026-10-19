@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 // CAUSE_DETAIL — تصنيف الأسباب L4 (السبب الجذري)، وهو المستوى الذي يُربط

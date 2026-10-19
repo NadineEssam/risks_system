@@ -1251,3 +1251,632 @@ Bindings      : [1]
 #62 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://xampp//htdocs...')
 #63 {main}
 "} 
+<<<<<<< HEAD
+[2026-10-19 11:28:25] local.ERROR: Error Code    : 942
+Error Message : ORA-00942: table or view does not exist
+Position      : 29
+Statement     : select * from (select * from "SESSIONS" where "ID" = :p0) where rownum = 1
+Bindings      : [2JuHhcEgk6qc5iifxjZqGRDdEVDr5UUkv76PZkxc]
+ (Connection: oracle, SQL: select * from (select * from "SESSIONS" where "ID" = 2JuHhcEgk6qc5iifxjZqGRDdEVDr5UUkv76PZkxc) where rownum = 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 942): Error Code    : 942
+
+Error Message : ORA-00942: table or view does not exist
+
+Position      : 29
+
+Statement     : select * from (select * from \"SESSIONS\" where \"ID\" = :p0) where rownum = 1
+
+Bindings      : [2JuHhcEgk6qc5iifxjZqGRDdEVDr5UUkv76PZkxc]
+
+ (Connection: oracle, SQL: select * from (select * from \"SESSIONS\" where \"ID\" = 2JuHhcEgk6qc5iifxjZqGRDdEVDr5UUkv76PZkxc) where rownum = 1) at D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from (...', Array, Object(Closure))
+#1 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from (...', Array, Object(Closure))
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-oci8/src/Oci8/Query/OracleBuilder.php(159): Illuminate/Database/Connection->select('select * from (...', Array, false)
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Yajra/Oci8/Query/OracleBuilder->runSelect()
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Query/Builder->get(Array)
+#7 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3013): Illuminate/Database/Query/Builder->first(Array)
+#8 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php(97): Illuminate/Database/Query/Builder->find('2JuHhcEgk6qc5ii...')
+#9 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(117): Illuminate/Session/DatabaseSessionHandler->read('2JuHhcEgk6qc5ii...')
+#10 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(105): Illuminate/Session/Store->readFromHandler()
+#11 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(89): Illuminate/Session/Store->loadSession()
+#12 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(147): Illuminate/Session/Store->start()
+#13 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Session/Middleware/StartSession->Illuminate/Session/Middleware/{closure}(Object(Illuminate/Session/Store))
+#14 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(144): tap(Object(Illuminate/Session/Store), Object(Closure))
+#15 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(116): Illuminate/Session/Middleware/StartSession->startSession(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store))
+#16 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate/Session/Middleware/StartSession->handleStatefulRequest(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store), Object(Closure))
+#17 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Session/Middleware/StartSession->handle(Object(Illuminate/Http/Request), Object(Closure))
+#18 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#19 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(75): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/EncryptCookies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#22 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#23 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#24 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#25 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#26 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#27 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#28 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#29 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#32 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#33 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#41 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#42 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#46 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#47 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#48 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#49 D:/xampp/htdocs/msmeda/risks_system/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#50 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://xampp//htdocs...')
+#51 {main}
+
+[previous exception] [object] (Yajra\\Pdo\\Oci8\\Exceptions\\Oci8Exception(code: 942): Error Code    : 942
+
+Error Message : ORA-00942: table or view does not exist
+
+Position      : 29
+
+Statement     : select * from (select * from \"SESSIONS\" where \"ID\" = :p0) where rownum = 1
+
+Bindings      : [2JuHhcEgk6qc5iifxjZqGRDdEVDr5UUkv76PZkxc]
+
+ at D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-pdo-via-oci8/src/Pdo/Oci8/Statement.php:798)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(412): Yajra/Pdo/Oci8/Statement->execute()
+#1 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/Connection->Illuminate/Database/{closure}('select * from (...', Array)
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from (...', Array, Object(Closure))
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from (...', Array, Object(Closure))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-oci8/src/Oci8/Query/OracleBuilder.php(159): Illuminate/Database/Connection->select('select * from (...', Array, false)
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Yajra/Oci8/Query/OracleBuilder->runSelect()
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#7 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#8 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Query/Builder->get(Array)
+#9 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3013): Illuminate/Database/Query/Builder->first(Array)
+#10 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php(97): Illuminate/Database/Query/Builder->find('2JuHhcEgk6qc5ii...')
+#11 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(117): Illuminate/Session/DatabaseSessionHandler->read('2JuHhcEgk6qc5ii...')
+#12 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(105): Illuminate/Session/Store->readFromHandler()
+#13 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(89): Illuminate/Session/Store->loadSession()
+#14 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(147): Illuminate/Session/Store->start()
+#15 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Session/Middleware/StartSession->Illuminate/Session/Middleware/{closure}(Object(Illuminate/Session/Store))
+#16 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(144): tap(Object(Illuminate/Session/Store), Object(Closure))
+#17 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(116): Illuminate/Session/Middleware/StartSession->startSession(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store))
+#18 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate/Session/Middleware/StartSession->handleStatefulRequest(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store), Object(Closure))
+#19 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Session/Middleware/StartSession->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse->handle(Object(Illuminate/Http/Request), Object(Closure))
+#22 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(75): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#23 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/EncryptCookies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#24 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#25 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#26 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#27 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#28 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#29 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#30 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#31 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#35 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#41 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#42 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#46 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#47 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#48 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#49 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#50 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#51 D:/xampp/htdocs/msmeda/risks_system/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#52 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://xampp//htdocs...')
+#53 {main}
+"} 
+[2026-10-19 11:28:39] local.ERROR: Error Code    : 942
+Error Message : ORA-00942: table or view does not exist
+Position      : 29
+Statement     : select * from (select * from "SESSIONS" where "ID" = :p0) where rownum = 1
+Bindings      : [wOUmdWGRAQ3KYQq7OF8CzLoAeW8Up05Mn9WcJQ9Q]
+ (Connection: oracle, SQL: select * from (select * from "SESSIONS" where "ID" = wOUmdWGRAQ3KYQq7OF8CzLoAeW8Up05Mn9WcJQ9Q) where rownum = 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 942): Error Code    : 942
+
+Error Message : ORA-00942: table or view does not exist
+
+Position      : 29
+
+Statement     : select * from (select * from \"SESSIONS\" where \"ID\" = :p0) where rownum = 1
+
+Bindings      : [wOUmdWGRAQ3KYQq7OF8CzLoAeW8Up05Mn9WcJQ9Q]
+
+ (Connection: oracle, SQL: select * from (select * from \"SESSIONS\" where \"ID\" = wOUmdWGRAQ3KYQq7OF8CzLoAeW8Up05Mn9WcJQ9Q) where rownum = 1) at D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from (...', Array, Object(Closure))
+#1 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from (...', Array, Object(Closure))
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-oci8/src/Oci8/Query/OracleBuilder.php(159): Illuminate/Database/Connection->select('select * from (...', Array, false)
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Yajra/Oci8/Query/OracleBuilder->runSelect()
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Query/Builder->get(Array)
+#7 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3013): Illuminate/Database/Query/Builder->first(Array)
+#8 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php(97): Illuminate/Database/Query/Builder->find('wOUmdWGRAQ3KYQq...')
+#9 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(117): Illuminate/Session/DatabaseSessionHandler->read('wOUmdWGRAQ3KYQq...')
+#10 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(105): Illuminate/Session/Store->readFromHandler()
+#11 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(89): Illuminate/Session/Store->loadSession()
+#12 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(147): Illuminate/Session/Store->start()
+#13 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Session/Middleware/StartSession->Illuminate/Session/Middleware/{closure}(Object(Illuminate/Session/Store))
+#14 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(144): tap(Object(Illuminate/Session/Store), Object(Closure))
+#15 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(116): Illuminate/Session/Middleware/StartSession->startSession(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store))
+#16 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate/Session/Middleware/StartSession->handleStatefulRequest(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store), Object(Closure))
+#17 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Session/Middleware/StartSession->handle(Object(Illuminate/Http/Request), Object(Closure))
+#18 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#19 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(75): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/EncryptCookies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#22 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#23 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#24 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#25 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#26 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#27 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#28 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#29 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#32 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#33 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#41 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#42 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#46 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#47 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#48 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#49 D:/xampp/htdocs/msmeda/risks_system/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#50 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://xampp//htdocs...')
+#51 {main}
+
+[previous exception] [object] (Yajra\\Pdo\\Oci8\\Exceptions\\Oci8Exception(code: 942): Error Code    : 942
+
+Error Message : ORA-00942: table or view does not exist
+
+Position      : 29
+
+Statement     : select * from (select * from \"SESSIONS\" where \"ID\" = :p0) where rownum = 1
+
+Bindings      : [wOUmdWGRAQ3KYQq7OF8CzLoAeW8Up05Mn9WcJQ9Q]
+
+ at D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-pdo-via-oci8/src/Pdo/Oci8/Statement.php:798)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(412): Yajra/Pdo/Oci8/Statement->execute()
+#1 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/Connection->Illuminate/Database/{closure}('select * from (...', Array)
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from (...', Array, Object(Closure))
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from (...', Array, Object(Closure))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-oci8/src/Oci8/Query/OracleBuilder.php(159): Illuminate/Database/Connection->select('select * from (...', Array, false)
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Yajra/Oci8/Query/OracleBuilder->runSelect()
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#7 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#8 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Query/Builder->get(Array)
+#9 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3013): Illuminate/Database/Query/Builder->first(Array)
+#10 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php(97): Illuminate/Database/Query/Builder->find('wOUmdWGRAQ3KYQq...')
+#11 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(117): Illuminate/Session/DatabaseSessionHandler->read('wOUmdWGRAQ3KYQq...')
+#12 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(105): Illuminate/Session/Store->readFromHandler()
+#13 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(89): Illuminate/Session/Store->loadSession()
+#14 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(147): Illuminate/Session/Store->start()
+#15 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Session/Middleware/StartSession->Illuminate/Session/Middleware/{closure}(Object(Illuminate/Session/Store))
+#16 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(144): tap(Object(Illuminate/Session/Store), Object(Closure))
+#17 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(116): Illuminate/Session/Middleware/StartSession->startSession(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store))
+#18 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate/Session/Middleware/StartSession->handleStatefulRequest(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store), Object(Closure))
+#19 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Session/Middleware/StartSession->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse->handle(Object(Illuminate/Http/Request), Object(Closure))
+#22 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(75): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#23 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/EncryptCookies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#24 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#25 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#26 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#27 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#28 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#29 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#30 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#31 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#35 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#41 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#42 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#46 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#47 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#48 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#49 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#50 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#51 D:/xampp/htdocs/msmeda/risks_system/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#52 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://xampp//htdocs...')
+#53 {main}
+"} 
+[2026-10-19 11:28:53] local.ERROR: Error Code    : 942
+Error Message : ORA-00942: table or view does not exist
+Position      : 29
+Statement     : select * from (select * from "SESSIONS" where "ID" = :p0) where rownum = 1
+Bindings      : [gN4csQ8g9v0VbGZ5riED9cBLSF5FYkxUeMSSMDNj]
+ (Connection: oracle, SQL: select * from (select * from "SESSIONS" where "ID" = gN4csQ8g9v0VbGZ5riED9cBLSF5FYkxUeMSSMDNj) where rownum = 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 942): Error Code    : 942
+
+Error Message : ORA-00942: table or view does not exist
+
+Position      : 29
+
+Statement     : select * from (select * from \"SESSIONS\" where \"ID\" = :p0) where rownum = 1
+
+Bindings      : [gN4csQ8g9v0VbGZ5riED9cBLSF5FYkxUeMSSMDNj]
+
+ (Connection: oracle, SQL: select * from (select * from \"SESSIONS\" where \"ID\" = gN4csQ8g9v0VbGZ5riED9cBLSF5FYkxUeMSSMDNj) where rownum = 1) at D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from (...', Array, Object(Closure))
+#1 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from (...', Array, Object(Closure))
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-oci8/src/Oci8/Query/OracleBuilder.php(159): Illuminate/Database/Connection->select('select * from (...', Array, false)
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Yajra/Oci8/Query/OracleBuilder->runSelect()
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Query/Builder->get(Array)
+#7 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3013): Illuminate/Database/Query/Builder->first(Array)
+#8 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php(97): Illuminate/Database/Query/Builder->find('gN4csQ8g9v0VbGZ...')
+#9 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(117): Illuminate/Session/DatabaseSessionHandler->read('gN4csQ8g9v0VbGZ...')
+#10 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(105): Illuminate/Session/Store->readFromHandler()
+#11 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(89): Illuminate/Session/Store->loadSession()
+#12 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(147): Illuminate/Session/Store->start()
+#13 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Session/Middleware/StartSession->Illuminate/Session/Middleware/{closure}(Object(Illuminate/Session/Store))
+#14 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(144): tap(Object(Illuminate/Session/Store), Object(Closure))
+#15 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(116): Illuminate/Session/Middleware/StartSession->startSession(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store))
+#16 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate/Session/Middleware/StartSession->handleStatefulRequest(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store), Object(Closure))
+#17 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Session/Middleware/StartSession->handle(Object(Illuminate/Http/Request), Object(Closure))
+#18 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#19 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(75): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/EncryptCookies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#22 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#23 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#24 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#25 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#26 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#27 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#28 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#29 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#30 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#32 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#33 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#35 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#36 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#41 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#42 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#46 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#47 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#48 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#49 D:/xampp/htdocs/msmeda/risks_system/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#50 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://xampp//htdocs...')
+#51 {main}
+
+[previous exception] [object] (Yajra\\Pdo\\Oci8\\Exceptions\\Oci8Exception(code: 942): Error Code    : 942
+
+Error Message : ORA-00942: table or view does not exist
+
+Position      : 29
+
+Statement     : select * from (select * from \"SESSIONS\" where \"ID\" = :p0) where rownum = 1
+
+Bindings      : [gN4csQ8g9v0VbGZ5riED9cBLSF5FYkxUeMSSMDNj]
+
+ at D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-pdo-via-oci8/src/Pdo/Oci8/Statement.php:798)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(412): Yajra/Pdo/Oci8/Statement->execute()
+#1 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/Connection->Illuminate/Database/{closure}('select * from (...', Array)
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('select * from (...', Array, Object(Closure))
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate/Database/Connection->run('select * from (...', Array, Object(Closure))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/yajra/laravel-oci8/src/Oci8/Query/OracleBuilder.php(159): Illuminate/Database/Connection->select('select * from (...', Array, false)
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3091): Yajra/Oci8/Query/OracleBuilder->runSelect()
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3676): Illuminate/Database/Query/Builder->Illuminate/Database/Query/{closure}()
+#7 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3090): Illuminate/Database/Query/Builder->onceWithColumns(Array, Object(Closure))
+#8 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(343): Illuminate/Database/Query/Builder->get(Array)
+#9 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3013): Illuminate/Database/Query/Builder->first(Array)
+#10 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php(97): Illuminate/Database/Query/Builder->find('gN4csQ8g9v0VbGZ...')
+#11 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(117): Illuminate/Session/DatabaseSessionHandler->read('gN4csQ8g9v0VbGZ...')
+#12 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(105): Illuminate/Session/Store->readFromHandler()
+#13 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Store.php(89): Illuminate/Session/Store->loadSession()
+#14 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(147): Illuminate/Session/Store->start()
+#15 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Support/helpers.php(399): Illuminate/Session/Middleware/StartSession->Illuminate/Session/Middleware/{closure}(Object(Illuminate/Session/Store))
+#16 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(144): tap(Object(Illuminate/Session/Store), Object(Closure))
+#17 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(116): Illuminate/Session/Middleware/StartSession->startSession(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store))
+#18 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate/Session/Middleware/StartSession->handleStatefulRequest(Object(Illuminate/Http/Request), Object(Illuminate/Session/Store), Object(Closure))
+#19 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Session/Middleware/StartSession->handle(Object(Illuminate/Http/Request), Object(Closure))
+#20 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#21 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse->handle(Object(Illuminate/Http/Request), Object(Closure))
+#22 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(75): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#23 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Cookie/Middleware/EncryptCookies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#24 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#25 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#26 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#27 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#28 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#29 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#30 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(170): Illuminate/Foundation/Http/Kernel->Illuminate/Foundation/Http/{closure}(Object(Illuminate/Http/Request))
+#31 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#32 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#35 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#37 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#38 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#39 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#40 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#41 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#42 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#43 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#44 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#45 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#46 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(209): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#47 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(127): Illuminate/Pipeline/Pipeline->Illuminate/Pipeline/{closure}(Object(Illuminate/Http/Request))
+#48 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#49 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#50 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#51 D:/xampp/htdocs/msmeda/risks_system/public/index.php(20): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#52 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://xampp//htdocs...')
+#53 {main}
+=======
+[2026-09-23 12:07:15] local.ERROR: Error Code    : 2443
+Error Message : ORA-02443: Cannot drop constraint  - nonexistent constraint
+Help: https://docs.oracle.com/error-help/db/ora-02443/
+Position      : 42
+Statement     : alter table "DEPARTMENTS" drop constraint departments_sector_code_foreig
+Bindings      : []
+ (Connection: oracle, SQL: alter table "DEPARTMENTS" drop constraint departments_sector_code_foreig) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2443): Error Code    : 2443
+
+Error Message : ORA-02443: Cannot drop constraint  - nonexistent constraint
+Help: https://docs.oracle.com/error-help/db/ora-02443/
+
+Position      : 42
+
+Statement     : alter table \"DEPARTMENTS\" drop constraint departments_sector_code_foreig
+
+Bindings      : []
+
+ (Connection: oracle, SQL: alter table \"DEPARTMENTS\" drop constraint departments_sector_code_foreig) at C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('alter table \"DE...', Array, Object(Closure))
+#1 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Connection.php(560): Illuminate/Database/Connection->run('alter table \"DE...', Array, Object(Closure))
+#2 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Schema/Blueprint.php(118): Illuminate/Database/Connection->statement('alter table \"DE...')
+#3 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Schema/Builder.php(564): Illuminate/Database/Schema/Blueprint->build(Object(Yajra/Oci8/Oci8Connection), Object(Yajra/Oci8/Schema/Grammars/OracleGrammar))
+#4 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/yajra/laravel-oci8/src/Oci8/Schema/OracleBuilder.php(88): Illuminate/Database/Schema/Builder->build(Object(Yajra/Oci8/Schema/OracleBlueprint))
+#5 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(361): Yajra/Oci8/Schema/OracleBuilder->table('departments', Object(Closure))
+#6 C:/xampp/htdocs/riskmanagementsystem/risk-management/database/migrations/2025_02_01_000050_use_new_po_for_sectors_departments.php(31): Illuminate/Support/Facades/Facade::__callStatic('table', Array)
+#7 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(507): Illuminate/Database/Migrations/Migration@anonymous->up()
+#8 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(432): Illuminate/Database/Migrations/Migrator->runMethod(Object(Yajra/Oci8/Oci8Connection), Object(Illuminate/Database/Migrations/Migration@anonymous), 'up')
+#9 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php(32): Illuminate/Database/Migrations/Migrator->Illuminate/Database/Migrations/{closure}(Object(Yajra/Oci8/Oci8Connection))
+#10 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(440): Illuminate/Database/Connection->transaction(Object(Closure))
+#11 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(244): Illuminate/Database/Migrations/Migrator->runMigration(Object(Illuminate/Database/Migrations/Migration@anonymous), 'up')
+#12 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(40): Illuminate/Database/Migrations/Migrator->Illuminate/Database/Migrations/{closure}()
+#13 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(798): Illuminate/Console/View/Components/Task->render('2025_02_01_0000...', Object(Closure))
+#14 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(244): Illuminate/Database/Migrations/Migrator->write('Illuminate//Cons...', '2025_02_01_0000...', Object(Closure))
+#15 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(211): Illuminate/Database/Migrations/Migrator->runUp('C://xampp//htdocs...', 2, false)
+#16 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(138): Illuminate/Database/Migrations/Migrator->runPending(Array, Array)
+#17 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(117): Illuminate/Database/Migrations/Migrator->run(Array, Array)
+#18 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(658): Illuminate/Database/Console/Migrations/MigrateCommand->Illuminate/Database/Console/Migrations/{closure}()
+#19 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(110): Illuminate/Database/Migrations/Migrator->usingConnection(NULL, Object(Closure))
+#20 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(89): Illuminate/Database/Console/Migrations/MigrateCommand->runMigrations()
+#21 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Migrations/MigrateCommand->handle()
+#22 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#23 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#24 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#25 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#26 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#27 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#28 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#29 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Application.php(1117): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#30 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Migrations/MigrateCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#31 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#32 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#33 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#34 C:/xampp/htdocs/riskmanagementsystem/risk-management/artisan(14): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#35 {main}
+
+[previous exception] [object] (Yajra\\Pdo\\Oci8\\Exceptions\\Oci8Exception(code: 2443): Error Code    : 2443
+
+Error Message : ORA-02443: Cannot drop constraint  - nonexistent constraint
+Help: https://docs.oracle.com/error-help/db/ora-02443/
+
+Position      : 42
+
+Statement     : alter table \"DEPARTMENTS\" drop constraint departments_sector_code_foreig
+
+Bindings      : []
+
+ at C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/yajra/laravel-pdo-via-oci8/src/Pdo/Oci8/Statement.php:798)
+[stacktrace]
+#0 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Connection.php(571): Yajra/Pdo/Oci8/Statement->execute()
+#1 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate/Database/Connection->Illuminate/Database/{closure}('alter table \"DE...', Array)
+#2 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate/Database/Connection->runQueryCallback('alter table \"DE...', Array, Object(Closure))
+#3 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Connection.php(560): Illuminate/Database/Connection->run('alter table \"DE...', Array, Object(Closure))
+#4 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Schema/Blueprint.php(118): Illuminate/Database/Connection->statement('alter table \"DE...')
+#5 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Schema/Builder.php(564): Illuminate/Database/Schema/Blueprint->build(Object(Yajra/Oci8/Oci8Connection), Object(Yajra/Oci8/Schema/Grammars/OracleGrammar))
+#6 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/yajra/laravel-oci8/src/Oci8/Schema/OracleBuilder.php(88): Illuminate/Database/Schema/Builder->build(Object(Yajra/Oci8/Schema/OracleBlueprint))
+#7 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(361): Yajra/Oci8/Schema/OracleBuilder->table('departments', Object(Closure))
+#8 C:/xampp/htdocs/riskmanagementsystem/risk-management/database/migrations/2025_02_01_000050_use_new_po_for_sectors_departments.php(31): Illuminate/Support/Facades/Facade::__callStatic('table', Array)
+#9 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(507): Illuminate/Database/Migrations/Migration@anonymous->up()
+#10 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(432): Illuminate/Database/Migrations/Migrator->runMethod(Object(Yajra/Oci8/Oci8Connection), Object(Illuminate/Database/Migrations/Migration@anonymous), 'up')
+#11 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php(32): Illuminate/Database/Migrations/Migrator->Illuminate/Database/Migrations/{closure}(Object(Yajra/Oci8/Oci8Connection))
+#12 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(440): Illuminate/Database/Connection->transaction(Object(Closure))
+#13 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(244): Illuminate/Database/Migrations/Migrator->runMigration(Object(Illuminate/Database/Migrations/Migration@anonymous), 'up')
+#14 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(40): Illuminate/Database/Migrations/Migrator->Illuminate/Database/Migrations/{closure}()
+#15 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(798): Illuminate/Console/View/Components/Task->render('2025_02_01_0000...', Object(Closure))
+#16 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(244): Illuminate/Database/Migrations/Migrator->write('Illuminate//Cons...', '2025_02_01_0000...', Object(Closure))
+#17 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(211): Illuminate/Database/Migrations/Migrator->runUp('C://xampp//htdocs...', 2, false)
+#18 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(138): Illuminate/Database/Migrations/Migrator->runPending(Array, Array)
+#19 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(117): Illuminate/Database/Migrations/Migrator->run(Array, Array)
+#20 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(658): Illuminate/Database/Console/Migrations/MigrateCommand->Illuminate/Database/Console/Migrations/{closure}()
+#21 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(110): Illuminate/Database/Migrations/Migrator->usingConnection(NULL, Object(Closure))
+#22 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(89): Illuminate/Database/Console/Migrations/MigrateCommand->runMigrations()
+#23 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate/Database/Console/Migrations/MigrateCommand->handle()
+#24 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate/Container/BoundMethod::Illuminate/Container/{closure}()
+#25 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate/Container/Util::unwrapIfClosure(Object(Closure))
+#26 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate/Container/BoundMethod::callBoundMethod(Object(Illuminate/Foundation/Application), Array, Object(Closure))
+#27 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate/Container/BoundMethod::call(Object(Illuminate/Foundation/Application), Array, Array, NULL)
+#28 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate/Container/Container->call(Array)
+#29 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Command/Command.php(341): Illuminate/Console/Command->execute(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#30 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony/Component/Console/Command/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Illuminate/Console/OutputStyle))
+#31 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Application.php(1117): Illuminate/Console/Command->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#32 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Application.php(356): Symfony/Component/Console/Application->doRunCommand(Object(Illuminate/Database/Console/Migrations/MigrateCommand), Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#33 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#34 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#35 C:/xampp/htdocs/riskmanagementsystem/risk-management/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#36 C:/xampp/htdocs/riskmanagementsystem/risk-management/artisan(14): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#37 {main}
+>>>>>>> 3564d672456801f23b39289b08e27dafebda7bd6
+"} 
+[2026-10-19 12:41:44] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:41:44] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:41:44] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:41:44] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:41:44] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:42:35] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:42:35] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:43:35] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-10-19 12:43:35] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at D:/xampp/htdocs/msmeda/risks_system/app/Providers/AppServiceProvider.php:42)
+[stacktrace]
+#0 D:/xampp/htdocs/msmeda/risks_system/vendor/composer/ClassLoader.php(427): Composer/Autoload/{closure}('D://xampp//htdocs...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//A...')
+#2 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//A...')
+#3 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/xampp/htdocs/msmeda/risks_system/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 Command line code(1): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 

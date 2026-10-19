@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PotentialRiskRegisterDataTable;
 use App\Http\Requests\StorePotentialRiskRegisterRequest;
 use App\Http\Requests\UpdatePotentialRiskRegisterRequest;
 use App\Models\EventDetail;
@@ -26,21 +27,9 @@ use Illuminate\View\View;
  */
 class PotentialRiskRegisterController extends Controller
 {
-    public function index(Request $request): View
+    public function index(PotentialRiskRegisterDataTable $dataTable)
     {
-        $query = PotentialRiskRegister::with([
-            'eventDetail.eventSubcategory.event.eventType',
-            'latestResolutionStatus.resolutionStatus',
-        ])
-            ->withCount(['sectorDetails', 'incidents', 'indicators']);
-
-        if ($search = $request->get('q')) {
-            $query->where('risk_description', 'like', "%{$search}%");
-        }
-
-        $risks = $query->latest('creation_date')->get();
-
-        return view('risks.index', compact('risks', 'search'));
+        return $dataTable->render('risks.index');
     }
 
     public function create(): View
@@ -92,7 +81,7 @@ class PotentialRiskRegisterController extends Controller
 
     public function toggle(PotentialRiskRegister $risk): RedirectResponse
     {
-        abort_unless(request()->user()->can('edit-risks'), 403);
+        abort_unless(request()->user()->can('risks.edit'), 403);
 
         $risk->update(['validity' => ! $risk->validity]);
 
@@ -101,7 +90,7 @@ class PotentialRiskRegisterController extends Controller
 
     public function updateStatus(Request $request, PotentialRiskRegister $risk): RedirectResponse
     {
-        abort_unless($request->user()->can('approve-risks'), 403);
+        abort_unless($request->user()->can('risks.status.update'), 403);
 
         $data = $request->validate([
             'resolution_status_id' => ['required', 'integer', 'exists:resolution_statuses,id'],

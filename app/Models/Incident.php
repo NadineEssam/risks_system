@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Concerns\HasArabicAudit;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Support\IncidentAccess;
 /**
  * INCIDENT — الحدث (المرحلة الثانية).
  */
@@ -54,17 +54,42 @@ class Incident extends Model
         return $this->hasMany(IncidentSectorResponsibility::class, 'incident_id');
     }
 
-    public function responsibleSectors()
+    /** كل متابعات الحدث من كل القطاعات */
+    public function followups()
     {
-        return $this->belongsToMany(
-            Sector::class,
-            'incident_sectors_responsibilities',
-            'incident_id',
-            'sectors_sec_id',
+        return $this->hasManyThrough(
+            IncidentFollowup::class,
+            IncidentSectorResponsibility::class,
+            'incident_id',                          // FK على incident_sectors_responsibilities
+            'incident_sectors_responsibilities_id', // FK على incident_followups
             'id',
-            'sec_id'
+            'id'
         );
     }
+
+    /** آخر متابعة على الحدث (زي آخر رد على البيان في الشكاوى) */
+    public function lastFollowup(): ?IncidentFollowup
+    {
+        return $this->followups()->with('followupStatus')->reorder()->orderByDesc('incident_followups.id')->first();
+    }
+
+    /** الحدث مقفول لو آخر متابعة حالتها إغلاق أو قبول الخطر */
+    public function isFollowupClosed(): bool
+    {
+        return in_array($this->lastFollowup()?->followupStatus?->status_name, IncidentAccess::CLOSING_STATUSES, true);
+    }
+
+    // public function responsibleSectors()
+    // {
+    //     return $this->belongsToMany(
+    //         Sector::class,
+    //         'incident_sectors_responsibilities',
+    //         'incident_id',
+    //         'sectors_sec_id',
+    //         'id',
+    //         'sec_id'
+    //     );
+    // }
 
     public function scopeActive($query)
     {
@@ -83,9 +108,12 @@ class Incident extends Model
             return 0;
         }
 
+        // الإدارات في new_po (MySQL) والأحداث في Oracle — لا يمكن whereHas بين قاعدتين
+        $depIds = Department::where('sector_code', $sectorCode)->pluck('dep_id');
+
         return static::query()
             ->where('potential_risk_register_id', $potentialRiskRegisterId)
-            ->whereHas('department', fn ($q) => $q->where('sector_code', $sectorCode))
+            ->whereIn('departments_dep_id', $depIds)
             ->count();
     }
 

@@ -65,6 +65,54 @@
     return { valid, firstInvalid };
   }
 
+  // responsibles.0.email → responsibles[0][email]
+  function toFieldName(key) {
+    const parts = key.split('.');
+    return parts[0] + parts.slice(1).map((p) => `[${p}]`).join('');
+  }
+
+  /**
+   * أخطاء الخادم (بعد الرجوع بـ withErrors): نعلّم كل حقل فيه خطأ ونكتب
+   * الرسالة العربي تحته — حتى لو الـ view مفيهاش @error للحقل ده.
+   */
+  function markServerErrors() {
+    const errors = window.serverErrors || {};
+
+    Object.entries(errors).forEach(([key, messages]) => {
+      const name = toFieldName(key);
+      const fields = document.querySelectorAll(`[name="${CSS.escape(name)}"], [name="${CSS.escape(name + '[]')}"]`);
+      if (!fields.length) return;
+
+      const field = fields[0];
+      const isChoice = field.type === 'checkbox' || field.type === 'radio';
+      const message = Array.isArray(messages) ? messages[0] : messages;
+
+      if (isChoice) {
+        const group = field.closest('[data-require-checked-group]') || field.closest('.form-check')?.parentElement || field.parentElement;
+        group.classList.add('wizard-group-invalid');
+        if (!group.querySelector('.server-error')) {
+          const div = document.createElement('div');
+          div.className = 'invalid-feedback d-block server-error';
+          div.textContent = message;
+          group.appendChild(div);
+        }
+        return;
+      }
+
+      fields.forEach((f) => f.classList.add('is-invalid'));
+
+      // لو الـ view فيها @error للحقل ده خلاص، غير كده نضيف الرسالة
+      const anchor = field.closest('.input-group') || field;
+      const next = anchor.nextElementSibling;
+      if (!(next && next.classList.contains('invalid-feedback'))) {
+        const div = document.createElement('div');
+        div.className = 'invalid-feedback d-block server-error';
+        div.textContent = message;
+        anchor.insertAdjacentElement('afterend', div);
+      }
+    });
+  }
+
   function initWizard(form) {
     const steps = Array.from(form.querySelectorAll(':scope > .wizard-step'));
     if (steps.length < 2) return;
@@ -143,6 +191,37 @@
     if (nextBtn) nextBtn.addEventListener('click', goNext);
     if (prevBtn) prevBtn.addEventListener('click', goPrev);
 
+    // الضغط على رقم الخطوة: الرجوع مسموح دايماً — التقدم لازم الخطوات
+    // اللي قبلها تكون مكتملة (لو فيه خطوة ناقصة نقف عندها ونوضح الخطأ)
+    function goTo(target) {
+      if (target === current) return;
+
+      if (target < current) {
+        current = target;
+        render();
+        return;
+      }
+
+      for (let s = current; s < target; s++) {
+        const { valid, firstInvalid } = validateStep(steps[s]);
+        if (!valid) {
+          current = s;
+          render();
+          focusInvalid(firstInvalid);
+          return;
+        }
+      }
+
+      current = target;
+      render();
+    }
+
+    navItems.forEach((item, i) => {
+      item.style.cursor = 'pointer';
+      item.setAttribute('title', 'الانتقال إلى هذه الخطوة');
+      item.addEventListener('click', () => goTo(i));
+    });
+
     // منع الانتقال المباشر للحفظ بمفتاح Enter من أي خطوة قبل الأخيرة —
     // بدلاً من ذلك تُعامل كضغطة "التالي".
     form.addEventListener('keydown', (e) => {
@@ -180,6 +259,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    markServerErrors();
     document.querySelectorAll('form[data-wizard]').forEach(initWizard);
   });
 })();

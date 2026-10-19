@@ -53,6 +53,6 @@ class IncidentSectorResponsibility extends Model
     public function latestFollowup()
     {
         return $this->hasOne(IncidentFollowup::class, 'incident_sectors_responsibilities_id')
-            ->latestOfMany('creation_date');
+            ->latestOfMany();
     }
 }

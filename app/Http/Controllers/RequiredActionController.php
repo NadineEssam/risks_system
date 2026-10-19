@@ -14,7 +14,7 @@ class RequiredActionController extends Controller
 {
     public function store(Request $request, PotentialRiskRegisterSectorDetail $sectorDetail): RedirectResponse
     {
-        abort_unless($request->user()->can('edit-risks') || $request->user()->can('create-risks'), 403);
+        abort_unless($request->user()->can('risks.edit') || $request->user()->can('risks.create'), 403);
 
         $data = $request->validate([
             'required_action' => ['required', 'string'],
@@ -32,7 +32,7 @@ class RequiredActionController extends Controller
 
     public function destroy(Request $request, RequiredAction $requiredAction): RedirectResponse
     {
-        abort_unless($request->user()->can('edit-risks'), 403);
+        abort_unless($request->user()->can('risks.edit'), 403);
 
         $requiredAction->delete();
 

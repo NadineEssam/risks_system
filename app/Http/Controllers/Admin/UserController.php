@@ -12,17 +12,42 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use App\DataTables\UsersDataTable;
 
 class UserController extends Controller
 {
-    public function index(): View
+    public function index(UsersDataTable $dataTable)
     {
-        $users = User::with(['roles', 'sector', 'department'])->orderBy('name')->get();
-        $roles = Role::orderBy('name')->get();
-        $sectors = Sector::active()->orderBy('sector_ar')->get();
-        $departments = Department::active()->orderBy('depname_ar')->get();
+        return $dataTable->render('admin.users.index');
+    }
 
-        return view('admin.users.index', compact('users', 'roles', 'sectors', 'departments'));
+    public function create(): View
+    {
+        return view('admin.users.create', $this->formData());
+    }
+
+    public function show(User $user): View
+    {
+        $user->load(['roles.permissions', 'sector', 'department']);
+
+        return view('admin.users.show', compact('user'));
+    }
+
+    public function edit(User $user): View
+    {
+        $user->load(['roles', 'sector', 'department']);
+
+        return view('admin.users.edit', array_merge($this->formData(), compact('user')));
+    }
+
+    /** بيانات الفورمز: الأدوار + القطاعات والإدارات (من new_po) */
+    private function formData(): array
+    {
+        return [
+            'roles'       => Role::orderBy('name')->get(),
+            'sectors'     => Sector::active()->orderBy('sector_ar')->get(),
+            'departments' => Department::active()->orderBy('depname_ar')->get(),
+        ];
     }
 
     public function store(Request $request): RedirectResponse
@@ -34,10 +59,11 @@ class UserController extends Controller
             // تُحفَظ على عمود domain_username — راجع ملاحظة إعادة تسمية
             // العمود في الهجرة (تفادياً لعطل الحالة المختلطة مع Oracle).
             'userID' => ['required', 'string', 'max:100', 'unique:users,domain_username'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            // email:filter (FILTER_VALIDATE_EMAIL) بيرفض CRLF — حماية لحين الترقية للارافيل 12
+            'email' => ['required', 'email:filter', 'unique:users,email'],
             'job_title' => ['nullable', 'string', 'max:255'],
-            'sector_id' => ['nullable', 'integer', 'exists:sectors,sec_id'],
-            'department_id' => ['nullable', 'integer', 'exists:departments,dep_id', $this->departmentBelongsToSectorRule($request)],
+            'sector_id' => ['nullable', 'integer', 'exists:new_po.sectors,sec_id'],
+            'department_id' => ['nullable', 'integer', 'exists:new_po.departments,dep_id', $this->departmentBelongsToSectorRule($request)],
             'roles' => ['required', 'array', 'min:1'],
             'roles.*' => ['string', 'exists:roles,name'],
         ], [
@@ -62,7 +88,7 @@ class UserController extends Controller
 
         $user->syncRoles($data['roles']);
 
-        return back()->with('success', 'تمت إضافة المستخدم بنجاح.');
+        return redirect()->route('admin.users.index')->with('success', 'تمت إضافة المستخدم بنجاح.');
     }
 
     public function toggle(User $user): RedirectResponse
@@ -95,8 +121,8 @@ class UserController extends Controller
     public function updateSectorDepartment(Request $request, User $user): RedirectResponse
     {
         $data = $request->validate([
-            'sector_id' => ['nullable', 'integer', 'exists:sectors,sec_id'],
-            'department_id' => ['nullable', 'integer', 'exists:departments,dep_id', $this->departmentBelongsToSectorRule($request)],
+            'sector_id' => ['nullable', 'integer', 'exists:new_po.sectors,sec_id'],
+            'department_id' => ['nullable', 'integer', 'exists:new_po.departments,dep_id', $this->departmentBelongsToSectorRule($request)],
         ]);
 
         $user->update([

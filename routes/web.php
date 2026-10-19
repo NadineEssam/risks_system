@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\DepartmentController;
-use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\Admin\EventDetailController;
-use App\Http\Controllers\Admin\EventSubcategoryController;
+
+// use App\Http\Controllers\Admin\EventController;
+// use App\Http\Controllers\Admin\EventDetailController;
+// use App\Http\Controllers\Admin\EventSubcategoryController;
 use App\Http\Controllers\Admin\LookupController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -38,120 +37,99 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'store']);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // ================= المرحلة الأولى: سجل المخاطر المحتملة =================
-    Route::middleware('permission:view-risks')->group(function () {
-        Route::get('/risks', [PotentialRiskRegisterController::class, 'index'])->name('risks.index');
-        Route::get('/risks/{risk}', [PotentialRiskRegisterController::class, 'show'])->name('risks.show');
-    });
-    Route::middleware('permission:create-risks')->group(function () {
-        Route::get('/risks-create', [PotentialRiskRegisterController::class, 'create'])->name('risks.create');
-        Route::post('/risks', [PotentialRiskRegisterController::class, 'store'])->name('risks.store');
-    });
-    Route::middleware('permission:edit-risks')->group(function () {
-        Route::get('/risks/{risk}/edit', [PotentialRiskRegisterController::class, 'edit'])->name('risks.edit');
-        Route::put('/risks/{risk}', [PotentialRiskRegisterController::class, 'update'])->name('risks.update');
-        Route::post('/risks/{risk}/toggle', [PotentialRiskRegisterController::class, 'toggle'])->name('risks.toggle');
-        Route::post('/risks/{risk}/sectors', [PotentialRiskRegisterSectorController::class, 'store'])->name('risks.sectors.store');
-        Route::delete('/risks/{risk}/sectors/{sectorDetail}', [PotentialRiskRegisterSectorController::class, 'destroy'])->name('risks.sectors.destroy');
-        Route::post('/risk-sector-details/{sectorDetail}/actions', [RequiredActionController::class, 'store'])->name('risk-sectors.actions.store');
-        Route::delete('/required-actions/{requiredAction}', [RequiredActionController::class, 'destroy'])->name('required-actions.destroy');
-    });
-    Route::middleware('permission:approve-risks')->group(function () {
-        Route::post('/risks/{risk}/status', [PotentialRiskRegisterController::class, 'updateStatus'])->name('risks.status.update');
-    });
+    Route::get('/risks', [PotentialRiskRegisterController::class, 'index'])->name('risks.index');
+    Route::get('/risks-create', [PotentialRiskRegisterController::class, 'create'])->name('risks.create');
+    Route::post('/risks', [PotentialRiskRegisterController::class, 'store'])->name('risks.store');
+    Route::get('/risks/{risk}', [PotentialRiskRegisterController::class, 'show'])->name('risks.show');
+    Route::get('/risks/{risk}/edit', [PotentialRiskRegisterController::class, 'edit'])->name('risks.edit');
+    Route::put('/risks/{risk}', [PotentialRiskRegisterController::class, 'update'])->name('risks.update');
+    Route::post('/risks/{risk}/toggle', [PotentialRiskRegisterController::class, 'toggle'])->name('risks.toggle');
+    Route::post('/risks/{risk}/status', [PotentialRiskRegisterController::class, 'updateStatus'])->name('risks.status.update');
+    Route::post('/risks/{risk}/sectors', [PotentialRiskRegisterSectorController::class, 'store'])->name('risks.sectors.store');
+    Route::delete('/risks/{risk}/sectors/{sectorDetail}', [PotentialRiskRegisterSectorController::class, 'destroy'])->name('risks.sectors.destroy');
+    Route::post('/risk-sector-details/{sectorDetail}/actions', [RequiredActionController::class, 'store'])->name('risk-sectors.actions.store');
+    Route::delete('/required-actions/{requiredAction}', [RequiredActionController::class, 'destroy'])->name('required-actions.destroy');
 
     // ======================= المرحلة الثانية: الحدث =======================
-    Route::middleware('permission:view-incidents')->group(function () {
-        Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
-        Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
-    });
-    Route::middleware('permission:create-incidents')->group(function () {
-        Route::get('/incidents-create', [IncidentController::class, 'create'])->name('incidents.create');
-        Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
-    });
-    Route::middleware('permission:edit-incidents')->group(function () {
-        Route::post('/incidents/{incident}/status', [IncidentController::class, 'updateStatus'])->name('incidents.status.update');
-    });
+    Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
+    Route::get('/incidents-create', [IncidentController::class, 'create'])->name('incidents.create');
+    Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
+    Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
+    Route::get('/incidents/{incident}/edit', [IncidentController::class, 'edit'])->name('incidents.edit');
+    Route::put('/incidents/{incident}', [IncidentController::class, 'update'])->name('incidents.update');
+    Route::post('/incidents/{incident}/status', [IncidentController::class, 'updateStatus'])->name('incidents.status.update');
 
-    // ==================== المرحلة الثالثة: متابعة الحدث ====================
-    Route::middleware('permission:view-incident-followups')->group(function () {
-        Route::get('/incident-followups', [IncidentFollowupController::class, 'index'])->name('incident-followups.index');
-    });
-    Route::middleware('permission:create-incident-followups')->group(function () {
-        Route::get('/incident-followups-create', [IncidentFollowupController::class, 'create'])->name('incident-followups.create');
-        Route::post('/incident-followups', [IncidentFollowupController::class, 'store'])->name('incident-followups.store');
-    });
+    // ======= المرحلة الثالثة: متابعة الحدث (نفس "الرد على البيان" في الشكاوى) =======
+    // سجل متابعات حدث معيّن
+    Route::get('/incidents/{incident}/followups', [IncidentFollowupController::class, 'index'])->name('incident-followups.index');
+    Route::get('/incidents/{incident}/followups/create', [IncidentFollowupController::class, 'create'])->name('incident-followups.create');
+    Route::post('/incidents/{incident}/followups', [IncidentFollowupController::class, 'store'])->name('incident-followups.store');
+    // متابعة واحدة
+    Route::get('/incident-followups/{followup}', [IncidentFollowupController::class, 'show'])->name('incident-followups.show');
+    Route::get('/incident-followups/{followup}/edit', [IncidentFollowupController::class, 'edit'])->name('incident-followups.edit');
+    Route::put('/incident-followups/{followup}', [IncidentFollowupController::class, 'update'])->name('incident-followups.update');
+    Route::delete('/incident-followups/{followup}', [IncidentFollowupController::class, 'destroy'])->name('incident-followups.destroy');
 
     // ================= المرحلة الرابعة: المؤشر (KRI) =================
-    Route::middleware('permission:view-indicators')->group(function () {
-        Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicators.index');
-        Route::get('/indicators/{indicator}', [IndicatorController::class, 'show'])->name('indicators.show');
-    });
-    Route::middleware('permission:create-indicators')->group(function () {
-        Route::get('/indicators-create', [IndicatorController::class, 'create'])->name('indicators.create');
-        Route::post('/indicators', [IndicatorController::class, 'store'])->name('indicators.store');
-    });
+    Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicators.index');
+    Route::get('/indicators-create', [IndicatorController::class, 'create'])->name('indicators.create');
+    Route::post('/indicators', [IndicatorController::class, 'store'])->name('indicators.store');
+    Route::get('/indicators/{indicator}', [IndicatorController::class, 'show'])->name('indicators.show');
+    Route::get('/indicators/{indicator}/edit', [IndicatorController::class, 'edit'])->name('indicators.edit');
+    Route::put('/indicators/{indicator}', [IndicatorController::class, 'update'])->name('indicators.update');
 
     // ================= المرحلة الخامسة: متابعة المؤشر =================
-    Route::middleware('permission:view-indicator-followups')->group(function () {
-        Route::get('/indicator-followups', [IndicatorFollowupController::class, 'index'])->name('indicator-followups.index');
-    });
-    Route::middleware('permission:create-indicator-followups')->group(function () {
-        Route::get('/indicator-followups-create', [IndicatorFollowupController::class, 'create'])->name('indicator-followups.create');
-        Route::post('/indicator-followups', [IndicatorFollowupController::class, 'store'])->name('indicator-followups.store');
-    });
+    // ========= المرحلة الخامسة: متابعة المؤشر (نفس متابعة الحدث) =========
+    // سجل قياسات مؤشر معيّن
+    Route::get('/indicators/{indicator}/followups', [IndicatorFollowupController::class, 'index'])->name('indicator-followups.index');
+    Route::get('/indicators/{indicator}/followups/create', [IndicatorFollowupController::class, 'create'])->name('indicator-followups.create');
+    Route::post('/indicators/{indicator}/followups', [IndicatorFollowupController::class, 'store'])->name('indicator-followups.store');
+    // قياس واحد
+    Route::get('/indicator-followups/{followup}', [IndicatorFollowupController::class, 'show'])->name('indicator-followups.show');
+    Route::get('/indicator-followups/{followup}/edit', [IndicatorFollowupController::class, 'edit'])->name('indicator-followups.edit');
+    Route::put('/indicator-followups/{followup}', [IndicatorFollowupController::class, 'update'])->name('indicator-followups.update');
+    Route::delete('/indicator-followups/{followup}', [IndicatorFollowupController::class, 'destroy'])->name('indicator-followups.destroy');
 
     // ============================= التقارير =============================
-    Route::middleware('permission:view-reports')->group(function () {
-        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-    });
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    // تقرير واحد: الفلاتر + النتائج — والتصدير (xlsx / csv / pdf)
+    Route::get('/reports/{key}', [ReportController::class, 'show'])->name('reports.show');
+    Route::get('/reports/{key}/export', [ReportController::class, 'export'])->name('reports.export');
 
     // ===================== الإدارة والبيانات المرجعية =====================
-    Route::middleware('permission:manage-lookups')->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/sectors', [SectorController::class, 'index'])->name('sectors.index');
-        Route::post('/sectors', [SectorController::class, 'store'])->name('sectors.store');
-        Route::post('/sectors/{sector}/toggle', [SectorController::class, 'toggle'])->name('sectors.toggle');
-
-        Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
-        Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
-        Route::post('/departments/{department}/toggle', [DepartmentController::class, 'toggle'])->name('departments.toggle');
-
-        Route::get('/events', [EventController::class, 'index'])->name('events.index');
-        Route::post('/events', [EventController::class, 'store'])->name('events.store');
-        Route::post('/events/{event}/toggle', [EventController::class, 'toggle'])->name('events.toggle');
-
-        Route::get('/event-subcategories', [EventSubcategoryController::class, 'index'])->name('event-subcategories.index');
-        Route::post('/event-subcategories', [EventSubcategoryController::class, 'store'])->name('event-subcategories.store');
-        Route::post('/event-subcategories/{eventSubcategory}/toggle', [EventSubcategoryController::class, 'toggle'])->name('event-subcategories.toggle');
-
-        Route::get('/event-details', [EventDetailController::class, 'index'])->name('event-details.index');
-        Route::post('/event-details', [EventDetailController::class, 'store'])->name('event-details.store');
-        Route::post('/event-details/{eventDetail}/toggle', [EventDetailController::class, 'toggle'])->name('event-details.toggle');
-
-        // البيانات المرجعية أحادية العمود (Lookups) — متحكم عام موحّد
-        Route::post('/lookups/{type}', [LookupController::class, 'store'])->name('lookups.store');
-        Route::post('/lookups/{type}/{id}/toggle', [LookupController::class, 'toggle'])->name('lookups.toggle');
-
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // ===== البيانات المرجعية (Lookups) + تصنيف بازل — CRUD عام واحد للكل =====
+        // كل slug من LookupRegistry بياخد: index / create / store / show / edit / update / destroy
+        // (create قبل {id} عشان "create" متتقريش كـ id)
         foreach (array_keys(LookupRegistry::definitions()) as $slug) {
-            Route::get("/{$slug}", fn (LookupController $controller) => $controller->index($slug))
-                ->name("{$slug}.index");
+            Route::prefix($slug)->name("{$slug}.")->group(function () use ($slug) {
+                Route::get('/', [LookupController::class, 'index'])->name('index')->defaults('type', $slug);
+                Route::get('/create', [LookupController::class, 'create'])->name('create')->defaults('type', $slug);
+                Route::post('/', [LookupController::class, 'store'])->name('store')->defaults('type', $slug);
+                Route::get('/{id}', [LookupController::class, 'show'])->name('show')->defaults('type', $slug);
+                Route::get('/{id}/edit', [LookupController::class, 'edit'])->name('edit')->defaults('type', $slug);
+                Route::put('/{id}', [LookupController::class, 'update'])->name('update')->defaults('type', $slug);
+                Route::delete('/{id}', [LookupController::class, 'destroy'])->name('destroy')->defaults('type', $slug);
+            });
         }
-    });
 
-    Route::middleware('permission:manage-users')->prefix('admin')->name('admin.')->group(function () {
+        // المستخدمون
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::post('/users/{user}/toggle', [UserController::class, 'toggle'])->name('users.toggle');
         Route::post('/users/{user}/roles', [UserController::class, 'updateRoles'])->name('users.roles.update');
         Route::post('/users/{user}/sector-department', [UserController::class, 'updateSectorDepartment'])->name('users.sectorDepartment.update');
 
-        // إدارة الأدوار (الأدوار المخصصة + مصفوفة الصلاحيات) — نفس فكرة
-        // "نظام خدمة العملاء" لكن بأسلوب الواجهة الموحّد لهذا النظام.
+        // الأدوار والصلاحيات
         Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
         Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
         Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');

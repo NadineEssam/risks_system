@@ -21,3 +21,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/storage/framework/views/*.php
+/storage/logs/*.log
+/bootstrap/cache/*.php
+/bootstrap/cache/*.php

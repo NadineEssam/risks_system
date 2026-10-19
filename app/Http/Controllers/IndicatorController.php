@@ -15,6 +15,7 @@ use App\Models\ResponsibleRole;
 use App\Models\ThresholdLevel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\DataTables\IndicatorDataTable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -27,20 +28,70 @@ use Illuminate\View\View;
  */
 class IndicatorController extends Controller
 {
-    public function index(): View
+        public function index(IndicatorDataTable $dataTable)
     {
-        $indicators = Indicator::with(['potentialRiskRegister', 'nature', 'measurementUnit', 'reportingFrequency'])
-            ->latest('creation_date')
-            ->get();
-
-        return view('indicators.index', compact('indicators'));
+        return $dataTable->render('indicators.index');
     }
 
     public function create(Request $request): View
     {
-        return view('indicators.create', array_merge($this->formLookups(), [
+        return view('indicators.create_edit', array_merge($this->formLookups(), [
+            'indicator'      => null,
             'selectedRiskId' => $request->get('risk'),
         ]));
+    }
+
+    public function edit(Indicator $indicator): View
+    {
+        $indicator->load(['thresholdDetails', 'responsibles']);
+
+        return view('indicators.create_edit', array_merge($this->formLookups(), [
+            'indicator'      => $indicator,
+            'selectedRiskId' => $indicator->potential_risk_register_id,
+        ]));
+    }
+
+    public function update(StoreIndicatorRequest $request, Indicator $indicator): RedirectResponse
+    {
+        $data = $request->validated();
+
+        DB::transaction(function () use ($data, $indicator) {
+            $indicator->update([
+                'potential_risk_register_id' => $data['potential_risk_register_id'],
+                'indicator_nature_id'        => $data['indicator_nature_id'],
+                'measurement_unit_id'        => $data['measurement_unit_id'],
+                'reporting_frequency_id'     => $data['reporting_frequency_id'],
+                'activity_unit_id'           => $data['activity_unit_id'],
+                'indicator_name'             => $data['indicator_name'],
+                'related_actions'            => $data['related_actions'] ?? null,
+                'data_sources'               => $data['data_sources'] ?? null,
+            ]);
+
+            // الحدود: تحديث قيمة كل مستوى
+            foreach ($data['thresholds'] as $threshold) {
+                IndicatorThresholdDetail::updateOrCreate(
+                    ['indicators_id' => $indicator->id, 'threshold_level_id' => $threshold['threshold_level_id']],
+                    ['threshold_value' => $threshold['threshold_value'], 'required_action' => $threshold['required_action'] ?? null]
+                );
+            }
+
+            // المسئولين: نستبدلهم بالقائمة الجديدة
+            $indicator->responsibles()->delete();
+            foreach ($data['responsibles'] as $responsible) {
+                IndicatorResponsible::create(array_merge($responsible, ['indicators_id' => $indicator->id]));
+            }
+
+            // إعادة حساب مستوى كل القياسات القديمة بالحدود/الطبيعة الجديدة
+            $indicator->refresh()->load('nature');
+            foreach ($indicator->followups as $followup) {
+                $level = $indicator->calculateThresholdLevel($followup->actual_value);
+                if ($level && (int) $followup->threshold_level_id !== (int) $level->id) {
+                    $followup->forceFill(['threshold_level_id' => $level->id])->saveQuietly();
+                }
+            }
+        });
+
+        return redirect()->route('indicators.show', $indicator)->with('success', 'تم تعديل المؤشر بنجاح.');
     }
 
     public function store(StoreIndicatorRequest $request): RedirectResponse
@@ -54,6 +105,7 @@ class IndicatorController extends Controller
                 'measurement_unit_id' => $data['measurement_unit_id'],
                 'reporting_frequency_id' => $data['reporting_frequency_id'],
                 'activity_unit_id' => $data['activity_unit_id'],
+                'approval_date'              => $data['approval_date'],
                 'indicator_name' => $data['indicator_name'],
                 'related_actions' => $data['related_actions'] ?? null,
                 'data_sources' => $data['data_sources'] ?? null,

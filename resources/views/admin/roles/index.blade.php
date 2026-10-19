@@ -9,47 +9,25 @@
 
 @section('content')
 <div class="card">
-  <div class="card-body">
+  <div class="card-body pt-3">
 
-    <div class="d-flex justify-content-end mb-2">
-      <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i> إضافة دور جديد
-      </a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="card-title m-0 p-0">قائمة الأدوار</h5>
+      @can('admin.roles.create')
+        <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">
+          <i class="bx bx-plus"></i> إضافة دور جديد
+        </a>
+      @endcan
     </div>
 
-    @if($roles->isEmpty())
-      <p class="text-center text-muted py-2">لا توجد أدوار مسجلة بعد.</p>
-    @else
-      <div class="table-responsive">
-        <table class="table table-striped align-middle datatable">
-          <thead>
-            <tr>
-              <th>اسم الدور</th>
-              <th>عدد الصلاحيات</th>
-              <th style="width: 180px;">إجراءات</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($roles as $role)
-              <tr>
-                <td>{{ $role->name }}</td>
-                <td><span class="badge bg-info text-dark">{{ $role->permissions_count }}</span></td>
-                <td>
-                  <a href="{{ route('admin.roles.edit', $role) }}" class="btn btn-sm btn-outline-secondary">تعديل</a>
-                  @if($role->name !== 'super-admin')
-                    <form action="{{ route('admin.roles.destroy', $role) }}" method="POST" class="d-inline" onsubmit="return confirm('هل أنت متأكد من حذف هذا الدور؟');">
-                      @csrf
-                      @method('DELETE')
-                      <button class="btn btn-sm btn-outline-danger">حذف</button>
-                    </form>
-                  @endif
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    @endif
+    <div class="table-responsive">
+      {{ $dataTable->table(['class' => 'table text-center align-middle datatable-custom', 'style' => 'width:100%']) }}
+    </div>
+
   </div>
 </div>
 @endsection
+
+@push('scripts')
+  {{ $dataTable->scripts() }}
+@endpush

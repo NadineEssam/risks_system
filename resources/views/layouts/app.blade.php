@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title', 'نظام إدارة المخاطر')</title>
 
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -18,6 +18,8 @@
   <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/datatable.css') }}" rel="stylesheet">
 
   <!-- Template Main CSS File + تجاوزات RTL -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
@@ -43,31 +45,7 @@
       </nav>
     </div><!-- End Page Title -->
 
-    @if(session('success'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
-
-    @if(session('error'))
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
-
-    @if($errors->any())
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>يرجى تصحيح الأخطاء التالية:</strong>
-        <ul class="mb-0">
-          @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
+    
 
     <section class="section">
       @yield('content')
@@ -80,6 +58,8 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+  <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('assets/datatable/js/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
@@ -91,6 +71,42 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+  <script src="{{ asset('assets/js/delete-confirm.js') }}"></script>
+
+  {{-- رسائل النظام بـ SweetAlert (نفس نظام الشكاوى) --}}
+  @php
+    $flashMessages = [
+      'success'   => session('success'),
+      'warning'   => session('warning'),
+      'error'     => session('error'),
+      'hasErrors' => $errors->any(),
+    ];
+  @endphp
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const flash = @json($flashMessages);
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBar: true,
+      });
+
+      if (flash.success) Toast.fire({ icon: 'success', title: flash.success });
+      if (flash.warning) Toast.fire({ icon: 'warning', title: flash.warning });
+
+      if (flash.error) {
+        Swal.fire({ icon: 'error', title: 'تنبيه', text: flash.error, confirmButtonText: 'حسناً' });
+      } else if (flash.hasErrors) {
+        Toast.fire({ icon: 'error', title: 'يوجد أخطاء في البيانات — راجع الحقول المظللة باللون الأحمر.', timer: 5000 });
+      }
+    });
+  </script>
+  {{-- أخطاء التحقق من الخادم — wizard.js بيعلّم بيها الحقول ويفتح الخطوة اللي فيها الخطأ --}}
+  <script>window.serverErrors = @json($errors->getBag('default')->getMessages());</script>
   <script src="{{ asset('assets/js/wizard.js') }}"></script>
 
   @stack('scripts')

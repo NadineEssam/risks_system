@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\IncidentAccess;
+use App\DataTables\IncidentDataTable;
 use App\Http\Requests\StoreIncidentRequest;
 use App\Models\Incident;
 use App\Models\IncidentSectorResponsibility;
@@ -13,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+
 
 /**
  * المرحلة الثانية: الحدث (Incident Workflow).
@@ -28,13 +31,10 @@ use Illuminate\View\View;
  */
 class IncidentController extends Controller
 {
-    public function index(): View
+    
+    public function index(IncidentDataTable $dataTable)
     {
-        $incidents = Incident::with(['potentialRiskRegister', 'department', 'resolutionStatus'])
-            ->latest('creation_date')
-            ->get();
-
-        return view('incidents.index', compact('incidents'));
+        return $dataTable->render('incidents.index');
     }
 
     public function create()
@@ -98,7 +98,8 @@ class IncidentController extends Controller
             if ($creatingSectorId = $department->sector?->sec_id) {
                 $sectorIds->push($creatingSectorId);
             }
-            if ($centralRiskSector = Sector::where('sector_code', 'SEC-RISK')->first()) {
+            $centralCode = config('app.central_risk_sector_code');
+            if ($centralCode && $centralRiskSector = Sector::where('sector_code', $centralCode)->first()) {
                 $sectorIds->push($centralRiskSector->sec_id);
             }
 
@@ -116,8 +117,92 @@ class IncidentController extends Controller
             ->with('success', "تم حفظ الحدث بنجاح. درجة الخطر المحتسبة: {$riskDegree} (تكرار {$frequencyScore} × أثر {$data['impact_score']}).");
     }
 
+    public function edit(Incident $incident)
+    {
+        if ($error = $this->editError($incident)) {
+            return redirect()->route('incidents.show', $incident)->with('error', $error);
+        }
+
+        $incident->load(['potentialRiskRegister', 'department', 'sectorResponsibilities']);
+
+        return view('incidents.create', [
+            'incident'        => $incident,
+            'risks'           => collect(),
+            'sectors'         => Sector::active()->orderBy('sector_ar')->get(),
+            'department'      => $incident->department,
+            'selectedSectors' => $incident->sectorResponsibilities->pluck('sectors_sec_id')->map(fn ($id) => (int) $id)->all(),
+        ]);
+    }
+
+    public function update(StoreIncidentRequest $request, Incident $incident): RedirectResponse
+    {
+        if ($error = $this->editError($incident)) {
+            return redirect()->route('incidents.show', $incident)->with('error', $error);
+        }
+
+        $data = $request->validated();
+
+        DB::transaction(function () use ($data, $incident) {
+            // الخطر المحتمل ثابت — التكرار ثابت — درجة الخطر = التكرار × الأثر الجديد
+            $incident->update([
+                'start_date'            => $data['start_date'] ?? null,
+                'discovery_date'        => $data['discovery_date'],
+                'impact_score'          => $data['impact_score'],
+                'risk_degree'           => (int) $incident->frequency_score * (int) $data['impact_score'],
+                'description'           => $data['description'] ?? null,
+                'current_procedure'     => $data['current_procedure'] ?? null,
+                'proposed_procedure'    => $data['proposed_procedure'] ?? null,
+                'actual_impact_problem' => $data['actual_impact_problem'] ?? null,
+            ]);
+
+            // القطاعات المسؤولة: المختارة + القطاع المنشئ + القطاع المركزي (دايماً)
+            $keep = collect($data['responsible_sectors'])->map(fn ($id) => (int) $id);
+
+            if ($creatingSectorId = $incident->department?->sector?->sec_id) {
+                $keep->push((int) $creatingSectorId);
+            }
+
+            $centralCode = config('app.central_risk_sector_code');
+            if ($centralCode && $central = Sector::where('sector_code', $centralCode)->first()) {
+                $keep->push((int) $central->sec_id);
+            }
+
+            $keep = $keep->unique()->values();
+
+            foreach ($keep as $sectorId) {
+                IncidentSectorResponsibility::firstOrCreate([
+                    'incident_id'    => $incident->id,
+                    'sectors_sec_id' => $sectorId,
+                ]);
+            }
+
+            // القطاع اللي اتشال بيتحذف بس لو ملوش متابعات
+            $incident->sectorResponsibilities()
+                ->whereNotIn('sectors_sec_id', $keep->all())
+                ->doesntHave('followups')
+                ->delete();
+        });
+
+        return redirect()->route('incidents.show', $incident)->with('success', 'تم تعديل الحدث بنجاح.');
+    }
+
+    /** null = مسموح بالتعديل، غير كده رسالة السبب */
+    private function editError(Incident $incident): ?string
+    {
+        if (! IncidentAccess::canEdit(Auth::user(), $incident)) {
+            return 'لا يمكنك تعديل هذا الحدث — التعديل متاح للقطاع المنشئ للحدث وقطاع المخاطر فقط.';
+        }
+
+        if ($incident->isFollowupClosed()) {
+            return 'لا يمكن تعديل حدث مغلق (آخر متابعة: إغلاق أو قبول الخطر).';
+        }
+
+        return null;
+    }
+
     public function show(Incident $incident): View
     {
+                abort_unless(\App\Support\IncidentAccess::canView(auth()->user(), $incident), 403, 'ليس لديك صلاحية على هذا الحدث.');
         $incident->load([
             'potentialRiskRegister.eventDetail.eventSubcategory.event.eventType',
             'department.sector',
@@ -141,7 +226,7 @@ class IncidentController extends Controller
      * لتحديد حالة الحدث من الأصل — عمود `resolution_status_id` كان يبقى
      * NULL دائماً منذ `store()`، ما كان يمنع أي حدث نهائياً من الظهور في
      * "تسجيل متابعة حدث" (اللي شرطها يشمل: حالة الحدث "حل جزئي"/"غير
-     * مقبول"). محمية بنفس صلاحية `edit-incidents` الموجودة أصلاً (مُسندة
+     * مقبول"). محمية بنفس صلاحية `incidents.status.update` الموجودة أصلاً (مُسندة
      * لدور incident-officer) لكن لم تكن مربوطة بأي مسار من قبل.
      */
     public function updateStatus(Request $request, Incident $incident): RedirectResponse

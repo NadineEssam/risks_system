@@ -3,12 +3,15 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\IndicatorNature;
+use App\Models\ThresholdLevel;
+use Illuminate\Validation\Validator;
 
 class StoreIndicatorRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create-indicators');
+        return $this->user()->can('indicators.create');
     }
 
     public function rules(): array
@@ -19,6 +22,10 @@ class StoreIndicatorRequest extends FormRequest
             'measurement_unit_id' => ['required', 'integer', 'exists:measurement_units,id'],
             'reporting_frequency_id' => ['required', 'integer', 'exists:reporting_frequencies,id'],
             'activity_unit_id' => ['required', 'integer', 'exists:activity_units,id'],
+                        // تاريخ الاعتماد: مطلوب عند الإضافة — وممنوع تعديله بعد كده
+            'approval_date' => $this->route('indicator')
+                ? ['prohibited']
+                : ['required', 'date', 'before_or_equal:today'],
             'indicator_name' => ['required', 'string'],
             'related_actions' => ['nullable', 'string'],
             'data_sources' => ['nullable', 'string'],
@@ -31,7 +38,8 @@ class StoreIndicatorRequest extends FormRequest
             'responsibles' => ['required', 'array', 'min:1'],
             'responsibles.*.full_name' => ['required', 'string'],
             'responsibles.*.job_title' => ['nullable', 'string'],
-            'responsibles.*.email' => ['nullable', 'email'],
+            // email:filter بيرفض CRLF — حماية لحين الترقية للارافيل 12
+            'responsibles.*.email' => ['nullable', 'email:filter'],
             'responsibles.*.responsible_role_id' => ['required', 'integer', 'exists:responsible_roles,id'],
         ];
     }
@@ -43,5 +51,40 @@ class StoreIndicatorRequest extends FormRequest
             'indicator_name.required' => 'اسم/وصف المؤشر مطلوب.',
             'responsibles.required' => 'يجب تعيين مسئول واحد على الأقل للمؤشر.',
         ];
+    }
+        /**
+     * ترتيب الحدود لازم يطابق طبيعة المؤشر:
+     * متزايد: مقبول < متوسط < مرتفع — متناقص: مقبول > متوسط > مرتفع
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator) {
+            $nature = IndicatorNature::find($this->input('indicator_nature_id'));
+            $rows   = collect($this->input('thresholds', []));
+            $levels = ThresholdLevel::whereIn('id', $rows->pluck('threshold_level_id'))->get()->keyBy('id');
+
+            $values = [];
+            foreach ($rows as $row) {
+                $order = (int) ($levels[$row['threshold_level_id'] ?? 0]->sort_order ?? 0);
+                if ($order && is_numeric($row['threshold_value'] ?? null)) {
+                    $values[$order] = (float) $row['threshold_value'];
+                }
+            }
+
+            if (! $nature || count($values) < 3) {
+                return;
+            }
+
+            $decreasing = trim($nature->nature_name) === 'متناقص';
+            $ok = $decreasing
+                ? ($values[1] > $values[2] && $values[2] > $values[3])
+                : ($values[1] < $values[2] && $values[2] < $values[3]);
+
+            if (! $ok) {
+                $validator->errors()->add('thresholds', $decreasing
+                    ? 'حدود المؤشر المتناقص يجب أن تكون تنازلية: المقبول أكبر من المتوسط، والمتوسط أكبر من المرتفع.'
+                    : 'حدود المؤشر المتزايد يجب أن تكون تصاعدية: المقبول أقل من المتوسط، والمتوسط أقل من المرتفع.');
+            }
+        });
     }
 }

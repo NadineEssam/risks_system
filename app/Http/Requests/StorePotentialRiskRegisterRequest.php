@@ -8,7 +8,7 @@ class StorePotentialRiskRegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create-risks');
+        return $this->user()->can('risks.create');
     }
 
     public function rules(): array

@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app['request']->server->set('SCRIPT_NAME',
         '/call_center/index.php');
         
-        \Illuminate\Support\Facades\URL::forceRootUrl('http://192.168.161.89/risk_management');
+        \Illuminate\Support\Facades\URL::forceRootUrl('http://msme-app-i.sfd.egypt.dom/risk_management');
         \Illuminate\Support\Facades\URL::forceScheme('http');
 
 

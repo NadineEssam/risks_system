@@ -39,7 +39,8 @@ class PotentialRiskRegisterSectorController extends Controller
     public function destroy(Request $request, PotentialRiskRegister $risk, PotentialRiskRegisterSectorDetail $sectorDetail): RedirectResponse
     {
         abort_unless($request->user()->can('risks.edit'), 403);
-        abort_unless($sectorDetail->potential_risk_register_id === $risk->id, 404);
+        // Oracle بيرجع الـ ids مرة نص ومرة رقم — المقارنة كنص عشان متطلعش 404 غلط
+        abort_unless((string) $sectorDetail->potential_risk_register_id === (string) $risk->id, 404);
 
         $sectorDetail->delete();
 

@@ -117,17 +117,41 @@
         <h5 class="card-title">الأحداث المرتبطة بهذا الخطر ({{ $risk->incidents->count() }})</h5>
         <div class="table-responsive">
           <table class="table table-sm table-borderless">
-            <thead><tr><th>الإدارة</th><th>تاريخ الاكتشاف</th><th>درجة الخطر</th><th>الحالة</th></tr></thead>
+            <thead>
+              <tr>
+                <th>وصف الحدث</th>
+                <th>الإدارة</th>
+                <th class="text-nowrap">تاريخ الاكتشاف</th>
+                <th class="text-nowrap">درجة الخطر</th>
+                <th>الحالة</th>
+                <th></th>
+              </tr>
+            </thead>
             <tbody>
-              @forelse($risk->incidents as $incident)
+              @forelse($risk->incidents->sortByDesc('id') as $incident)
                 <tr>
-                  <td>{{ $incident->department?->depname_ar }}</td>
-                  <td>{{ $incident->discovery_date?->format('Y-m-d') }}</td>
-                  <td>@riskDegreeBadge($incident->risk_degree)</td>
+                  {{-- وصف الحدث: رابط للحدث + النص الكامل عند الوقوف عليه --}}
+                  <td style="min-width:220px;">
+                    <a href="{{ route('incidents.show', $incident) }}" class="text-decoration-none"
+                       title="{{ $incident->description }}">
+                      {{ \Illuminate\Support\Str::limit($incident->description, 60) ?: 'حدث #'.$incident->id }}
+                    </a>
+                  </td>
+                  <td>{{ $incident->department?->depname_ar ?? '—' }}</td>
+                  <td class="text-nowrap">{{ $incident->discovery_date?->format('Y-m-d') ?? '—' }}</td>
+                  <td class="text-nowrap">@riskDegreeBadge($incident->risk_degree)</td>
                   <td>{{ $incident->resolutionStatus?->status_name ?? '—' }}</td>
+                  <td>
+                    @if(PerUser('incidents.show'))
+                      <a href="{{ route('incidents.show', $incident) }}" class="btn btn-sm btn-outline-info action-btn"
+                         data-bs-toggle="tooltip" title="عرض الحدث">
+                        <i class="bx bx-show"></i>
+                      </a>
+                    @endif
+                  </td>
                 </tr>
               @empty
-                <tr><td colspan="4" class="text-muted text-center py-2">لا توجد أحداث مسجلة لهذا الخطر بعد.</td></tr>
+                <tr><td colspan="6" class="text-muted text-center py-2">لا توجد أحداث مسجلة لهذا الخطر بعد.</td></tr>
               @endforelse
             </tbody>
           </table>

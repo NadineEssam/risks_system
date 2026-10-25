@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-
+use App\Support\RiskNotifications;
 /**
  * المرحلة الثانية: الحدث (Incident Workflow).
  *
@@ -118,6 +118,8 @@ class IncidentController extends Controller
 
             return $incident;
         });
+
+        RiskNotifications::incidentCreated($incident);
 
         return redirect()->route('incidents.show', $incident)
             ->with('success', "تم حفظ الحدث بنجاح. درجة الخطر المحتسبة: {$riskDegree} (تكرار {$frequencyScore} × أثر {$data['impact_score']}).");

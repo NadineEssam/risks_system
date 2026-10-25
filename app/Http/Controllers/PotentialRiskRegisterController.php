@@ -16,7 +16,7 @@ use App\Models\Sector;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-
+use App\Support\RiskNotifications;
 /**
  * المرحلة الأولى: سجل المخاطر المحتملة (Potential Risk Register Workflow).
  *
@@ -112,6 +112,11 @@ class PotentialRiskRegisterController extends Controller
             'potential_risk_register_id' => $risk->id,
             'resolution_status_id' => $data['resolution_status_id'],
         ]);
+
+        RiskNotifications::riskStatusApproved(
+            $risk,
+            \App\Models\ResolutionStatus::find($data['resolution_status_id'])?->status_name ?? '—'
+        );
 
         return back()->with('success', 'تم اعتماد حالة الخطر المحدَّثة.');
     }

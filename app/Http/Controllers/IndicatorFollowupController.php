@@ -10,7 +10,7 @@ use App\Models\ThresholdLevel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-
+use App\Support\RiskNotifications;
 /**
  * متابعة المؤشر — نفس متابعة الحدث: سجل قياسات لكل مؤشر
  * + إضافة/تعديل/عرض/حذف، ومستوى حد الخطر بيتحسب تلقائياً.
@@ -42,7 +42,8 @@ class IndicatorFollowupController extends Controller
         // المستوى من السيرفر — مش من الفورم
         $data['threshold_level_id'] = $indicator->calculateThresholdLevel($data['actual_value'])->id;
 
-        IndicatorFollowup::create($data);
+        $followup = IndicatorFollowup::create($data);
+        RiskNotifications::measurementAlert($followup);
 
         return redirect()->route('indicator-followups.index', $indicator)
             ->with('success', 'تم تسجيل القياس بنجاح.');
@@ -67,7 +68,13 @@ class IndicatorFollowupController extends Controller
         $data = $request->validated();
         $data['threshold_level_id'] = $indicator->calculateThresholdLevel($data['actual_value'])->id;
 
+        $oldLevelId = $followup->threshold_level_id;
         $followup->update($data);
+
+        // لو المستوى اتغيّر (مثلاً من مقبول لمرتفع) → إنذار
+        if ((string) $oldLevelId !== (string) $followup->threshold_level_id) {
+            RiskNotifications::measurementAlert($followup->fresh());
+        }
 
         return redirect()->route('indicator-followups.index', $indicator)
             ->with('success', 'تم تعديل القياس بنجاح.');

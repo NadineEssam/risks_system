@@ -152,10 +152,35 @@
   eventsSelect.addEventListener('change', () => populateSubcategories());
   subcategorySelect.addEventListener('change', () => populateDetails());
 
+  // ===== الاحتفاظ بالاختيارات بعد refresh (sessionStorage) — وتتمسح بعد الحفظ =====
+  const STORAGE_KEY = 'risk-create-basel';
+  const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
+
+  function saveSelection() {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+      type:   eventTypeSelect.value,
+      event:  eventsSelect.value,
+      sub:    subcategorySelect.value,
+      detail: detailSelect.value,
+    }));
+  }
+
+  [eventTypeSelect, eventsSelect, subcategorySelect, detailSelect]
+    .forEach(select => select.addEventListener('change', saveSelection));
+
+  // بعد الإرسال نمسح المحفوظ عشان صفحة الإضافة تفتح فاضية المرة الجاية
+  eventTypeSelect.closest('form')?.addEventListener('submit', () => sessionStorage.removeItem(STORAGE_KEY));
+
+  // الأولوية: old() (رجوع بخطأ تحقق) ← وبعدها المحفوظ قبل الـ refresh (لو نفس L1)
+  const useSaved   = ! oldEventId && saved.type && String(saved.type) === String(eventTypeSelect.value);
+  const initEvent  = oldEventId ?? (useSaved ? saved.event : null);
+  const initSub    = oldSubcategoryId ?? (useSaved ? saved.sub : null);
+  const initDetail = oldDetailId ?? (useSaved ? saved.detail : null);
+
   if (eventTypeSelect.value) {
-    populateEvents(oldEventId);
-    if (oldEventId) populateSubcategories(oldSubcategoryId);
-    if (oldSubcategoryId) populateDetails(oldDetailId);
+    populateEvents(initEvent);
+    if (initEvent) populateSubcategories(initSub);
+    if (initSub) populateDetails(initDetail);
   }
 </script>
 @endpush

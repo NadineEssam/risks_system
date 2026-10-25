@@ -80,7 +80,10 @@
     items.forEach(item => {
       const opt = document.createElement('option');
       opt.value = item[valueKey];
-      opt.textContent = item[labelKey];
+      // النصوص الطويلة بتظهر فاضية على Firefox (RTL) — نختصرها والنص الكامل في title
+      const text = String(item[labelKey] ?? '');
+      opt.textContent = text.length > 90 ? text.slice(0, 90) + '…' : text;
+      opt.title = text;
       if (selectedId != null && String(item[valueKey]) === String(selectedId)) opt.selected = true;
       select.appendChild(opt);
     });

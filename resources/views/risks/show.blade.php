@@ -50,7 +50,9 @@
               <strong><i class="bi bi-diagram-3 me-1"></i> {{ $sectorDetail->sector?->sector_ar }}</strong>
               @can('risks.edit')
                 <form action="{{ route('risks.sectors.destroy', [$risk, $sectorDetail]) }}" method="POST"
-                      onsubmit="return confirm('هل أنت متأكد من إلغاء ربط هذا القطاع؟')">
+                      data-confirm-title="إلغاء ربط القطاع"
+                      data-confirm="سيتم إلغاء ربط «{{ $sectorDetail->sector?->sector_ar }}» وحذف كل الإجراءات المطلوبة المرتبطة به."
+                      data-confirm-button="نعم، إلغاء الربط">
                   @csrf @method('DELETE')
                   <button class="btn btn-sm btn-link text-danger p-0">إلغاء الربط</button>
                 </form>
@@ -67,7 +69,10 @@
                     @endif
                   </div>
                   @can('risks.edit')
-                    <form action="{{ route('required-actions.destroy', $action) }}" method="POST">
+                    <form action="{{ route('required-actions.destroy', $action) }}" method="POST"
+                          data-confirm-title="حذف الإجراء"
+                          data-confirm="سيتم حذف الإجراء: «{{ \Illuminate\Support\Str::limit($action->required_action, 60) }}»"
+                          data-confirm-button="نعم، احذف">
                       @csrf @method('DELETE')
                       <button class="btn btn-sm btn-link text-danger p-0">حذف</button>
                     </form>

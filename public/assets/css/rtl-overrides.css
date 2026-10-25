@@ -281,3 +281,14 @@ table td {
 .report-icon i { font-size: 28px; color: #4154f1; }
 .report-title { font-weight: 700; color: #012970; font-size: 15px; }
 .report-desc { color: #6c757d; font-size: 12.5px; }
+
+/* لوحة التحكم: مسافة بين علامة الدليل (legend) والكلمة، وبين البنود */
+.apexcharts-legend-series {
+  margin: 4px 12px !important;
+  display: inline-flex !important;
+  align-items: center;
+}
+.apexcharts-legend-marker {
+  margin-left: 8px !important;
+  margin-right: 0 !important;
+}

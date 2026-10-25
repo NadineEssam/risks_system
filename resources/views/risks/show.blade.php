@@ -210,7 +210,30 @@
         <ul class="list-group list-group-flush">
           @forelse($risk->indicators as $indicator)
             @php $last = $indicator->lastFollowup(); @endphp
-            <li class="list-group-item px-0 d-flex justify-content-between align-items-center gap-2">
+            <li class="list-group-item px-0">
+              {{-- اسم المؤشر: سطر كامل عشان يبقى مقروء --}}
+              <a href="{{ route('indicators.show', $indicator) }}" class="d-block text-decoration-none fw-semibold mb-2"
+                 style="line-height:1.7;" title="{{ $indicator->indicator_name }}">
+                <i class="bx bx-bar-chart-alt-2 text-primary"></i>
+                {{ \Illuminate\Support\Str::limit($indicator->indicator_name, 120) }}
+              </a>
+              <div class="d-flex justify-content-between align-items-center gap-2">
+                {{-- آخر مستوى بعرض ثابت --}}
+                <span style="min-width:150px;display:inline-block;">
+                  {!! $last?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge() !!}
+                </span>
+                <div class="d-flex gap-1">
+                  @if(PerUser('indicators.show'))
+                    <a href="{{ route('indicators.show', $indicator) }}" class="btn btn-sm btn-outline-info action-btn"
+                       data-bs-toggle="tooltip" title="عرض المؤشر"><i class="bx bx-show"></i></a>
+                  @endif
+                  @if(PerUser('indicator-followups.index'))
+                    <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary action-btn"
+                       data-bs-toggle="tooltip" title="سجل قياسات المؤشر"><i class="bx bx-line-chart"></i></a>
+                  @endif
+                </div>
+              </div>
+            </li>
               {{-- اسم المؤشر → صفحة المؤشر --}}
               <a href="{{ route('indicators.show', $indicator) }}" class="text-decoration-none flex-grow-1"
                  data-bs-toggle="tooltip" title="عرض المؤشر">

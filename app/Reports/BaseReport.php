@@ -24,8 +24,9 @@ abstract class BaseReport implements ReportInterface
     public function filters(): array
     {
         return [
-            ['name' => 'date_from', 'label' => 'من تاريخ', 'type' => 'date', 'required' => false],
-            ['name' => 'date_to',   'label' => 'إلى تاريخ', 'type' => 'date', 'required' => false],
+            // اسم التاريخ واضح في الفلتر = نفس التاريخ اللي ظاهر في التقرير
+            ['name' => 'date_from', 'label' => 'من '.$this->dateLabel(), 'type' => 'date', 'required' => false],
+            ['name' => 'date_to',   'label' => 'إلى '.$this->dateLabel(), 'type' => 'date', 'required' => false],
             ['name' => 'sector_id', 'label' => 'القطاع', 'type' => 'select', 'required' => false,
                 'options' => $this->sectorOptions()],
         ];
@@ -79,6 +80,22 @@ abstract class BaseReport implements ReportInterface
             ->whereIn('departments_dep_id', $depIds)
             ->orWhereHas('potentialRiskRegister.sectorDetails', fn ($r) => $r->where('sectors_sec_id', $sector->sec_id))
         );
+    }
+
+    /** التاريخ اللي التقرير بيتفلتر بيه (كل تقرير بيحدده) */
+    public function dateLabel(): string
+    {
+        return 'التاريخ';
+    }
+
+    /** درجة الخطر بالمسمى: "9 - متوسط" */
+    protected function degree($value): string
+    {
+        if ($value === null || $value === '') {
+            return '—';
+        }
+
+        return $value.' - '.\App\Support\RiskDegreeHelper::classify((int) $value)[0];
     }
 
     protected function date($value): string

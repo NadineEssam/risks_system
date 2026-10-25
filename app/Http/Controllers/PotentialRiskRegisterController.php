@@ -39,7 +39,12 @@ class PotentialRiskRegisterController extends Controller
 
     public function store(StorePotentialRiskRegisterRequest $request): RedirectResponse
     {
-        $risk = PotentialRiskRegister::create($request->validated());
+        // نسجّل قطاع وإدارة اللي أنشأ الخطر — عشان يظهر لقطاعه في فورم الحدث
+        $user = $request->user();
+        $risk = PotentialRiskRegister::create(array_merge($request->validated(), [
+            'created_sector_id'     => $user->sector_id ?? $user->department?->sector?->sec_id,
+            'created_department_id' => $user->department_id,
+        ]));
 
         RiskResolutionStatusDetail::create([
             'potential_risk_register_id' => $risk->id,

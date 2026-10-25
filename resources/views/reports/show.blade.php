@@ -54,7 +54,10 @@
   <div class="card-body pt-3">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
       <h5 class="card-title m-0 p-0">
-        النتائج <span class="badge bg-primary">{{ $results->count() }}</span>
+        النتائج
+        <span class="badge rounded-pill bg-primary ms-2" style="font-size:15px;padding:6px 14px;">
+          {{ $results->count() }} سجل
+        </span>
       </h5>
       <div class="d-flex gap-2">
         <a href="{{ $exportUrl('xlsx') }}" class="btn btn-sm btn-success"><i class="bx bxs-file-export"></i> Excel</a>

@@ -17,7 +17,10 @@ class StoreIndicatorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'potential_risk_register_id' => ['required', 'integer', 'exists:potential_risk_registers,id'],
+            // الخطر المحتمل: عند الإضافة بس — ثابت بعد كده
+            'potential_risk_register_id' => $this->route('indicator')
+                ? ['prohibited']
+                : ['required', 'integer', 'exists:potential_risk_registers,id'],
             'indicator_nature_id' => ['required', 'integer', 'exists:indicator_natures,id'],
             'measurement_unit_id' => ['required', 'integer', 'exists:measurement_units,id'],
             'reporting_frequency_id' => ['required', 'integer', 'exists:reporting_frequencies,id'],

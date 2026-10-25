@@ -73,15 +73,21 @@ body {
   margin-left: 10px;
 }
 
+/* السهم: مقفول = لليسار ← — مفتوح = لتحت ↓ */
 .sidebar-nav .nav-link .bi-chevron-down {
   margin-right: auto;
   margin-left: 0;
-  transform: rotate(180deg);
+  transform: rotate(90deg) !important;
+  transition: transform .2s ease-in-out;
 }
 
 .sidebar-nav .nav-link:not(.collapsed) .bi-chevron-down {
-  transform: rotate(270deg);
+  transform: rotate(0deg) !important;
 }
+
+/* البند المفتوح حالياً جوه القائمة */
+.sidebar-nav .nav-content a.active,
+.sidebar-nav .nav-content a.active i { color: #4154f1; font-weight: 600; }
 
 .sidebar-nav .nav-content a i {
   margin-right: 0;

@@ -12,6 +12,7 @@ use App\Reports\IncidentsRegisterReport;
 use App\Reports\IncidentsResolvedReport;
 use App\Reports\IndicatorAlertsReport;
 use App\Reports\IndicatorComplianceReport;
+use Illuminate\Support\Facades\DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // الداتابيز مشتركة بين اللابتوب والسيرفر — ممنوع أي أمر بيمسح البيانات
+        // (migrate:fresh / migrate:refresh / migrate:reset / db:wipe)
+        DB::prohibitDestructiveCommands(true);
 
 
                

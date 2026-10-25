@@ -29,6 +29,10 @@
         <div class="row g-3">
           <div class="col-12">
             <label class="form-label">الخطر المحتمل <span class="required-mark">*</span></label>
+            @if($isEdit)
+              <div class="form-control bg-light" style="height:auto;white-space:pre-wrap;">{{ $indicator->potentialRiskRegister?->risk_description }}</div>
+              <div class="form-text"><i class="bx bx-lock-alt"></i> لا يمكن تغيير الخطر المحتمل المرتبط بعد تسجيل المؤشر.</div>
+            @else
             <select name="potential_risk_register_id" class="form-select @error('potential_risk_register_id') is-invalid @enderror" required>
               <option value="">-- اختر الخطر المحتمل --</option>
               @foreach($risks as $risk)
@@ -40,6 +44,8 @@
               @endforeach
             </select>
             @error('potential_risk_register_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            @endif
+            @endif
           </div>
         </div>
       </div>

@@ -68,6 +68,11 @@
         'admin.users.index' => 'المستخدمون',
         'admin.roles.index' => 'الأدوار والصلاحيات',
       ])->filter(fn ($label, $route) => PerUser($route));
+
+      // admin.events.index → admin.events.* (كل صفحات البند: إضافة/تعديل/عرض)
+      $isActive   = fn ($route) => request()->routeIs(\Illuminate\Support\Str::beforeLast($route, '.').'.*');
+      $lookupOpen = $lookupLinks->keys()->contains(fn ($r) => $isActive($r));
+      $usersOpen  = $userLinks->keys()->contains(fn ($r) => $isActive($r));
     @endphp
 
     @if($lookupLinks->isNotEmpty() || $userLinks->isNotEmpty())
@@ -76,12 +81,12 @@
 
     @if($lookupLinks->isNotEmpty())
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#admin-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link {{ $lookupOpen ? '' : 'collapsed' }}" data-bs-target="#admin-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-gear"></i><span>البيانات المرجعية</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="admin-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+      <ul id="admin-nav" class="nav-content collapse {{ $lookupOpen ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
         @foreach($lookupLinks as $route => $label)
-          <li><a href="{{ route($route) }}"><i class="bi bi-circle"></i><span>{{ $label }}</span></a></li>
+          <li><a href="{{ route($route) }}" class="{{ $isActive($route) ? 'active' : '' }}"><i class="bi bi-circle"></i><span>{{ $label }}</span></a></li>
         @endforeach
       </ul>
     </li>
@@ -89,12 +94,12 @@
 
     @if($userLinks->isNotEmpty())
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link {{ $usersOpen ? '' : 'collapsed' }}" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-people"></i><span>المستخدمون والصلاحيات</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="users-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+      <ul id="users-nav" class="nav-content collapse {{ $usersOpen ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
         @foreach($userLinks as $route => $label)
-          <li><a href="{{ route($route) }}"><i class="bi bi-circle"></i><span>{{ $label }}</span></a></li>
+          <li><a href="{{ route($route) }}" class="{{ $isActive($route) ? 'active' : '' }}"><i class="bi bi-circle"></i><span>{{ $label }}</span></a></li>
         @endforeach
       </ul>
     </li>

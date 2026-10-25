@@ -48,6 +48,14 @@
     
 
     <section class="section">
+      {{-- ملخص أخطاء التحقق — موحّد لكل الفورمز --}}
+      @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong><i class="bx bx-error"></i> يرجى تصحيح الأخطاء التالية:</strong>
+          <ul class="mb-0 mt-2">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+        </div>
+      @endif
       @yield('content')
     </section>
 
@@ -108,6 +116,19 @@
   {{-- أخطاء التحقق من الخادم — wizard.js بيعلّم بيها الحقول ويفتح الخطوة اللي فيها الخطأ --}}
   <script>window.serverErrors = @json($errors->getBag('default')->getMessages());</script>
   <script src="{{ asset('assets/js/wizard.js') }}"></script>
+
+  {{-- انتهاء الجلسة: بعد مدة الخمول (SESSION_LIFETIME) نرجّع المستخدم لصفحة الدخول --}}
+  <script>
+    setTimeout(() => {
+      Swal.fire({
+        icon: 'info',
+        title: 'انتهت الجلسة',
+        text: 'تم تسجيل خروجك تلقائياً بسبب عدم النشاط. برجاء تسجيل الدخول مرة أخرى.',
+        confirmButtonText: 'تسجيل الدخول',
+        allowOutsideClick: false,
+      }).then(() => window.location.href = @json(route('login')));
+    }, {{ (int) config('session.lifetime') }} * 60 * 1000);
+  </script>
 
   @stack('scripts')
 

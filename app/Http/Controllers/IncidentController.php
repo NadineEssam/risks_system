@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
-
 /**
  * المرحلة الثانية: الحدث (Incident Workflow).
  *
@@ -47,10 +46,17 @@ class IncidentController extends Controller
 
         $userSectorId = $user->department?->sector?->sec_id;
 
-        $risks = $userSectorId
-            ? PotentialRiskRegister::active()->forSector($userSectorId)
-                ->with('eventDetail.eventSubcategory.event.eventType')->orderByDesc('creation_date')->get()
-            : collect();
+        // المخاطر المتاحة: مدير النظام وقطاع المخاطر = الكل
+        // غير كده = المخاطر المرتبطة بقطاعه + اللي قطاعه سجّلها
+        $risksQuery = PotentialRiskRegister::active()->with('eventDetail.eventSubcategory.event.eventType')->orderByDesc('id');
+
+        $risks = match (true) {
+            IncidentAccess::isCentral($user) => $risksQuery->get(),
+            (bool) $userSectorId             => $risksQuery->where(fn ($q) => $q
+                                                    ->forSector($userSectorId)
+                                                    ->orWhere('created_sector_id', $userSectorId))->get(),
+            default                          => collect(),
+        };
 
         $sectors = Sector::active()->orderBy('sector_ar')->get();
 

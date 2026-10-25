@@ -49,9 +49,27 @@
 
       <ul class="list-group list-group-flush mb-3">
         @forelse($usage as $u)
-          <li class="list-group-item px-0 d-flex justify-content-between">
-            {{ $u['label'] }}
-            <span class="badge {{ $u['count'] ? 'bg-primary' : 'bg-secondary' }}">{{ $u['count'] }}</span>
+          <li class="list-group-item px-0">
+            <div class="d-flex justify-content-between">
+              <strong>{{ $u['label'] }}</strong>
+              <span class="badge {{ $u['count'] ? 'bg-primary' : 'bg-secondary' }}">{{ $u['count'] }}</span>
+            </div>
+            @if(! empty($u['items']))
+              <ul class="small mt-2 mb-0 ps-3">
+                @foreach($u['items'] as $item)
+                  <li>
+                    @if($item['url'])
+                      <a href="{{ $item['url'] }}" class="text-decoration-none">{{ $item['name'] }}</a>
+                    @else
+                      {{ $item['name'] }}
+                    @endif
+                  </li>
+                @endforeach
+                @if($u['count'] > count($u['items']))
+                  <li class="text-muted">و{{ $u['count'] - count($u['items']) }} أخرى…</li>
+                @endif
+              </ul>
+            @endif
           </li>
         @empty
           <li class="list-group-item px-0 text-muted">غير مرتبط بجداول أخرى.</li>

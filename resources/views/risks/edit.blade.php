@@ -19,7 +19,7 @@
           <label class="form-label">تصنيف بازل العام (L1) <span class="required-mark">*</span></label>
           <select name="event_type_id" id="event_type_id" class="form-select" required>
             @foreach($eventTypes as $type)
-              <option value="{{ $type->id }}" @selected($risk->eventDetail?->eventSubcategory?->event?->event_type_id === $type->id)>{{ $type->type_name }}</option>
+              <option value="{{ $type->id }}" @selected((string) old('event_type_id', $risk->eventDetail?->eventSubcategory?->event?->event_type_id) === (string) $type->id)>{{ $type->type_name }}</option>
             @endforeach
           </select>
         </div>
@@ -74,8 +74,9 @@
   const currentSubcategoryId = @json(old('event_subcategory_id', $risk->eventDetail?->event_subcategory_id));
   const currentDetailId = @json(old('event_detail_id', $risk->event_detail_id));
 
+  // "-- اختر --" في أول كل قائمة — عشان لما L1 يتغير، الباقي ميختارش أول اختيار لوحده
   function fillSelect(select, items, valueKey, labelKey, selectedId) {
-    select.innerHTML = '';
+    select.innerHTML = '<option value="">-- اختر --</option>';
     items.forEach(item => {
       const opt = document.createElement('option');
       opt.value = item[valueKey];
@@ -106,9 +107,10 @@
   eventsSelect.addEventListener('change', () => populateSubcategories());
   subcategorySelect.addEventListener('change', () => populateDetails());
 
+  // عند فتح الصفحة: نبني السلسلة بالقيم الحالية بالترتيب (L2 ← L3 ← L4)
   populateEvents(currentEventId);
-  populateSubcategories(currentSubcategoryId);
-  populateDetails(currentDetailId);
+  if (currentEventId) populateSubcategories(currentSubcategoryId);
+  if (currentSubcategoryId) populateDetails(currentDetailId);
 </script>
 @endpush
 @endsection

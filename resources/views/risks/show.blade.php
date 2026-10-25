@@ -14,12 +14,12 @@
 
     <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h5 class="card-title mb-0">{{ $risk->classification_label }}</h5>
-          <div>
+        <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+          <h5 class="card-title mb-0 flex-grow-1" style="line-height:1.7;">{{ $risk->classification_label }}</h5>
+          <div class="d-flex gap-2 flex-shrink-0 text-nowrap">
             @can('risks.edit')
               <a href="{{ route('risks.edit', $risk) }}" class="btn btn-sm btn-outline-secondary">تعديل</a>
-              <form action="{{ route('risks.toggle', $risk) }}" method="POST" class="d-inline">
+                <form action="{{ route('risks.toggle', $risk) }}" method="POST" class="d-inline m-0">
                 @csrf
                 <button class="btn btn-sm btn-outline-{{ $risk->validity ? 'danger' : 'success' }}">
                   {{ $risk->validity ? 'إلغاء التفعيل' : 'تفعيل' }}

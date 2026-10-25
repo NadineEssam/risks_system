@@ -143,7 +143,8 @@
       <div class="card-body">
         <h5 class="card-title">حالة حل الخطر</h5>
         <ul class="list-group list-group-flush mb-3">
-          @forelse($risk->resolutionStatusDetails->sortByDesc('creation_date') as $statusDetail)
+          @php $currentStatusId = $risk->resolutionStatusDetails->sortByDesc('id')->first()?->resolution_status_id; @endphp
+          @forelse($risk->resolutionStatusDetails->sortByDesc('id') as $statusDetail)
             <li class="list-group-item px-0 d-flex justify-content-between">
               <span>{{ $statusDetail->resolutionStatus?->status_name }}</span>
               <span class="text-muted small">{{ $statusDetail->creation_date?->format('Y-m-d') }}</span>
@@ -159,8 +160,12 @@
             <label class="form-label small">اعتماد حالة جديدة</label>
             <div class="d-flex gap-2">
               <select name="resolution_status_id" class="form-select form-select-sm" required>
+                <option value="">-- اختر الحالة الجديدة --</option>
                 @foreach($resolutionStatuses as $status)
-                  <option value="{{ $status->id }}">{{ $status->status_name }}</option>
+                  @php $isCurrent = (string) $status->id === (string) $currentStatusId; @endphp
+                  <option value="{{ $status->id }}" @disabled($isCurrent)>
+                    {{ $status->status_name }}{{ $isCurrent ? ' (الحالة الحالية)' : '' }}
+                  </option>
                 @endforeach
               </select>
               <button class="btn btn-sm btn-primary text-nowrap">اعتماد</button>

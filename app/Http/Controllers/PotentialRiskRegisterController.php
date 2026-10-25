@@ -96,6 +96,13 @@ class PotentialRiskRegisterController extends Controller
             'resolution_status_id' => ['required', 'integer', 'exists:resolution_statuses,id'],
         ]);
 
+        // مينفعش نضيف نفس الحالة الحالية تاني (مثلاً: حل كلي ← حل كلي)
+        $currentStatusId = $risk->resolutionStatusDetails()->orderByDesc('id')->value('resolution_status_id');
+
+        if ((string) $currentStatusId === (string) $data['resolution_status_id']) {
+            return back()->with('error', 'هذه هي الحالة الحالية للخطر بالفعل — اختر حالة مختلفة.');
+        }
+
         RiskResolutionStatusDetail::create([
             'potential_risk_register_id' => $risk->id,
             'resolution_status_id' => $data['resolution_status_id'],

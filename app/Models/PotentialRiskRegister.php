@@ -97,7 +97,7 @@ class PotentialRiskRegister extends Model
     public function latestResolutionStatus()
     {
         return $this->hasOne(RiskResolutionStatusDetail::class, 'potential_risk_register_id')
-            ->latestOfMany('creation_date');
+            ->latestOfMany();
     }
 
     public function scopeActive($query)

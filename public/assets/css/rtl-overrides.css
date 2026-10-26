@@ -320,3 +320,17 @@ table td {
 .header-nav .notifications .notification-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
 .header-nav .notifications .notification-item p { font-size: 13px; margin-bottom: 2px; }
 .header-nav .notifications .notification-item i { font-size: 22px; margin-left: 12px; margin-right: 0; }
+
+
+/* قائمة الإشعارات في RTL: الجرس في يسار الصفحة — نثبّت القائمة من الشمال
+   عشان تفتح ناحية الصفحة (style.css كان مثبتها من اليمين بـ !important) */
+.header-nav .dropdown-menu.notifications {
+  inset: 8px auto auto -15px !important;
+  transform: none !important;
+}
+
+/* السهم الصغير فوق القائمة: يبقى ناحية الجرس */
+.header-nav .dropdown-menu.notifications.dropdown-menu-arrow::before {
+  right: auto !important;
+  left: 20px !important;
+}

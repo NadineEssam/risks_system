@@ -42,7 +42,8 @@ class PotentialRiskRegisterController extends Controller
         // نسجّل قطاع وإدارة اللي أنشأ الخطر — عشان يظهر لقطاعه في فورم الحدث
         $user = $request->user();
         $risk = PotentialRiskRegister::create(array_merge($request->validated(), [
-            'created_sector_id'     => $user->sector_id ?? $user->department?->sector?->sec_id,
+            // قطاع الإدارة أولاً (نفس اللي فورم الحدث بيقارن بيه) — وبعدها قطاع المستخدم
+            'created_sector_id'     => $user->department?->sector?->sec_id ?? $user->sector_id,
             'created_department_id' => $user->department_id,
         ]));
 

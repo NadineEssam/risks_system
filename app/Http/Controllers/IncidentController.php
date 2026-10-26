@@ -52,9 +52,11 @@ class IncidentController extends Controller
 
         $risks = match (true) {
             IncidentAccess::isCentral($user) => $risksQuery->get(),
+            // المرتبطة بقطاعه + اللي قطاعه أو إدارته سجّلتها
             (bool) $userSectorId             => $risksQuery->where(fn ($q) => $q
                                                     ->forSector($userSectorId)
-                                                    ->orWhere('created_sector_id', $userSectorId))->get(),
+                                                    ->orWhere('created_sector_id', $userSectorId)
+                                                    ->orWhere('created_department_id', $user->department_id))->get(),
             default                          => collect(),
         };
 

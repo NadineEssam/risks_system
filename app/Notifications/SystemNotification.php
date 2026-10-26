@@ -35,7 +35,7 @@ class SystemNotification extends Notification
         return [
             'title' => $this->title,
             'body'  => $this->body,
-            'url'   => $this->url,
+            'url'   => self::relativePath($this->url),
             'icon'  => $this->icon,
             'color' => $this->color,
         ];
@@ -53,5 +53,27 @@ class SystemNotification extends Notification
         }
 
         return $mail->salutation('نظام إدارة المخاطر التشغيلية');
+    }
+
+    /**
+     * نخزّن مسار الصفحة بس (/indicators/1/followups) — من غير الدومين —
+     * عشان الإشعار اللي اتعمل من اللابتوب يفتح صح على السيرفر والعكس.
+     */
+    public static function relativePath(?string $url): ?string
+    {
+        if (! $url) {
+            return null;
+        }
+
+        $path  = parse_url($url, PHP_URL_PATH) ?? '/';
+        $query = parse_url($url, PHP_URL_QUERY);
+
+        // نشيل المسار الفرعي (زي /risk_management) لو موجود في APP_URL
+        $base = rtrim((string) parse_url(config('app.url'), PHP_URL_PATH), '/');
+        if ($base !== '' && str_starts_with($path, $base)) {
+            $path = substr($path, strlen($base)) ?: '/';
+        }
+
+        return $path.($query ? '?'.$query : '');
     }
 }

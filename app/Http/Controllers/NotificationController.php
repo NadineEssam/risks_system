@@ -22,7 +22,11 @@ class NotificationController extends Controller
         $notification = $request->user()->notifications()->findOrFail($id);
         $notification->markAsRead();
 
-        return redirect($notification->data['url'] ?? route('notifications.index'));
+        // المسار المخزّن + عنوان الجهاز الحالي (يشتغل صح محلياً وعلى السيرفر)
+        // (الإشعارات القديمة اللي متخزنة بعنوان كامل بنحوّلها لمسار برضه)
+        $path = \App\Notifications\SystemNotification::relativePath($notification->data['url'] ?? null);
+
+        return redirect($path ? url($path) : route('notifications.index'));
     }
 
     public function readAll(Request $request): RedirectResponse

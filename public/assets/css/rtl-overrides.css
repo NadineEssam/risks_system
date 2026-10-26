@@ -308,3 +308,15 @@ table td {
   text-align: right;
   line-height: 1.7;
 }
+
+/* الإشعارات: النص يلف على أكتر من سطر بدل ما يتقص */
+.header-nav .notifications .notification-item { padding: 12px 15px; }
+.header-nav .notifications .notification-item h4,
+.header-nav .notifications .notification-item p {
+  white-space: normal;
+  word-break: break-word;
+  text-align: right;
+}
+.header-nav .notifications .notification-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.header-nav .notifications .notification-item p { font-size: 13px; margin-bottom: 2px; }
+.header-nav .notifications .notification-item i { font-size: 22px; margin-left: 12px; margin-right: 0; }

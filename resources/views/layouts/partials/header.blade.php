@@ -23,7 +23,9 @@
           @endif
         </a>
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="width:360px;">
+        {{-- dropdown-menu-start: في RTL بيفتح ناحية الصفحة بدل ما يخرج برة الشاشة --}}
+        <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow notifications"
+            style="width:380px;max-width:92vw;max-height:70vh;overflow-y:auto;">
           <li class="dropdown-header d-flex justify-content-between align-items-center">
             <span>{{ $unreadCount ? 'لديك '.$unreadCount.' إشعار غير مقروء' : 'لا توجد إشعارات جديدة' }}</span>
             <a href="{{ route('notifications.index') }}"><span class="badge rounded-pill bg-primary p-2">عرض الكل</span></a>

@@ -45,12 +45,15 @@ class Notifier
             return;
         }
 
-        dispatch(function () use ($users, $notification) {
+        $send = function () use ($users, $notification) {
             try {
                 Notification::send($users, $notification);
             } catch (\Throwable $e) {
                 Log::error('Notification failed: '.$e->getMessage());
             }
-        })->afterResponse();
+        };
+
+        // من الـ console (الأمر المجدول) نبعت فوراً — من الويب بعد ما الصفحة تتعرض
+        app()->runningInConsole() ? $send() : dispatch($send)->afterResponse();
     }
 }

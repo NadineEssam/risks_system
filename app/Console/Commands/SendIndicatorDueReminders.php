@@ -98,15 +98,25 @@ class SendIndicatorDueReminders extends Command
 
         $overdue = $type === 'overdue';
 
+        // نفس التنبيه (مؤشر + تاريخ استحقاق + نوع + عدد أيام) مايتبعتش مرتين
+        $key = "due:{$indicator->id}:{$due->format('Y-m-d')}:{$type}:{$days}";
+        if (\Illuminate\Support\Facades\DB::table('notifications')->where('data', 'like', '%'.$key.'%')->exists()) {
+            return;
+        }
+
+        // ⁦…⁩ بيعزل التاريخ عشان يظهر 2026-12-21 صح جوه الجملة العربي
+        $dueText = "\u{2066}".$due->format('Y-m-d')."\u{2069}";
+
         Notifier::send($users, new SystemNotification(
             $overdue ? 'تأخر قياس مؤشر' : 'اقتراب موعد قياس مؤشر',
             ($overdue
-                ? "انقضى موعد الاستحقاق {$due->format('Y-m-d')} منذ {$days} يوم دون إدخال قياس"
-                : "متبقي {$days} يوم على موعد الاستحقاق {$due->format('Y-m-d')}")
+                ? "انقضى موعد الاستحقاق {$dueText} منذ {$days} يوم دون إدخال قياس"
+                : "متبقي {$days} يوم على موعد الاستحقاق {$dueText}")
                 .' — المؤشر: '.Str::limit($indicator->indicator_name, 90),
             route('indicator-followups.index', $indicator),
             $overdue ? 'bi-alarm' : 'bi-calendar-event',
             $overdue ? 'danger' : 'warning',
+            $key,
         ));
     }
 }

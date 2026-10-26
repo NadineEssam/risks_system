@@ -38,7 +38,7 @@
                 <i class="bi {{ $notification->data['icon'] ?? 'bi-bell' }} text-{{ $notification->data['color'] ?? 'primary' }}"></i>
                 <div>
                   <h4>{{ $notification->data['title'] ?? '' }}</h4>
-                  <p>{{ \Illuminate\Support\Str::limit($notification->data['body'] ?? '', 80) }}</p>
+                  <p>{{ $notification->data['body'] ?? '' }}</p>
                   <p>{{ $notification->created_at?->diffForHumans() }}</p>
                 </div>
               </a>

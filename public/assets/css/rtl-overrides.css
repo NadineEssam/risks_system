@@ -325,7 +325,8 @@ table td {
 /* قائمة الإشعارات في RTL: الجرس في يسار الصفحة — نثبّت القائمة من الشمال
    عشان تفتح ناحية الصفحة (style.css كان مثبتها من اليمين بـ !important) */
 .header-nav .dropdown-menu.notifications {
-  inset: 8px auto auto -15px !important;
+  /* تحت الجرس مباشرة (مش فوقه) — وتفتح ناحية الصفحة */
+  inset: calc(100% + 10px) auto auto -15px !important;
   transform: none !important;
 }
 

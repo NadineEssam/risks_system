@@ -17,6 +17,7 @@ class SystemNotification extends Notification
         public ?string $url = null,
         public string $icon = 'bi-bell',
         public string $color = 'primary',
+        public ?string $key = null, // مفتاح لمنع تكرار نفس الإشعار (التنبيهات المجدولة)
     ) {}
 
     public function via(object $notifiable): array
@@ -38,6 +39,7 @@ class SystemNotification extends Notification
             'url'   => self::relativePath($this->url),
             'icon'  => $this->icon,
             'color' => $this->color,
+            'key'   => $this->key,
         ];
     }
 

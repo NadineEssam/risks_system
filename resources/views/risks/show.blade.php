@@ -234,32 +234,6 @@
                 </div>
               </div>
             </li>
-              {{-- اسم المؤشر → صفحة المؤشر --}}
-              <a href="{{ route('indicators.show', $indicator) }}" class="text-decoration-none flex-grow-1"
-                 data-bs-toggle="tooltip" title="عرض المؤشر">
-                <i class="bx bx-bar-chart-alt-2 text-primary"></i>
-                {{ \Illuminate\Support\Str::limit($indicator->indicator_name, 50) }}
-              </a>
-
-              {{-- آخر مستوى --}}
-              {!! $last?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge() !!}
-
-              {{-- 👁 عرض المؤشر (نفس أيقونة الجداول) --}}
-              @if(PerUser('indicators.show'))
-                <a href="{{ route('indicators.show', $indicator) }}" class="btn btn-sm btn-outline-info action-btn"
-                   data-bs-toggle="tooltip" title="عرض المؤشر">
-                  <i class="bx bx-show"></i>
-                </a>
-              @endif
-
-              {{-- 📈 سجل القياسات --}}
-              @if(PerUser('indicator-followups.index'))
-                <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary action-btn"
-                   data-bs-toggle="tooltip" title="سجل قياسات المؤشر">
-                  <i class="bx bx-line-chart"></i>
-                </a>
-              @endif
-            </li>
           @empty
             <li class="list-group-item px-0 text-muted small">لا توجد مؤشرات مرتبطة بعد.</li>
           @endforelse

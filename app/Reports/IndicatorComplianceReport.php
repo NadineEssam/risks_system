@@ -20,6 +20,7 @@ class IndicatorComplianceReport extends BaseReport
     public function label(): string { return 'تقرير مؤشرات الخطر غير المستوفاة في تاريخ الاستحقاق'; }
     public function description(): string { return 'لكل مؤشر: تواريخ الاستحقاق من تاريخ الاعتماد حسب دورية الإبلاغ، وهل تم إدخال القياس في موعده (منتظم / غير منتظم).'; }
     public function icon(): string { return 'bx bx-calendar-exclamation'; }
+    public function dateLabel(): string { return 'تاريخ الاستحقاق'; }
 
     public function filters(): array
     {

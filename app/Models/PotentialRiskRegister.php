@@ -18,6 +18,7 @@ class PotentialRiskRegister extends Model
 
     protected $fillable = [
         'event_detail_id', 'risk_description', 'proposed_control',
+        'created_sector_id', 'created_department_id',
         'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
 
@@ -97,7 +98,7 @@ class PotentialRiskRegister extends Model
     public function latestResolutionStatus()
     {
         return $this->hasOne(RiskResolutionStatusDetail::class, 'potential_risk_register_id')
-            ->latestOfMany('creation_date');
+            ->latestOfMany();
     }
 
     public function scopeActive($query)

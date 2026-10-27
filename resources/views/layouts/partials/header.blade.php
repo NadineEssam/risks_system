@@ -10,6 +10,44 @@
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
 
+      {{-- 🔔 الإشعارات --}}
+      @php
+        $unreadCount = auth()->user()->unreadNotifications()->count();
+        $latestUnread = auth()->user()->unreadNotifications()->latest()->take(6)->get();
+      @endphp
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown" title="الإشعارات">
+          <i class="bi bi-bell"></i>
+          @if($unreadCount)
+            <span class="badge bg-danger badge-number">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
+          @endif
+        </a>
+
+        {{-- dropdown-menu-start: في RTL بيفتح ناحية الصفحة بدل ما يخرج برة الشاشة --}}
+        <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow notifications"
+            style="width:380px;max-width:92vw;max-height:70vh;overflow-y:auto;">
+          <li class="dropdown-header d-flex justify-content-between align-items-center">
+            <span>{{ $unreadCount ? 'لديك '.$unreadCount.' إشعار غير مقروء' : 'لا توجد إشعارات جديدة' }}</span>
+            <a href="{{ route('notifications.index') }}"><span class="badge rounded-pill bg-primary p-2">عرض الكل</span></a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+
+          @foreach($latestUnread as $notification)
+            <li class="notification-item">
+              <a href="{{ route('notifications.read', $notification->id) }}" class="d-flex align-items-start gap-2 text-decoration-none text-dark w-100">
+                <i class="bi {{ $notification->data['icon'] ?? 'bi-bell' }} text-{{ $notification->data['color'] ?? 'primary' }}"></i>
+                <div>
+                  <h4>{{ $notification->data['title'] ?? '' }}</h4>
+                  <p>{{ $notification->data['body'] ?? '' }}</p>
+                  <p>{{ $notification->created_at?->diffForHumans() }}</p>
+                </div>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+          @endforeach
+        </ul>
+      </li>
+
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-person-circle fs-4"></i>

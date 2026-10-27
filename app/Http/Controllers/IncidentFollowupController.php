@@ -14,7 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-
+use App\Support\RiskNotifications;
 /**
  * متابعة الحدث — نفس نظام "الرد على البيان" في الشكاوى:
  * سجل متابعات لكل حدث + إضافة/تعديل/عرض/حذف بنفس القواعد.
@@ -65,7 +65,8 @@ class IncidentFollowupController extends Controller
             'sectors_sec_id' => $sector->sec_id,
         ]);
 
-        $responsibility->followups()->create($request->validated());
+        $followup = $responsibility->followups()->create($request->validated());
+        RiskNotifications::followupAdded($followup);
 
         return redirect()->route('incident-followups.index', $incident)
             ->with('success', 'تم تسجيل المتابعة بنجاح.');
@@ -105,7 +106,14 @@ class IncidentFollowupController extends Controller
             return redirect()->route('incident-followups.index', $incident)->with('error', $error);
         }
 
+        $oldStatusId = $followup->followup_status_id;
         $followup->update($request->validated());
+
+        // لو التعديل غيّر الحالة لإغلاق/قبول الخطر → إشعار إغلاق الحدث
+        if ((string) $oldStatusId !== (string) $followup->followup_status_id
+            && in_array($followup->fresh('followupStatus')->followupStatus?->status_name, IncidentAccess::CLOSING_STATUSES, true)) {
+            RiskNotifications::followupAdded($followup);
+        }
 
         return redirect()->route('incident-followups.index', $incident)
             ->with('success', 'تم تعديل المتابعة بنجاح.');

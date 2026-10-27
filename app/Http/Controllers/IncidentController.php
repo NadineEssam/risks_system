@@ -15,8 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-
-
+use App\Support\RiskNotifications;
 /**
  * المرحلة الثانية: الحدث (Incident Workflow).
  *
@@ -47,10 +46,19 @@ class IncidentController extends Controller
 
         $userSectorId = $user->department?->sector?->sec_id;
 
-        $risks = $userSectorId
-            ? PotentialRiskRegister::active()->forSector($userSectorId)
-                ->with('eventDetail.eventSubcategory.event.eventType')->orderByDesc('creation_date')->get()
-            : collect();
+        // المخاطر المتاحة: مدير النظام وقطاع المخاطر = الكل
+        // غير كده = المخاطر المرتبطة بقطاعه + اللي قطاعه سجّلها
+        $risksQuery = PotentialRiskRegister::active()->with('eventDetail.eventSubcategory.event.eventType')->orderByDesc('id');
+
+        $risks = match (true) {
+            IncidentAccess::isCentral($user) => $risksQuery->get(),
+            // المرتبطة بقطاعه + اللي قطاعه أو إدارته سجّلتها
+            (bool) $userSectorId             => $risksQuery->where(fn ($q) => $q
+                                                    ->forSector($userSectorId)
+                                                    ->orWhere('created_sector_id', $userSectorId)
+                                                    ->orWhere('created_department_id', $user->department_id))->get(),
+            default                          => collect(),
+        };
 
         $sectors = Sector::active()->orderBy('sector_ar')->get();
 
@@ -112,6 +120,8 @@ class IncidentController extends Controller
 
             return $incident;
         });
+
+        RiskNotifications::incidentCreated($incident);
 
         return redirect()->route('incidents.show', $incident)
             ->with('success', "تم حفظ الحدث بنجاح. درجة الخطر المحتسبة: {$riskDegree} (تكرار {$frequencyScore} × أثر {$data['impact_score']}).");

@@ -14,6 +14,8 @@ class IncidentFollowupsReport extends BaseReport
     public function label(): string { return 'تقرير متابعة الأحداث ورد الجهة المسئولة'; }
     public function description(): string { return 'كل متابعة على الأحداث: درجة الخطر، رد القطاع المسئول، وتاريخ المتابعة.'; }
     public function icon(): string { return 'bx bx-message-square-detail'; }
+    public function dateLabel(): string { return 'تاريخ المتابعة'; }
+    
 
     public function generate(array $filters): Collection
     {
@@ -37,8 +39,8 @@ class IncidentFollowupsReport extends BaseReport
 
     public function headings(): array
     {
-        return ['تاريخ الحدث', 'قطاع الحدث', 'القطاعات المسؤولة', 'وصف الحدث', 'درجة الخطر',
-            'القطاع المتابع', 'رد الجهة المسئولة', 'حالة المتابعة', 'تاريخ المتابعة'];
+        return ['تاريخ تسجيل الحدث', 'قطاع الحدث', 'القطاعات المسؤولة عن الخطر (سجل المخاطر)', 'وصف الحدث', 'درجة الخطر',
+            'القطاع المتابع', 'نص المتابعة (رد القطاع المتابع)', 'حالة المتابعة', 'تاريخ المتابعة'];
     }
 
     public function map(mixed $row): array
@@ -46,11 +48,11 @@ class IncidentFollowupsReport extends BaseReport
         $incident = $row->incidentSectorResponsibility?->incident;
 
         return [
-            $this->date($incident?->creation_date ?? $incident?->discovery_date),
+            $this->date($incident?->creation_date),
             $incident?->department?->sector?->sector_ar ?? '—',
             $this->responsibleSectors($incident?->potentialRiskRegister),
             $incident?->description ?? '—',
-            $incident?->risk_degree ?? '—',
+            $this->degree($incident?->risk_degree),
             $row->incidentSectorResponsibility?->sector?->sector_ar ?? '—',
             $row->entry_text ?? '—',
             $row->followupStatus?->status_name ?? '—',

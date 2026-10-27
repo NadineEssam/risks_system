@@ -160,12 +160,48 @@ class LookupController extends Controller
     }
 
     /** عدد الاستخدامات في كل جدول */
+    /** جدول الاستخدام → [مسار العرض، عمود الـ id للرابط، عمود الاسم] */
+    private const USAGE_LINKS = [
+        'events'                       => ['admin.events.show', 'id', 'event_name'],
+        'event_subcategories'          => ['admin.event-subcategories.show', 'id', 'subcategory_name'],
+        'event_details'                => ['admin.event-details.show', 'id', 'detail_name'],
+        'potential_risk_registers'     => ['risks.show', 'id', 'risk_description'],
+        'risk_status_details'          => ['risks.show', 'potential_risk_register_id', null],
+        'incidents'                    => ['incidents.show', 'id', 'description'],
+        'incident_followups'           => ['incident-followups.show', 'id', null],
+        'indicators'                   => ['indicators.show', 'id', 'indicator_name'],
+        'indicator_thresholds_details' => ['indicators.show', 'indicators_id', null],
+        'indicator_responsibles'       => ['indicators.show', 'indicators_id', null],
+        'indicator_followups'          => ['indicator-followups.show', 'id', null],
+    ];
+
+    /** عدد الاستخدامات + أول 20 عنصر بروابط ليهم */
     private function usageCounts(array $definition, $id): array
     {
-        return collect($definition['usage'] ?? [])->map(fn ($u) => [
-            'label' => $u[2],
-            'count' => DB::table($u[0])->where($u[1], $id)->count(),
-        ])->all();
+        return collect($definition['usage'] ?? [])->map(function ($u) use ($id) {
+            [$table, $column, $label] = $u;
+            $query = DB::table($table)->where($column, $id);
+            $count = (clone $query)->count();
+            $items = [];
+
+            if ($count && isset(self::USAGE_LINKS[$table])) {
+                [$route, $keyCol, $nameCol] = self::USAGE_LINKS[$table];
+                $cols = array_filter([$keyCol, $nameCol]);
+
+                foreach ($query->limit(20)->get($cols) as $row) {
+                    $row = array_change_key_case((array) $row, CASE_LOWER);
+                    $key = $row[$keyCol];
+                    $items[$key] = [
+                        'url'  => \Illuminate\Support\Facades\Route::has($route) ? route($route, $key) : null,
+                        'name' => $nameCol && ! empty($row[$nameCol])
+                            ? \Illuminate\Support\Str::limit((string) $row[$nameCol], 70)
+                            : '#'.$key,
+                    ];
+                }
+            }
+
+            return ['label' => $label, 'count' => $count, 'items' => array_values($items)];
+        })->all();
     }
 
     private function findItem(array $definition, string $id)

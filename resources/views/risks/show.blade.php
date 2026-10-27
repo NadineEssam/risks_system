@@ -14,12 +14,12 @@
 
     <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h5 class="card-title mb-0">{{ $risk->classification_label }}</h5>
-          <div>
+        <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+          <h5 class="card-title mb-0 flex-grow-1" style="line-height:1.7;">{{ $risk->classification_label }}</h5>
+          <div class="d-flex gap-2 flex-shrink-0 text-nowrap">
             @can('risks.edit')
               <a href="{{ route('risks.edit', $risk) }}" class="btn btn-sm btn-outline-secondary">تعديل</a>
-              <form action="{{ route('risks.toggle', $risk) }}" method="POST" class="d-inline">
+                <form action="{{ route('risks.toggle', $risk) }}" method="POST" class="d-inline m-0">
                 @csrf
                 <button class="btn btn-sm btn-outline-{{ $risk->validity ? 'danger' : 'success' }}">
                   {{ $risk->validity ? 'إلغاء التفعيل' : 'تفعيل' }}
@@ -50,7 +50,9 @@
               <strong><i class="bi bi-diagram-3 me-1"></i> {{ $sectorDetail->sector?->sector_ar }}</strong>
               @can('risks.edit')
                 <form action="{{ route('risks.sectors.destroy', [$risk, $sectorDetail]) }}" method="POST"
-                      onsubmit="return confirm('هل أنت متأكد من إلغاء ربط هذا القطاع؟')">
+                      data-confirm-title="إلغاء ربط القطاع"
+                      data-confirm="سيتم إلغاء ربط «{{ $sectorDetail->sector?->sector_ar }}» وحذف كل الإجراءات المطلوبة المرتبطة به."
+                      data-confirm-button="نعم، إلغاء الربط">
                   @csrf @method('DELETE')
                   <button class="btn btn-sm btn-link text-danger p-0">إلغاء الربط</button>
                 </form>
@@ -67,7 +69,10 @@
                     @endif
                   </div>
                   @can('risks.edit')
-                    <form action="{{ route('required-actions.destroy', $action) }}" method="POST">
+                    <form action="{{ route('required-actions.destroy', $action) }}" method="POST"
+                          data-confirm-title="حذف الإجراء"
+                          data-confirm="سيتم حذف الإجراء: «{{ \Illuminate\Support\Str::limit($action->required_action, 60) }}»"
+                          data-confirm-button="نعم، احذف">
                       @csrf @method('DELETE')
                       <button class="btn btn-sm btn-link text-danger p-0">حذف</button>
                     </form>
@@ -117,17 +122,41 @@
         <h5 class="card-title">الأحداث المرتبطة بهذا الخطر ({{ $risk->incidents->count() }})</h5>
         <div class="table-responsive">
           <table class="table table-sm table-borderless">
-            <thead><tr><th>الإدارة</th><th>تاريخ الاكتشاف</th><th>درجة الخطر</th><th>الحالة</th></tr></thead>
+            <thead>
+              <tr>
+                <th>وصف الحدث</th>
+                <th>الإدارة</th>
+                <th class="text-nowrap">تاريخ الاكتشاف</th>
+                <th class="text-nowrap">درجة الخطر</th>
+                <th>الحالة</th>
+                <th></th>
+              </tr>
+            </thead>
             <tbody>
-              @forelse($risk->incidents as $incident)
+              @forelse($risk->incidents->sortByDesc('id') as $incident)
                 <tr>
-                  <td>{{ $incident->department?->depname_ar }}</td>
-                  <td>{{ $incident->discovery_date?->format('Y-m-d') }}</td>
-                  <td>@riskDegreeBadge($incident->risk_degree)</td>
+                  {{-- وصف الحدث: رابط للحدث + النص الكامل عند الوقوف عليه --}}
+                  <td style="min-width:220px;">
+                    <a href="{{ route('incidents.show', $incident) }}" class="text-decoration-none"
+                       title="{{ $incident->description }}">
+                      {{ \Illuminate\Support\Str::limit($incident->description, 60) ?: 'حدث #'.$incident->id }}
+                    </a>
+                  </td>
+                  <td>{{ $incident->department?->depname_ar ?? '—' }}</td>
+                  <td class="text-nowrap">{{ $incident->discovery_date?->format('Y-m-d') ?? '—' }}</td>
+                  <td class="text-nowrap">@riskDegreeBadge($incident->risk_degree)</td>
                   <td>{{ $incident->resolutionStatus?->status_name ?? '—' }}</td>
+                  <td>
+                    @if(PerUser('incidents.show'))
+                      <a href="{{ route('incidents.show', $incident) }}" class="btn btn-sm btn-outline-info action-btn"
+                         data-bs-toggle="tooltip" title="عرض الحدث">
+                        <i class="bx bx-show"></i>
+                      </a>
+                    @endif
+                  </td>
                 </tr>
               @empty
-                <tr><td colspan="4" class="text-muted text-center py-2">لا توجد أحداث مسجلة لهذا الخطر بعد.</td></tr>
+                <tr><td colspan="6" class="text-muted text-center py-2">لا توجد أحداث مسجلة لهذا الخطر بعد.</td></tr>
               @endforelse
             </tbody>
           </table>
@@ -143,7 +172,8 @@
       <div class="card-body">
         <h5 class="card-title">حالة حل الخطر</h5>
         <ul class="list-group list-group-flush mb-3">
-          @forelse($risk->resolutionStatusDetails->sortByDesc('creation_date') as $statusDetail)
+          @php $currentStatusId = $risk->resolutionStatusDetails->sortByDesc('id')->first()?->resolution_status_id; @endphp
+          @forelse($risk->resolutionStatusDetails->sortByDesc('id') as $statusDetail)
             <li class="list-group-item px-0 d-flex justify-content-between">
               <span>{{ $statusDetail->resolutionStatus?->status_name }}</span>
               <span class="text-muted small">{{ $statusDetail->creation_date?->format('Y-m-d') }}</span>
@@ -159,8 +189,12 @@
             <label class="form-label small">اعتماد حالة جديدة</label>
             <div class="d-flex gap-2">
               <select name="resolution_status_id" class="form-select form-select-sm" required>
+                <option value="">-- اختر الحالة الجديدة --</option>
                 @foreach($resolutionStatuses as $status)
-                  <option value="{{ $status->id }}">{{ $status->status_name }}</option>
+                  @php $isCurrent = (string) $status->id === (string) $currentStatusId; @endphp
+                  <option value="{{ $status->id }}" @disabled($isCurrent)>
+                    {{ $status->status_name }}{{ $isCurrent ? ' (الحالة الحالية)' : '' }}
+                  </option>
                 @endforeach
               </select>
               <button class="btn btn-sm btn-primary text-nowrap">اعتماد</button>
@@ -176,32 +210,29 @@
         <ul class="list-group list-group-flush">
           @forelse($risk->indicators as $indicator)
             @php $last = $indicator->lastFollowup(); @endphp
-            <li class="list-group-item px-0 d-flex justify-content-between align-items-center gap-2">
-              {{-- اسم المؤشر → صفحة المؤشر --}}
-              <a href="{{ route('indicators.show', $indicator) }}" class="text-decoration-none flex-grow-1"
-                 data-bs-toggle="tooltip" title="عرض المؤشر">
+            <li class="list-group-item px-0">
+              {{-- اسم المؤشر: سطر كامل عشان يبقى مقروء --}}
+              <a href="{{ route('indicators.show', $indicator) }}" class="d-block text-decoration-none fw-semibold mb-2"
+                 style="line-height:1.7;" title="{{ $indicator->indicator_name }}">
                 <i class="bx bx-bar-chart-alt-2 text-primary"></i>
-                {{ \Illuminate\Support\Str::limit($indicator->indicator_name, 50) }}
+                {{ \Illuminate\Support\Str::limit($indicator->indicator_name, 120) }}
               </a>
-
-              {{-- آخر مستوى --}}
-              {!! $last?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge() !!}
-
-              {{-- 👁 عرض المؤشر (نفس أيقونة الجداول) --}}
-              @if(PerUser('indicators.show'))
-                <a href="{{ route('indicators.show', $indicator) }}" class="btn btn-sm btn-outline-info action-btn"
-                   data-bs-toggle="tooltip" title="عرض المؤشر">
-                  <i class="bx bx-show"></i>
-                </a>
-              @endif
-
-              {{-- 📈 سجل القياسات --}}
-              @if(PerUser('indicator-followups.index'))
-                <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary action-btn"
-                   data-bs-toggle="tooltip" title="سجل قياسات المؤشر">
-                  <i class="bx bx-line-chart"></i>
-                </a>
-              @endif
+              <div class="d-flex justify-content-between align-items-center gap-2">
+                {{-- آخر مستوى بعرض ثابت --}}
+                <span style="min-width:150px;display:inline-block;">
+                  {!! $last?->thresholdLevel?->badge() ?? \App\Models\ThresholdLevel::emptyBadge() !!}
+                </span>
+                <div class="d-flex gap-1">
+                  @if(PerUser('indicators.show'))
+                    <a href="{{ route('indicators.show', $indicator) }}" class="btn btn-sm btn-outline-info action-btn"
+                       data-bs-toggle="tooltip" title="عرض المؤشر"><i class="bx bx-show"></i></a>
+                  @endif
+                  @if(PerUser('indicator-followups.index'))
+                    <a href="{{ route('indicator-followups.index', $indicator) }}" class="btn btn-sm btn-outline-primary action-btn"
+                       data-bs-toggle="tooltip" title="سجل قياسات المؤشر"><i class="bx bx-line-chart"></i></a>
+                  @endif
+                </div>
+              </div>
             </li>
           @empty
             <li class="list-group-item px-0 text-muted small">لا توجد مؤشرات مرتبطة بعد.</li>

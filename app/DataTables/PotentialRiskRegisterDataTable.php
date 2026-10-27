@@ -45,7 +45,7 @@ class PotentialRiskRegisterDataTable extends BaseDataTable
         return [
             Column::make('creation_date')->title('تاريخ التسجيل')->searchable(false),
             Column::make('risk_description')->title('وصف الخطر')->orderable(false),
-            Column::computed('classification')->title('تصنيف بازل'),
+            Column::computed('classification')->title('تصنيف بازل')->addClass('col-wide'),
             Column::computed('sectors')->title('القطاعات المسؤولة'),
             Column::computed('current_status')->title('الحالة الحالية'),
             Column::make('incidents_count')->title('عدد الأحداث')->searchable(false)->orderable(false),

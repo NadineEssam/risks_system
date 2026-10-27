@@ -24,7 +24,7 @@
   <h2 style="text-align:center;">{{ $report->label() }}</h2>
   @if(! empty($filters['date_from']) || ! empty($filters['date_to']))
     <div class="meta" style="text-align:center;">
-      الفترة: {{ $filters['date_from'] ?? '...' }} إلى {{ $filters['date_to'] ?? '...' }}
+      الفترة ({{ $report->dateLabel() }}): {{ $filters['date_from'] ?? '...' }} إلى {{ $filters['date_to'] ?? '...' }}
     </div>
   @endif
 

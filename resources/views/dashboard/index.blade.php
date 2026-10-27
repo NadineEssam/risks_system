@@ -153,7 +153,7 @@
           </div>
           <div class="round-icon" style="background:{{ $bg }};color:{{ $color }};"><i class="bi {{ $icon }}"></i></div>
         </div>
-        <div id="{{ $id }}"></div>
+        <div id="{{ $id }}" dir="ltr"></div>
       </div>
     </div>
   @endforeach
@@ -218,7 +218,7 @@
         plotOptions: { bar: { horizontal: true, borderRadius: 14, borderRadiusApplication: 'end', barHeight: '58%', distributed: true } },
         dataLabels: { enabled: true, style: { fontSize: '13px', fontWeight: '700', colors: ['#111827'] } },
         xaxis: { categories: keys(obj), labels: { style: { colors: '#6b7280', fontSize: '12px' } } },
-        yaxis: { labels: { maxWidth: 320, style: { fontSize: '13px', fontWeight: 600, colors: '#0f172a' } } },
+        yaxis: { labels: { maxWidth: 360, style: { fontSize: '13px', fontWeight: 600, colors: '#1f2937' } } },
         legend: { show: false },
         noData: { text: 'لا توجد بيانات' },
       }).render();

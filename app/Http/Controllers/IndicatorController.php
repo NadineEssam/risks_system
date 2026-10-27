@@ -43,7 +43,7 @@ class IndicatorController extends Controller
 
     public function edit(Indicator $indicator): View
     {
-        $indicator->load(['thresholdDetails', 'responsibles']);
+        $indicator->load(['thresholdDetails', 'responsibles', 'potentialRiskRegister']);
 
         return view('indicators.create_edit', array_merge($this->formLookups(), [
             'indicator'      => $indicator,
@@ -57,7 +57,6 @@ class IndicatorController extends Controller
 
         DB::transaction(function () use ($data, $indicator) {
             $indicator->update([
-                'potential_risk_register_id' => $data['potential_risk_register_id'],
                 'indicator_nature_id'        => $data['indicator_nature_id'],
                 'measurement_unit_id'        => $data['measurement_unit_id'],
                 'reporting_frequency_id'     => $data['reporting_frequency_id'],

@@ -12,7 +12,8 @@ use Illuminate\Support\Str;
 class PermissionRegistry
 {
     /** مسارات متاحة لأي مستخدم مسجّل دخول */
-    public const EXEMPT = ['login', 'logout', 'dashboard'];
+    public const EXEMPT = ['login', 'logout', 'dashboard',
+        'notifications.index', 'notifications.read', 'notifications.read-all'];
 
     /** مسار => الصلاحية اللي بيستخدمها */
     public const ALIASES = [

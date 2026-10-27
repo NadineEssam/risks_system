@@ -73,15 +73,21 @@ body {
   margin-left: 10px;
 }
 
+/* السهم: مقفول = لليسار ← — مفتوح = لتحت ↓ */
 .sidebar-nav .nav-link .bi-chevron-down {
   margin-right: auto;
   margin-left: 0;
-  transform: rotate(180deg);
+  transform: rotate(90deg) !important;
+  transition: transform .2s ease-in-out;
 }
 
 .sidebar-nav .nav-link:not(.collapsed) .bi-chevron-down {
-  transform: rotate(270deg);
+  transform: rotate(0deg) !important;
 }
+
+/* البند المفتوح حالياً جوه القائمة */
+.sidebar-nav .nav-content a.active,
+.sidebar-nav .nav-content a.active i { color: #4154f1; font-weight: 600; }
 
 .sidebar-nav .nav-content a i {
   margin-right: 0;
@@ -217,9 +223,10 @@ table td {
   animation: wizard-fade-in .2s ease;
 }
 
+/* opacity بس — الـ transform بيخلي القوائم المنسدلة تظهر فاضية أحياناً على Firefox */
 @keyframes wizard-fade-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .wizard-group-invalid {
@@ -281,3 +288,50 @@ table td {
 .report-icon i { font-size: 28px; color: #4154f1; }
 .report-title { font-weight: 700; color: #012970; font-size: 15px; }
 .report-desc { color: #6c757d; font-size: 12.5px; }
+
+/* لوحة التحكم: مسافة بين علامة الدليل (legend) والكلمة، وبين البنود */
+.apexcharts-legend-series {
+  margin: 4px 12px !important;
+  display: inline-flex !important;
+  align-items: center;
+}
+.apexcharts-legend-marker {
+  margin-left: 8px !important;
+  margin-right: 0 !important;
+}
+
+/* أعمدة النصوص الطويلة في الجداول (زي تصنيف بازل) */
+.datatable-custom td.col-wide,
+.datatable-custom th.col-wide {
+  min-width: 320px;
+  white-space: normal;
+  text-align: right;
+  line-height: 1.7;
+}
+
+/* الإشعارات: النص يلف على أكتر من سطر بدل ما يتقص */
+.header-nav .notifications .notification-item { padding: 12px 15px; }
+.header-nav .notifications .notification-item h4,
+.header-nav .notifications .notification-item p {
+  white-space: normal;
+  word-break: break-word;
+  text-align: right;
+}
+.header-nav .notifications .notification-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.header-nav .notifications .notification-item p { font-size: 13px; margin-bottom: 2px; }
+.header-nav .notifications .notification-item i { font-size: 22px; margin-left: 12px; margin-right: 0; }
+
+
+/* قائمة الإشعارات في RTL: الجرس في يسار الصفحة — نثبّت القائمة من الشمال
+   عشان تفتح ناحية الصفحة (style.css كان مثبتها من اليمين بـ !important) */
+.header-nav .dropdown-menu.notifications {
+  /* تحت الجرس مباشرة (مش فوقه) — وتفتح ناحية الصفحة */
+  inset: calc(100% + 10px) auto auto -15px !important;
+  transform: none !important;
+}
+
+/* السهم الصغير فوق القائمة: يبقى ناحية الجرس */
+.header-nav .dropdown-menu.notifications.dropdown-menu-arrow::before {
+  right: auto !important;
+  left: 20px !important;
+}

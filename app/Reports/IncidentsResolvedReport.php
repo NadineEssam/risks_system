@@ -17,6 +17,7 @@ class IncidentsResolvedReport extends BaseReport
     public function label(): string { return 'تقرير الأحداث التي تم حلها أو مقبولة'; }
     public function description(): string { return 'الأحداث بحالة حل كلي/مقبول أو آخر متابعة تم الحل/إغلاق/قبول الخطر، مع الضوابط والإجراءات.'; }
     public function icon(): string { return 'bx bx-check-shield'; }
+    public function dateLabel(): string { return 'تاريخ التسجيل'; }
 
     public function generate(array $filters): Collection
     {
@@ -49,12 +50,12 @@ class IncidentsResolvedReport extends BaseReport
     public function map(mixed $row): array
     {
         return [
-            $this->date($row->creation_date ?? $row->discovery_date),
+            $this->date($row->creation_date),
             $row->department?->sector?->sector_ar ?? '—',
             $row->department?->depname_ar ?? '—',
             $this->responsibleSectors($row->potentialRiskRegister),
             $row->description ?? '—',
-            $row->risk_degree ?? '—',
+            $this->degree($row->risk_degree),
             $row->resolutionStatus?->status_name ?? '—',
             $row->last_followup_status ?? '—',
             $row->potentialRiskRegister?->proposed_control ?? '—',

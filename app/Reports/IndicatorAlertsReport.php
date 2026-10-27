@@ -12,6 +12,7 @@ class IndicatorAlertsReport extends BaseReport
     public function label(): string { return 'تقرير مؤشرات الخطر في مرحلة الإنذار أو التصعيد'; }
     public function description(): string { return 'القياسات اللي مستواها متوسط أو مرتفع والإجراء المتخذ من القطاع.'; }
     public function icon(): string { return 'bx bx-error'; }
+    public function dateLabel(): string { return 'تاريخ القياس'; }
 
     public function generate(array $filters): Collection
     {

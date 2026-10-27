@@ -16,6 +16,7 @@ class IncidentsRegisterReport extends BaseReport
     public function label(): string { return 'تقرير جميع المدخلات بحسب تاريخ التسجيل'; }
     public function description(): string { return 'كل الأحداث المسجلة بالقطاعات والفروع مع تصنيف الخطر ودرجته والإجراءات وحالة الحدث.'; }
     public function icon(): string { return 'bx bx-list-ul'; }
+    public function dateLabel(): string { return 'تاريخ التسجيل'; }
 
     /** الفلاتر المشتركة + حالة الحدث + آخر متابعة */
     public function filters(): array
@@ -59,19 +60,21 @@ class IncidentsRegisterReport extends BaseReport
 
     public function headings(): array
     {
-        return ['التاريخ', 'قطاع الحدث', 'الفرع / الإدارة', 'القطاعات المسؤولة', 'تصنيف الخطر', 'درجة الخطر',
-            'الجهة المسئولة', 'وصف الحدث', 'الأثر الفعلي للمشكلة', 'الإجراء الحالي', 'الإجراء المقترح', 'حالة الحدث', 'آخر متابعة'];
+        return ['تاريخ التسجيل', 'تاريخ الاكتشاف', 'قطاع الحدث', 'الفرع / الإدارة', 'القطاعات المسؤولة عن الخطر (سجل المخاطر)',
+            'تصنيف الخطر', 'درجة الخطر', 'القطاعات المكلفة بمتابعة الحدث', 'وصف الحدث', 'الأثر الفعلي للمشكلة',
+            'الإجراء الحالي', 'الإجراء المقترح', 'حالة الحدث', 'آخر متابعة'];
     }
 
     public function map(mixed $row): array
     {
         return [
-            $this->date($row->creation_date ?? $row->discovery_date),
+            $this->date($row->creation_date),
+            $this->date($row->discovery_date),
             $row->department?->sector?->sector_ar ?? '—',
             $row->department?->depname_ar ?? '—',
             $this->responsibleSectors($row->potentialRiskRegister),
             $row->potentialRiskRegister?->classification_label ?? '—',
-            $row->risk_degree ?? '—',
+            $this->degree($row->risk_degree),
             $row->sectorResponsibilities->map(fn ($r) => $r->sector?->sector_ar)->filter()->unique()->implode('، ') ?: '—',
             $row->description ?? '—',
             $row->actual_impact_problem ?? '—',

@@ -16,7 +16,7 @@ use App\Models\Sector;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-
+use App\Support\RiskNotifications;
 /**
  * المرحلة الأولى: سجل المخاطر المحتملة (Potential Risk Register Workflow).
  *
@@ -39,7 +39,13 @@ class PotentialRiskRegisterController extends Controller
 
     public function store(StorePotentialRiskRegisterRequest $request): RedirectResponse
     {
-        $risk = PotentialRiskRegister::create($request->validated());
+        // نسجّل قطاع وإدارة اللي أنشأ الخطر — عشان يظهر لقطاعه في فورم الحدث
+        $user = $request->user();
+        $risk = PotentialRiskRegister::create(array_merge($request->validated(), [
+            // قطاع الإدارة أولاً (نفس اللي فورم الحدث بيقارن بيه) — وبعدها قطاع المستخدم
+            'created_sector_id'     => $user->department?->sector?->sec_id ?? $user->sector_id,
+            'created_department_id' => $user->department_id,
+        ]));
 
         RiskResolutionStatusDetail::create([
             'potential_risk_register_id' => $risk->id,
@@ -96,10 +102,22 @@ class PotentialRiskRegisterController extends Controller
             'resolution_status_id' => ['required', 'integer', 'exists:resolution_statuses,id'],
         ]);
 
+        // مينفعش نضيف نفس الحالة الحالية تاني (مثلاً: حل كلي ← حل كلي)
+        $currentStatusId = $risk->resolutionStatusDetails()->orderByDesc('id')->value('resolution_status_id');
+
+        if ((string) $currentStatusId === (string) $data['resolution_status_id']) {
+            return back()->with('error', 'هذه هي الحالة الحالية للخطر بالفعل — اختر حالة مختلفة.');
+        }
+
         RiskResolutionStatusDetail::create([
             'potential_risk_register_id' => $risk->id,
             'resolution_status_id' => $data['resolution_status_id'],
         ]);
+
+        RiskNotifications::riskStatusApproved(
+            $risk,
+            \App\Models\ResolutionStatus::find($data['resolution_status_id'])?->status_name ?? '—'
+        );
 
         return back()->with('success', 'تم اعتماد حالة الخطر المحدَّثة.');
     }

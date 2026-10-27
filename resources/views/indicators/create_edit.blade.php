@@ -45,7 +45,6 @@
             </select>
             @error('potential_risk_register_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
             @endif
-            @endif
           </div>
         </div>
       </div>

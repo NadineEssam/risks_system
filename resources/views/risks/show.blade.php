@@ -219,38 +219,6 @@
         </div>
       </div>
     @endforeach
-        <ul class="list-group list-group-flush mb-3">
-          @php $currentStatusId = $risk->resolutionStatusDetails->sortByDesc('id')->first()?->resolution_status_id; @endphp
-          @forelse($risk->resolutionStatusDetails->sortByDesc('id') as $statusDetail)
-            <li class="list-group-item px-0 d-flex justify-content-between">
-              <span>{{ $statusDetail->resolutionStatus?->status_name }}</span>
-              <span class="text-muted small">{{ $statusDetail->creation_date?->format('Y-m-d') }}</span>
-            </li>
-          @empty
-            <li class="list-group-item px-0 text-muted small">لا يوجد سجل حالات.</li>
-          @endforelse
-        </ul>
-
-        @can('risks.status.update')
-          <form action="{{ route('risks.status.update', $risk) }}" method="POST">
-            @csrf
-            <label class="form-label small">اعتماد حالة جديدة</label>
-            <div class="d-flex gap-2">
-              <select name="resolution_status_id" class="form-select form-select-sm" required>
-                <option value="">-- اختر الحالة الجديدة --</option>
-                @foreach($resolutionStatuses as $status)
-                  @php $isCurrent = (string) $status->id === (string) $currentStatusId; @endphp
-                  <option value="{{ $status->id }}" @disabled($isCurrent)>
-                    {{ $status->status_name }}{{ $isCurrent ? ' (الحالة الحالية)' : '' }}
-                  </option>
-                @endforeach
-              </select>
-              <button class="btn btn-sm btn-primary text-nowrap">اعتماد</button>
-            </div>
-          </form>
-        @endcan
-      </div>
-    </div>
 
     <div class="card">
       <div class="card-body">

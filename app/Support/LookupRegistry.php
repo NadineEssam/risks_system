@@ -15,6 +15,13 @@ use App\Models\ResolutionStatus;
 use App\Models\ResponsibleRole;
 use App\Models\RiskEvent;
 use App\Models\ThresholdLevel;
+use App\Models\CauseCategory;
+use App\Models\CauseDetail;
+use App\Models\CauseSubcategory;
+use App\Models\ControlCategory;
+use App\Models\ControlDomain;
+use App\Models\ImpactCategory;
+use App\Models\ImpactItem;
 
 /**
  * تعريف كل البيانات المرجعية (Lookups) في مكان واحد — نظام CRUD عام واحد
@@ -36,6 +43,7 @@ class LookupRegistry
                 'singular' => 'تصنيف عام',
                 'fields'   => [
                     ['name' => 'type_name', 'label' => 'اسم التصنيف', 'type' => 'text', 'required' => true],
+                    ['name' => 'type_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
                 ],
                 'usage' => [['events', 'event_type_id', 'تصنيفات بازل التفصيلية']],
             ],
@@ -48,6 +56,7 @@ class LookupRegistry
                     ['name' => 'event_type_id', 'label' => 'تصنيف بازل العام', 'type' => 'select', 'required' => true,
                         'options' => EventType::class, 'display' => 'type_name', 'relation' => 'eventType'],
                     ['name' => 'event_name', 'label' => 'اسم التصنيف التفصيلي', 'type' => 'text', 'required' => true],
+                    ['name' => 'event_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
                 ],
                 'usage' => [['event_subcategories', 'events_id', 'تصنيفات بازل الفرعية']],
             ],
@@ -77,6 +86,96 @@ class LookupRegistry
                     ['name' => 'bank_example', 'label' => 'مثال توضيحي', 'type' => 'textarea', 'required' => false, 'list' => false],
                 ],
                 'usage' => [['potential_risk_registers', 'event_detail_id', 'المخاطر المحتملة']],
+            ],
+
+            // ===================== تصنيف الأسباب (3 مستويات) — اختيار واحد للخطر =====================
+            'cause-categories' => [
+                'model'    => CauseCategory::class,
+                'title'    => 'الأسباب — المستوى الأول',
+                'singular' => 'تصنيف سبب',
+                'fields'   => [
+                    ['name' => 'category_name', 'label' => 'الاسم', 'type' => 'text', 'required' => true],
+                    ['name' => 'category_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
+                ],
+                'usage' => [['cause_subcategories', 'cause_category_id', 'فئات الأسباب']],
+            ],
+            'cause-subcategories' => [
+                'model'    => CauseSubcategory::class,
+                'title'    => 'فئات الأسباب',
+                'singular' => 'فئة سبب',
+                'with'     => ['causeCategory'],
+                'fields'   => [
+                    ['name' => 'subcategory_name', 'label' => 'اسم الفئة', 'type' => 'text', 'required' => true],
+                    ['name' => 'subcategory_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
+                    ['name' => 'cause_category_id', 'label' => 'المستوى الأول', 'type' => 'select', 'required' => true,
+                        'options' => CauseCategory::class, 'display' => 'category_name', 'relation' => 'causeCategory'],
+                ],
+                'usage' => [['cause_details', 'cause_subcategory_id', 'الأسباب']],
+            ],
+            'cause-details' => [
+                'model'    => CauseDetail::class,
+                'title'    => 'الأسباب',
+                'singular' => 'سبب',
+                'with'     => ['causeSubcategory'],
+                'fields'   => [
+                    ['name' => 'detail_name', 'label' => 'السبب', 'type' => 'text', 'required' => true],
+                    ['name' => 'detail_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
+                    ['name' => 'cause_subcategory_id', 'label' => 'فئة السبب', 'type' => 'select', 'required' => true,
+                        'options' => CauseSubcategory::class, 'display' => 'subcategory_name', 'relation' => 'causeSubcategory'],
+                ],
+                'usage' => [['potential_risk_registers', 'cause_detail_id', 'المخاطر المحتملة']],
+            ],
+
+            // ===================== تصنيف الأثر — أكتر من اختيار للخطر =====================
+            'impact-categories' => [
+                'model'    => ImpactCategory::class,
+                'title'    => 'فئات الأثر',
+                'singular' => 'فئة أثر',
+                'fields'   => [
+                    ['name' => 'category_name', 'label' => 'اسم الفئة', 'type' => 'text', 'required' => true],
+                    ['name' => 'category_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
+                ],
+                'usage' => [['impact_items', 'impact_category_id', 'الآثار']],
+            ],
+            'impact-items' => [
+                'model'    => ImpactItem::class,
+                'title'    => 'الآثار',
+                'singular' => 'أثر',
+                'with'     => ['impactCategory'],
+                'fields'   => [
+                    ['name' => 'item_name', 'label' => 'الأثر', 'type' => 'text', 'required' => true],
+                    ['name' => 'item_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
+                    ['name' => 'impact_category_id', 'label' => 'فئة الأثر', 'type' => 'select', 'required' => true,
+                        'options' => ImpactCategory::class, 'display' => 'category_name', 'relation' => 'impactCategory'],
+                    ['name' => 'nature_name', 'label' => 'طبيعة الأثر', 'type' => 'text', 'required' => false],
+                    ['name' => 'nature_code', 'label' => 'كود الطبيعة', 'type' => 'text', 'required' => false],
+                ],
+                'usage' => [['prr_impact_items', 'impact_item_id', 'المخاطر المحتملة']],
+            ],
+
+            // ===================== تصنيف الضوابط — أكتر من اختيار للخطر =====================
+            'control-domains' => [
+                'model'    => ControlDomain::class,
+                'title'    => 'مجالات الضوابط',
+                'singular' => 'مجال ضابط',
+                'fields'   => [
+                    ['name' => 'domain_name', 'label' => 'المجال', 'type' => 'text', 'required' => true],
+                    ['name' => 'domain_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
+                ],
+                'usage' => [['control_categories', 'control_domain_id', 'فئات الضوابط']],
+            ],
+            'control-categories' => [
+                'model'    => ControlCategory::class,
+                'title'    => 'فئات الضوابط',
+                'singular' => 'فئة ضابط',
+                'with'     => ['controlDomain'],
+                'fields'   => [
+                    ['name' => 'category_name', 'label' => 'فئة الضابط', 'type' => 'text', 'required' => true],
+                    ['name' => 'category_code', 'label' => 'الكود', 'type' => 'text', 'required' => false],
+                    ['name' => 'control_domain_id', 'label' => 'المجال', 'type' => 'select', 'required' => true,
+                        'options' => ControlDomain::class, 'display' => 'domain_name', 'relation' => 'controlDomain'],
+                ],
+                'usage' => [['prr_control_categories', 'control_category_id', 'المخاطر المحتملة']],
             ],
 
             // ===================== بيانات مرجعية بسيطة =====================

@@ -173,6 +173,12 @@ class LookupController extends Controller
         'indicator_thresholds_details' => ['indicators.show', 'indicators_id', null],
         'indicator_responsibles'       => ['indicators.show', 'indicators_id', null],
         'indicator_followups'          => ['indicator-followups.show', 'id', null],
+        'cause_subcategories'          => ['admin.cause-subcategories.show', 'id', 'subcategory_name'],
+        'cause_details'                => ['admin.cause-details.show', 'id', 'detail_name'],
+        'impact_items'                 => ['admin.impact-items.show', 'id', 'item_name'],
+        'control_categories'           => ['admin.control-categories.show', 'id', 'category_name'],
+        'prr_impact_items'             => ['risks.show', 'potential_risk_register_id', null],
+        'prr_control_categories'       => ['risks.show', 'potential_risk_register_id', null],
     ];
 
     /** عدد الاستخدامات + أول 20 عنصر بروابط ليهم */

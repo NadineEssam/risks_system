@@ -17,7 +17,7 @@ class EventType extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'type_name', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
+        'type_code', 'type_name', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
 
     protected function casts(): array

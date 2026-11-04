@@ -18,6 +18,7 @@ class PotentialRiskRegister extends Model
 
     protected $fillable = [
         'event_detail_id', 'risk_description', 'proposed_control',
+        'cause_detail_id',
         'created_sector_id', 'created_department_id',
         'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
@@ -34,6 +35,21 @@ class PotentialRiskRegister extends Model
     public function eventDetail()
     {
         return $this->belongsTo(EventDetail::class);
+    }
+
+    /** تصنيفات ERM: السبب (L3) — الأثر (L3) — فئة الضابط (L3) */
+    public function causeDetail() { return $this->belongsTo(CauseDetail::class); }
+
+    /** الأثر: أكتر من اختيار */
+    public function impactItems()
+    {
+        return $this->belongsToMany(ImpactItem::class, 'prr_impact_items', 'potential_risk_register_id', 'impact_item_id');
+    }
+
+    /** فئات الضوابط: أكتر من اختيار */
+    public function controlCategories()
+    {
+        return $this->belongsToMany(ControlCategory::class, 'prr_control_categories', 'potential_risk_register_id', 'control_category_id');
     }
 
     /**

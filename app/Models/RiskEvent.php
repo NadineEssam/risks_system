@@ -18,7 +18,7 @@ class RiskEvent extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'event_type_id', 'event_name', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
+        'event_type_id', 'event_code', 'event_name', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
 
     protected function casts(): array

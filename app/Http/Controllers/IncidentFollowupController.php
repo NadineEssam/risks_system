@@ -152,14 +152,13 @@ class IncidentFollowupController extends Controller
             return [$incident, 'لا يمكنك تعديل أو حذف متابعة سجّلها قطاع آخر.'];
         }
 
-        if ($incident->isFollowupClosed()) {
-            if (! $forEdit) {
-                return [$incident, 'لا يمكن حذف متابعات حدث مغلق.'];
-            }
+        // بعد إضافة متابعة أحدث، المتابعات القديمة تتقفل (عرض بس)
+        if ((int) $incident->lastFollowup()?->id !== (int) $followup->id) {
+            return [$incident, 'لا يمكن تعديل أو حذف متابعة بعد إضافة متابعة أحدث منها — يمكن تعديل آخر متابعة فقط.'];
+        }
 
-            if ((int) $incident->lastFollowup()?->id !== (int) $followup->id) {
-                return [$incident, 'لا يمكن تعديل متابعات حدث مغلق إلا آخر متابعة.'];
-            }
+        if ($incident->isFollowupClosed() && ! $forEdit) {
+            return [$incident, 'لا يمكن حذف متابعات حدث مغلق.'];
         }
 
         return [$incident, null];

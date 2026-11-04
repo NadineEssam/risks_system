@@ -13,6 +13,7 @@ use App\Models\EventType;
 use App\Models\ImpactCategory;
 use App\Models\ImpactItem;
 use App\Models\RiskEvent;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -26,7 +27,7 @@ class ErmClassificationSeeder extends Seeder
 {
     public function run(): void
     {
-        $data = json_decode(file_get_contents(database_path('seeders/data/erm_classification.json')), true);
+        $data = $this->loadWorkbook(database_path('seeders/data/erm_classification.xlsx'));
 
         DB::transaction(function () use ($data) {
             $this->events($data['events']);
@@ -108,6 +109,36 @@ class ErmClassificationSeeder extends Seeder
 
         $this->deactivateOthers(ControlDomain::class, $keep['d']);
         $this->deactivateOthers(ControlCategory::class, $keep['c']);
+    }
+
+    /**
+     * قراءة ملف قطاع المخاطر مباشرة (4 شيتات) — الصف الأول عناوين.
+     * أسماء الشيتات زي الملف المرسل بالظبط.
+     */
+    private function loadWorkbook(string $path): array
+    {
+        $book = IOFactory::load($path);
+
+        $sheet = function (string $name, array $keys) use ($book) {
+            $ws = $book->getSheetByName($name) ?? throw new \RuntimeException("الشيت غير موجود: {$name}");
+
+            return collect($ws->toArray(null, true, true, false))
+                ->skip(1)
+                ->filter(fn ($row) => array_filter($row, fn ($v) => $v !== null && trim((string) $v) !== ''))
+                ->map(fn ($row) => array_combine($keys, array_map(
+                    fn ($v) => $v === null ? null : trim((string) $v),
+                    array_slice(array_pad($row, count($keys), null), 0, count($keys))
+                )))
+                ->values()
+                ->all();
+        };
+
+        return [
+            'events'   => $sheet('تصنيف الاحداث', ['l1', 'l1_code', 'l2', 'l2_code', 'l3', 'l3_code', 'l4', 'l4_code']),
+            'causes'   => $sheet('تصنيف الاسباب', ['l1', 'l1_code', 'l2', 'l2_code', 'l3', 'l3_code']),
+            'impacts'  => $sheet('تصنيف الاثر', ['nature', 'nature_code', 'l2', 'l2_code', 'l3', 'l3_code']),
+            'controls' => $sheet('تصنيف الضوابط', ['l1', 'l1_code', 'l2', 'l2_code', 'l3', 'l3_code']),
+        ];
     }
 
     /** إلغاء تفعيل أي سجل مش في الملف (بيفضل موجود للمخاطر القديمة) */

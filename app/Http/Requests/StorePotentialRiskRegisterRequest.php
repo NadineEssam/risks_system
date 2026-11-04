@@ -24,7 +24,17 @@ class StorePotentialRiskRegisterRequest extends FormRequest
             'event_detail_id' => ['required', 'integer', 'exists:event_details,id'],
             'risk_description' => ['required', 'string'],
             'proposed_control' => ['nullable', 'string'],
-            'resolution_status_id' => ['required', 'integer', 'exists:resolution_statuses,id'],
+            // تصنيفات ERM: السبب واحد — الأثر واحد أو أكتر — الضوابط اختيارية
+            'cause_detail_id'      => ['required', 'integer', 'exists:cause_details,id'],
+            'impact_items'         => ['required', 'array', 'min:1'],
+            'impact_items.*'       => ['integer', 'exists:impact_items,id'],
+            'control_categories'   => ['nullable', 'array'],
+            'control_categories.*' => ['integer', 'exists:control_categories,id'],
+            // قبول الخطر (مقبول/غير مقبول) + معالجة الخطر (حل كلي/حل جزئي) — الاتنين مطلوبين
+            'acceptance_status_id' => ['required', 'integer',
+                \Illuminate\Validation\Rule::exists('resolution_statuses', 'id')->where('status_group', 'acceptance')],
+            'treatment_status_id'  => ['required', 'integer',
+                \Illuminate\Validation\Rule::exists('resolution_statuses', 'id')->where('status_group', 'treatment')],
         ];
     }
 
@@ -36,7 +46,10 @@ class StorePotentialRiskRegisterRequest extends FormRequest
             'event_subcategory_id.required' => 'يجب اختيار تصنيف بازل الفرعي.',
             'event_detail_id.required' => 'يجب اختيار تصنيف بازل الدقيق.',
             'risk_description.required' => 'وصف الخطر المحتمل مطلوب.',
-            'resolution_status_id.required' => 'يجب تحديد الحالة الأولية للخطر المحتمل.',
+            'cause_detail_id.required' => 'يجب اختيار السبب.',
+            'impact_items.required' => 'يجب اختيار أثر واحد على الأقل.',
+            'acceptance_status_id.required' => 'يجب تحديد قبول الخطر (مقبول / غير مقبول).',
+            'treatment_status_id.required'  => 'يجب تحديد معالجة الخطر (حل كلي / حل جزئي).',
         ];
     }
 }

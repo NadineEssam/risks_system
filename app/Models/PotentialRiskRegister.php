@@ -37,6 +37,19 @@ class PotentialRiskRegister extends Model
         return $this->belongsTo(EventDetail::class);
     }
 
+    /**
+     * آخر حالة للخطر في مجموعة معيّنة (acceptance = قبول الخطر / treatment = معالجة الخطر)
+     * — من العلاقة المحمّلة resolutionStatusDetails.resolutionStatus
+     */
+    public function currentStatus(string $group): ?ResolutionStatus
+    {
+        return $this->resolutionStatusDetails
+            ->filter(fn ($d) => $d->resolutionStatus?->status_group === $group)
+            ->sortByDesc('id')
+            ->first()
+            ?->resolutionStatus;
+    }
+
     /** تصنيفات ERM: السبب (L3) — الأثر (L3) — فئة الضابط (L3) */
     public function causeDetail() { return $this->belongsTo(CauseDetail::class); }
 

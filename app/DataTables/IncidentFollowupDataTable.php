@@ -54,12 +54,14 @@ class IncidentFollowupDataTable extends BaseDataTable
                 $canModify = IncidentAccess::canModify($user, $row);
                 $isLast    = (int) $row->id === $lastId;
 
+                // آخر متابعة بس هي اللي تتعدل/تتحذف — أول ما تتضاف متابعة أحدث، اللي قبلها تتقفل
+                // (الحذف كمان ممنوع لو الحدث مقفول)
                 $only = ['show'];
-                if ($canModify && (! $isClosed || $isLast)) {
+                if ($canModify && $isLast) {
                     $only[] = 'edit';
-                }
-                if ($canModify && ! $isClosed) {
-                    $only[] = 'destroy';
+                    if (! $isClosed) {
+                        $only[] = 'destroy';
+                    }
                 }
 
                 return $this->actionButtons('incident-followups', $row->id, 'المتابعة', $only);

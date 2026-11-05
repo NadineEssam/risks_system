@@ -29,6 +29,11 @@ class StorePotentialRiskRegisterRequest extends FormRequest
             'causes'                   => ['required', 'array', 'min:1'],
             'causes.*.cause_detail_id' => ['required', 'integer', 'distinct', 'exists:cause_details,id'],
             'causes.*.percentage'      => ['required', 'numeric', 'min:0.01', 'max:100'],
+            // شهية المخاطر: 3 مستويات، كل حد من 1 لـ 25
+            'appetite'                      => ['required', 'array', 'min:3'],
+            'appetite.*.threshold_level_id' => ['required', 'integer', 'distinct', 'exists:threshold_levels,id'],
+            'appetite.*.threshold_value'    => ['required', 'integer', 'min:1', 'max:25'],
+            'appetite.*.required_action'    => ['nullable', 'string'],
             'impact_items'         => ['required', 'array', 'min:1'],
             'impact_items.*'       => ['integer', 'exists:impact_items,id'],
             'control_categories'   => ['nullable', 'array'],
@@ -70,6 +75,23 @@ class StorePotentialRiskRegisterRequest extends FormRequest
 
             if ($total !== 100.0) {
                 $v->errors()->add('causes', "مجموع نسب الأسباب يجب أن يساوي 100% (المجموع الحالي {$total}%).");
+            }
+        });
+
+        // شهية المخاطر: لازم تكون تصاعدية (المقبول < المتوسط < المرتفع)
+        $validator->after(function (\Illuminate\Validation\Validator $v) {
+            $rows = collect($this->input('appetite', []));
+            if ($rows->isEmpty()) {
+                return;
+            }
+
+            $order = \App\Models\ThresholdLevel::whereIn('id', $rows->pluck('threshold_level_id'))->pluck('sort_order', 'id');
+            $values = $rows->mapWithKeys(fn ($r) => [
+                (int) ($order[$r['threshold_level_id'] ?? 0] ?? 0) => (int) ($r['threshold_value'] ?? 0),
+            ]);
+
+            if (isset($values[1], $values[2], $values[3]) && ! ($values[1] < $values[2] && $values[2] < $values[3])) {
+                $v->errors()->add('appetite', 'حدود شهية المخاطر يجب أن تكون تصاعدية: المقبول أقل من المتوسط، والمتوسط أقل من المرتفع.');
             }
         });
     }

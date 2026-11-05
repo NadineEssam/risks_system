@@ -88,6 +88,20 @@ abstract class BaseReport implements ReportInterface
         return 'التاريخ';
     }
 
+    /** درجة خطر الحدث بالمسمى حسب شهية الخطر المرتبط: "9 - متوسط" */
+    protected function degreeFor($incident): string
+    {
+        if (! $incident || $incident->risk_degree === null) {
+            return '—';
+        }
+
+        $incident->loadMissing('potentialRiskRegister.appetiteDetails.thresholdLevel');
+
+        return $incident->risk_degree.' - '.\App\Support\RiskDegreeHelper::classifyFor(
+            $incident->potentialRiskRegister, (int) $incident->risk_degree
+        )['label'];
+    }
+
     /** درجة الخطر بالمسمى: "9 - متوسط" */
     protected function degree($value): string
     {

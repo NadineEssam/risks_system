@@ -42,6 +42,7 @@ class DashboardController extends Controller
                 'department.sector',
                 'resolutionStatus',
                 'potentialRiskRegister.eventDetail.eventSubcategory.event.eventType',
+                'potentialRiskRegister.appetiteDetails.thresholdLevel',
             ])
             ->get();
 
@@ -89,7 +90,8 @@ class DashboardController extends Controller
         $byDegree = ['مقبول' => 0, 'متوسط' => 0, 'مرتفع' => 0];
         foreach ($incidents as $incident) {
             if ($incident->risk_degree !== null) {
-                $level = RiskDegreeHelper::classify((int) $incident->risk_degree)[0];
+                // حسب شهية الخطر المحتمل بتاعه
+                $level = RiskDegreeHelper::classifyFor($incident->potentialRiskRegister, (int) $incident->risk_degree)['label'];
                 $byDegree[$level]++;
             }
         }

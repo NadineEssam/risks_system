@@ -55,7 +55,7 @@ class IncidentsResolvedReport extends BaseReport
             $row->department?->depname_ar ?? '—',
             $this->responsibleSectors($row->potentialRiskRegister),
             $row->description ?? '—',
-            $this->degree($row->risk_degree),
+            $this->degreeFor($row),
             $row->resolutionStatus?->status_name ?? '—',
             $row->last_followup_status ?? '—',
             $row->potentialRiskRegister?->proposed_control ?? '—',

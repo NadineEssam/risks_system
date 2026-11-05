@@ -57,6 +57,21 @@ class PotentialRiskRegister extends Model
             ->withPivot('percentage');
     }
 
+    /** شهية المخاطر: حد لكل مستوى + الإجراء المطلوب */
+    public function appetiteDetails()
+    {
+        return $this->hasMany(RiskAppetiteDetail::class);
+    }
+
+    /** حدود شهية المخاطر حسب ترتيب المستوى: [1 => مقبول, 2 => متوسط, 3 => مرتفع] — فاضية لو مش متحددة */
+    public function appetiteLimits(): array
+    {
+        return $this->appetiteDetails
+            ->loadMissing('thresholdLevel')
+            ->mapWithKeys(fn ($d) => [(int) $d->thresholdLevel?->sort_order => (int) $d->threshold_value])
+            ->all();
+    }
+
     /** الأثر: أكتر من اختيار */
     public function impactItems()
     {

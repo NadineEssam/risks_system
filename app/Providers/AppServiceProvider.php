@@ -77,6 +77,11 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo \App\Support\RiskDegreeHelper::badge($expression); ?>";
         });
 
+        // درجة خطر الحدث حسب شهية الخطر المحتمل بتاعه
+        Blade::directive('incidentDegreeBadge', function ($expression) {
+            return "<?php echo \App\Support\RiskDegreeHelper::badgeForIncident($expression); ?>";
+        });
+
         // مدير النظام (super-admin) يتجاوز كل فحوصات الصلاحيات تلقائياً.
         Gate::before(function ($user, string $ability) {
             return $user->hasRole('super-admin') ? true : null;

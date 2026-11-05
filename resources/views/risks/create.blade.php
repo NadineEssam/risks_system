@@ -73,6 +73,10 @@
         @include('risks.partials.erm-cause-impact')
       </div>
 
+      <div class="wizard-step" data-step-title="شهية المخاطر">
+        @include('risks.partials.risk-appetite')
+      </div>
+
       <div class="wizard-step" data-step-title="قبول ومعالجة الخطر">
         <div class="row g-3">
           @foreach([

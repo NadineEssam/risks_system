@@ -52,6 +52,11 @@
         @include('risks.partials.erm-controls')
 
         <div class="col-12">
+          <h6 class="fw-bold text-primary mt-3">شهية المخاطر</h6>
+          @include('risks.partials.risk-appetite')
+        </div>
+
+        <div class="col-12">
           @include('risks.partials.erm-cause-impact')
         </div>
       </div>

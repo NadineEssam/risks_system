@@ -32,7 +32,7 @@ class IncidentDataTable extends BaseDataTable
             // وصف الحدث نفسه (بدل وصف الخطر المحتمل)
             ->editColumn('description', fn ($row) => Str::limit($row->description, 60) ?: '—')
             ->addColumn('department', fn ($row) => $row->department?->depname_ar ?? '—')
-            ->editColumn('risk_degree', fn ($row) => RiskDegreeHelper::badge($row->risk_degree))
+            ->editColumn('risk_degree', fn ($row) => RiskDegreeHelper::badgeForIncident($row))
             ->addColumn('status', fn ($row) => $row->resolutionStatus?->status_name ?? '—')
             // آخر حالة متابعة للحدث (زي عمود الحالة في الشكاوى)
             ->addColumn('followup_status', fn ($row) => IncidentAccess::statusBadge($row->lastFollowup()?->followupStatus?->status_name))

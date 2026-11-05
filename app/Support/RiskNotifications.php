@@ -18,18 +18,25 @@ class RiskNotifications
     /** حدث جديد → القطاعات المسؤولة (وفيها القطاع المنشئ وقطاع المخاطر) */
     public static function incidentCreated(Incident $incident): void
     {
-        $incident->loadMissing(['potentialRiskRegister', 'department', 'sectorResponsibilities']);
+        $incident->loadMissing(['potentialRiskRegister.appetiteDetails.thresholdLevel', 'department', 'sectorResponsibilities']);
 
         $users = Notifier::sectorUsers($incident->sectorResponsibilities->pluck('sectors_sec_id')->all());
 
+        // المستوى حسب شهية المخاطر — والإجراء المطلوب لو متحدد
+        $level = \App\Support\RiskDegreeHelper::classifyFor(
+            $incident->potentialRiskRegister,
+            $incident->risk_degree !== null ? (int) $incident->risk_degree : null
+        );
+
         Notifier::send($users, new SystemNotification(
-            'حدث جديد #'.$incident->id,
+            'حدث جديد #'.$incident->id.($level && $level['order'] >= 2 ? ' — مستوى '.$level['label'] : ''),
             'تم تسجيل حدث بإدارة '.($incident->department?->depname_ar ?? '—')
-                .' — درجة الخطر '.$incident->risk_degree.': '
-                .Str::limit($incident->description ?: $incident->potentialRiskRegister?->risk_description, 100),
+                .' — درجة الخطر '.$incident->risk_degree.($level ? ' ('.$level['label'].')' : '').': '
+                .Str::limit($incident->description ?: $incident->potentialRiskRegister?->risk_description, 100)
+                .($level && $level['action'] ? ' — الإجراء المطلوب: '.Str::limit($level['action'], 100) : ''),
             route('incidents.show', $incident),
             'bi-exclamation-triangle',
-            'warning',
+            match ($level['order'] ?? 1) { 3 => 'danger', 2 => 'warning', default => 'success' },
         ));
     }
 

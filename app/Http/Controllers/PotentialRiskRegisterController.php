@@ -20,6 +20,9 @@ use App\Support\RiskNotifications;
 use App\Models\CauseDetail;
 use App\Models\ControlCategory;
 use App\Models\ImpactItem;
+use App\Models\RiskAppetiteDetail;
+use App\Models\ThresholdLevel;
+
 /**
  * المرحلة الأولى: سجل المخاطر المحتملة (Potential Risk Register Workflow).
  *
@@ -60,6 +63,13 @@ class PotentialRiskRegisterController extends Controller
 
         // الأثر والضوابط: أكتر من اختيار
         $risk->impactItems()->sync($request->input('impact_items', []));
+        // شهية المخاطر: حد لكل مستوى + الإجراء المطلوب
+        foreach ($request->input('appetite', []) as $row) {
+            RiskAppetiteDetail::updateOrCreate(
+                ['potential_risk_register_id' => $risk->id, 'threshold_level_id' => $row['threshold_level_id']],
+                ['threshold_value' => (int) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
+            );
+        }
         // الأسباب + نسبة كل سبب
         $risk->causeDetails()->sync(collect($request->input('causes', []))
             ->mapWithKeys(fn ($c) => [(int) $c['cause_detail_id'] => ['percentage' => (float) $c['percentage']]])
@@ -77,6 +87,7 @@ class PotentialRiskRegisterController extends Controller
             'causeDetails.causeSubcategory',
             'impactItems.impactCategory',
             'controlCategories.controlDomain',
+            'appetiteDetails.thresholdLevel',
             'sectorDetails.sector',
             'sectorDetails.requiredActions',
             'resolutionStatusDetails.resolutionStatus',
@@ -93,7 +104,7 @@ class PotentialRiskRegisterController extends Controller
 
     public function edit(PotentialRiskRegister $risk): View
     {
-        $risk->load(['impactItems', 'controlCategories', 'causeDetails']);
+        $risk->load(['impactItems', 'controlCategories', 'causeDetails', 'appetiteDetails']);
 
         return view('risks.edit', array_merge(['risk' => $risk], $this->formLookups()));
     }
@@ -102,6 +113,13 @@ class PotentialRiskRegisterController extends Controller
     {
         $risk->update($request->validated());
         $risk->impactItems()->sync($request->input('impact_items', []));
+        // شهية المخاطر: حد لكل مستوى + الإجراء المطلوب
+        foreach ($request->input('appetite', []) as $row) {
+            RiskAppetiteDetail::updateOrCreate(
+                ['potential_risk_register_id' => $risk->id, 'threshold_level_id' => $row['threshold_level_id']],
+                ['threshold_value' => (int) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
+            );
+        }
         // الأسباب + نسبة كل سبب
         $risk->causeDetails()->sync(collect($request->input('causes', []))
             ->mapWithKeys(fn ($c) => [(int) $c['cause_detail_id'] => ['percentage' => (float) $c['percentage']]])
@@ -161,6 +179,7 @@ class PotentialRiskRegisterController extends Controller
             'resolutionStatuses' => ResolutionStatus::active()->orderBy('status_name')->get(),
             'acceptanceStatuses' => ResolutionStatus::active()->acceptance()->orderBy('status_name')->get(),
             'treatmentStatuses'  => ResolutionStatus::active()->treatment()->orderBy('status_name')->get(),
+            'thresholdLevels'    => ThresholdLevel::active()->orderBy('sort_order')->get(),
             // تصنيفات ERM (النشطة بس)
             'causeDetails'      => CauseDetail::active()->with('causeSubcategory')->orderBy('detail_code')->get(),
             'impactItems'       => ImpactItem::active()->with('impactCategory')->orderBy('item_code')->get(),

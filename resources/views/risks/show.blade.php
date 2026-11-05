@@ -146,7 +146,7 @@
                   </td>
                   <td>{{ $incident->department?->depname_ar ?? '—' }}</td>
                   <td class="text-nowrap">{{ $incident->discovery_date?->format('Y-m-d') ?? '—' }}</td>
-                  <td class="text-nowrap">@riskDegreeBadge($incident->risk_degree)</td>
+                  <td class="text-nowrap">@incidentDegreeBadge($incident->setRelation('potentialRiskRegister', $risk))</td>
                   <td>{{ $incident->resolutionStatus?->status_name ?? '—' }}</td>
                   <td>
                     @if(PerUser('incidents.show'))

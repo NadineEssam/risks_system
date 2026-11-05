@@ -106,6 +106,8 @@ return [
         'acceptance_status_id'          => 'قبول الخطر',
         'treatment_status_id'           => 'معالجة الخطر',
         'causes'                        => 'الأسباب',
+        'appetite'                      => 'شهية المخاطر',
+        'appetite.*.threshold_value'    => 'القيمة الحدية',
         'causes.*.cause_detail_id'      => 'السبب',
         'causes.*.percentage'           => 'نسبة السبب',
         'impact_items'                  => 'الأثر',

@@ -189,6 +189,30 @@ class LookupRegistry
                     ['risk_status_details', 'resolution_status_id', 'سجل حالات المخاطر'],
                 ],
             ],
+            // ===== حالات الخطر المحتمل: شاشتين منفصلتين (نفس الجدول، مجموعة مختلفة) =====
+            'acceptance-statuses' => [
+                'model'    => ResolutionStatus::class,
+                'title'    => 'حالات قبول الخطر',
+                'singular' => 'حالة قبول',
+                'where'    => ['status_group' => 'acceptance'], // بتتفلتر وبتتحفظ تلقائياً
+                'fields'   => [['name' => 'status_name', 'label' => 'اسم الحالة', 'type' => 'text', 'required' => true]],
+                'usage'    => [
+                    ['risk_status_details', 'resolution_status_id', 'سجل حالات المخاطر'],
+                    ['incidents', 'resolution_status_id', 'الأحداث'],
+                ],
+            ],
+            'treatment-statuses' => [
+                'model'    => ResolutionStatus::class,
+                'title'    => 'حالات معالجة الخطر',
+                'singular' => 'حالة معالجة',
+                'where'    => ['status_group' => 'treatment'],
+                'fields'   => [['name' => 'status_name', 'label' => 'اسم الحالة', 'type' => 'text', 'required' => true]],
+                'usage'    => [
+                    ['risk_status_details', 'resolution_status_id', 'سجل حالات المخاطر'],
+                    ['incidents', 'resolution_status_id', 'الأحداث'],
+                ],
+            ],
+
             'followup-statuses' => [
                 'model'    => FollowupStatus::class,
                 'title'    => 'حالات المتابعة',

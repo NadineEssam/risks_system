@@ -33,7 +33,9 @@ class LookupDataTable extends BaseDataTable
     {
         $model = $this->definition['model'];
 
-        return $model::query()->with($this->definition['with'] ?? []);
+        return $model::query()
+            ->with($this->definition['with'] ?? [])
+            ->when($this->definition['where'] ?? null, fn ($q, $where) => $q->where($where));
     }
 
     public function dataTable(QueryBuilder $query): EloquentDataTable

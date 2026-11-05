@@ -43,6 +43,8 @@ class LookupController extends Controller
         $definition = $this->resolve($type);
         $data = $request->validate($this->rules($definition), [], $this->attributes($definition));
         $data['validity'] = $request->boolean('validity', true);
+        // الشاشات المفلترة (زي حالات القبول/المعالجة) بتحط قيمتها تلقائياً
+        $data = array_merge($data, $definition['where'] ?? []);
 
         $definition['model']::create($data);
 
@@ -213,7 +215,9 @@ class LookupController extends Controller
 
     private function findItem(array $definition, string $id)
     {
-        return $definition['model']::with($definition['with'] ?? [])->findOrFail($id);
+        return $definition['model']::with($definition['with'] ?? [])
+            ->when($definition['where'] ?? null, fn ($q, $where) => $q->where($where))
+            ->findOrFail($id);
     }
 
     private function resolve(string $type): array

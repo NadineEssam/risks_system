@@ -178,6 +178,7 @@ class LookupController extends Controller
         'impact_items'                 => ['admin.impact-items.show', 'id', 'item_name'],
         'control_categories'           => ['admin.control-categories.show', 'id', 'category_name'],
         'prr_impact_items'             => ['risks.show', 'potential_risk_register_id', null],
+        'prr_cause_details'            => ['risks.show', 'potential_risk_register_id', null],
         'prr_control_categories'       => ['risks.show', 'potential_risk_register_id', null],
     ];
 

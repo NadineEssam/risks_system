@@ -123,7 +123,7 @@ class LookupRegistry
                     ['name' => 'cause_subcategory_id', 'label' => 'فئة السبب', 'type' => 'select', 'required' => true,
                         'options' => CauseSubcategory::class, 'display' => 'subcategory_name', 'relation' => 'causeSubcategory'],
                 ],
-                'usage' => [['potential_risk_registers', 'cause_detail_id', 'المخاطر المحتملة']],
+                'usage' => [['prr_cause_details', 'cause_detail_id', 'المخاطر المحتملة']],
             ],
 
             // ===================== تصنيف الأثر — أكتر من اختيار للخطر =====================

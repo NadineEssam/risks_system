@@ -60,6 +60,10 @@ class PotentialRiskRegisterController extends Controller
 
         // الأثر والضوابط: أكتر من اختيار
         $risk->impactItems()->sync($request->input('impact_items', []));
+        // الأسباب + نسبة كل سبب
+        $risk->causeDetails()->sync(collect($request->input('causes', []))
+            ->mapWithKeys(fn ($c) => [(int) $c['cause_detail_id'] => ['percentage' => (float) $c['percentage']]])
+            ->all());
         $risk->controlCategories()->sync($request->input('control_categories', []));
 
         return redirect()->route('risks.show', $risk)
@@ -70,7 +74,7 @@ class PotentialRiskRegisterController extends Controller
     {
         $risk->load([
             'eventDetail.eventSubcategory.event.eventType',
-            'causeDetail.causeSubcategory',
+            'causeDetails.causeSubcategory',
             'impactItems.impactCategory',
             'controlCategories.controlDomain',
             'sectorDetails.sector',
@@ -89,7 +93,7 @@ class PotentialRiskRegisterController extends Controller
 
     public function edit(PotentialRiskRegister $risk): View
     {
-        $risk->load(['impactItems', 'controlCategories']);
+        $risk->load(['impactItems', 'controlCategories', 'causeDetails']);
 
         return view('risks.edit', array_merge(['risk' => $risk], $this->formLookups()));
     }
@@ -98,6 +102,10 @@ class PotentialRiskRegisterController extends Controller
     {
         $risk->update($request->validated());
         $risk->impactItems()->sync($request->input('impact_items', []));
+        // الأسباب + نسبة كل سبب
+        $risk->causeDetails()->sync(collect($request->input('causes', []))
+            ->mapWithKeys(fn ($c) => [(int) $c['cause_detail_id'] => ['percentage' => (float) $c['percentage']]])
+            ->all());
         $risk->controlCategories()->sync($request->input('control_categories', []));
 
         return redirect()->route('risks.show', $risk)->with('success', 'تم تحديث بيانات الخطر المحتمل بنجاح.');

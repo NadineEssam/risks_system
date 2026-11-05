@@ -18,7 +18,6 @@ class PotentialRiskRegister extends Model
 
     protected $fillable = [
         'event_detail_id', 'risk_description', 'proposed_control',
-        'cause_detail_id',
         'created_sector_id', 'created_department_id',
         'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
@@ -51,7 +50,12 @@ class PotentialRiskRegister extends Model
     }
 
     /** تصنيفات ERM: السبب (L3) — الأثر (L3) — فئة الضابط (L3) */
-    public function causeDetail() { return $this->belongsTo(CauseDetail::class); }
+    /** الأسباب: أكتر من سبب — ولكل سبب نسبة مساهمة (pivot.percentage) */
+    public function causeDetails()
+    {
+        return $this->belongsToMany(CauseDetail::class, 'prr_cause_details', 'potential_risk_register_id', 'cause_detail_id')
+            ->withPivot('percentage');
+    }
 
     /** الأثر: أكتر من اختيار */
     public function impactItems()

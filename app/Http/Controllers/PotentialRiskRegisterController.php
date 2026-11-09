@@ -17,6 +17,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Support\RiskNotifications;
+use App\Models\CauseDetail;
+use App\Models\ControlCategory;
+use App\Models\ImpactItem;
+use App\Models\RiskAppetiteDetail;
+use App\Models\ThresholdLevel;
+
 /**
  * المرحلة الأولى: سجل المخاطر المحتملة (Potential Risk Register Workflow).
  *
@@ -47,10 +53,28 @@ class PotentialRiskRegisterController extends Controller
             'created_department_id' => $user->department_id,
         ]));
 
-        RiskResolutionStatusDetail::create([
-            'potential_risk_register_id' => $risk->id,
-            'resolution_status_id' => $request->validated()['resolution_status_id'],
-        ]);
+        // حالتين مستقلتين: قبول الخطر + معالجة الخطر
+        foreach (['acceptance_status_id', 'treatment_status_id'] as $field) {
+            RiskResolutionStatusDetail::create([
+                'potential_risk_register_id' => $risk->id,
+                'resolution_status_id'       => $request->validated()[$field],
+            ]);
+        }
+
+        // الأثر والضوابط: أكتر من اختيار
+        $risk->impactItems()->sync($request->input('impact_items', []));
+        // شهية المخاطر: حد لكل مستوى + الإجراء المطلوب
+        foreach ($request->input('appetite', []) as $row) {
+            RiskAppetiteDetail::updateOrCreate(
+                ['potential_risk_register_id' => $risk->id, 'threshold_level_id' => $row['threshold_level_id']],
+                ['threshold_value' => (int) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
+            );
+        }
+        // الأسباب + نسبة كل سبب
+        $risk->causeDetails()->sync(collect($request->input('causes', []))
+            ->mapWithKeys(fn ($c) => [(int) $c['cause_detail_id'] => ['percentage' => (float) $c['percentage']]])
+            ->all());
+        $risk->controlCategories()->sync($request->input('control_categories', []));
 
         return redirect()->route('risks.show', $risk)
             ->with('success', 'تم تسجيل الخطر المحتمل بنجاح. يمكنك الآن ربط القطاعات المسؤولة وتسجيل الإجراءات المطلوبة.');
@@ -60,6 +84,10 @@ class PotentialRiskRegisterController extends Controller
     {
         $risk->load([
             'eventDetail.eventSubcategory.event.eventType',
+            'causeDetails.causeSubcategory',
+            'impactItems.impactCategory',
+            'controlCategories.controlDomain',
+            'appetiteDetails.thresholdLevel',
             'sectorDetails.sector',
             'sectorDetails.requiredActions',
             'resolutionStatusDetails.resolutionStatus',
@@ -68,19 +96,35 @@ class PotentialRiskRegisterController extends Controller
         ]);
 
         $allSectors = Sector::active()->orderBy('sector_ar')->get();
-        $resolutionStatuses = ResolutionStatus::active()->orderBy('status_name')->get();
+        $acceptanceStatuses = ResolutionStatus::active()->acceptance()->orderBy('status_name')->get();
+        $treatmentStatuses  = ResolutionStatus::active()->treatment()->orderBy('status_name')->get();
 
-        return view('risks.show', compact('risk', 'allSectors', 'resolutionStatuses'));
+        return view('risks.show', compact('risk', 'allSectors', 'acceptanceStatuses', 'treatmentStatuses'));
     }
 
     public function edit(PotentialRiskRegister $risk): View
     {
+        $risk->load(['impactItems', 'controlCategories', 'causeDetails', 'appetiteDetails']);
+
         return view('risks.edit', array_merge(['risk' => $risk], $this->formLookups()));
     }
 
     public function update(UpdatePotentialRiskRegisterRequest $request, PotentialRiskRegister $risk): RedirectResponse
     {
         $risk->update($request->validated());
+        $risk->impactItems()->sync($request->input('impact_items', []));
+        // شهية المخاطر: حد لكل مستوى + الإجراء المطلوب
+        foreach ($request->input('appetite', []) as $row) {
+            RiskAppetiteDetail::updateOrCreate(
+                ['potential_risk_register_id' => $risk->id, 'threshold_level_id' => $row['threshold_level_id']],
+                ['threshold_value' => (int) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
+            );
+        }
+        // الأسباب + نسبة كل سبب
+        $risk->causeDetails()->sync(collect($request->input('causes', []))
+            ->mapWithKeys(fn ($c) => [(int) $c['cause_detail_id'] => ['percentage' => (float) $c['percentage']]])
+            ->all());
+        $risk->controlCategories()->sync($request->input('control_categories', []));
 
         return redirect()->route('risks.show', $risk)->with('success', 'تم تحديث بيانات الخطر المحتمل بنجاح.');
     }
@@ -102,11 +146,17 @@ class PotentialRiskRegisterController extends Controller
             'resolution_status_id' => ['required', 'integer', 'exists:resolution_statuses,id'],
         ]);
 
-        // مينفعش نضيف نفس الحالة الحالية تاني (مثلاً: حل كلي ← حل كلي)
-        $currentStatusId = $risk->resolutionStatusDetails()->orderByDesc('id')->value('resolution_status_id');
+        // التكرار ممنوع جوه نفس المجموعة (قبول ← قبول / معالجة ← معالجة)
+        $status = ResolutionStatus::findOrFail($data['resolution_status_id']);
+        $groupLabel = $status->status_group === ResolutionStatus::GROUP_ACCEPTANCE ? 'قبول الخطر' : 'معالجة الخطر';
 
-        if ((string) $currentStatusId === (string) $data['resolution_status_id']) {
-            return back()->with('error', 'هذه هي الحالة الحالية للخطر بالفعل — اختر حالة مختلفة.');
+        $currentStatusId = $risk->resolutionStatusDetails()
+            ->whereHas('resolutionStatus', fn ($q) => $q->where('status_group', $status->status_group))
+            ->orderByDesc('id')
+            ->value('resolution_status_id');
+
+        if ((string) $currentStatusId === (string) $status->id) {
+            return back()->with('error', "هذه هي الحالة الحالية لـ ({$groupLabel}) بالفعل — اختر حالة مختلفة.");
         }
 
         RiskResolutionStatusDetail::create([
@@ -114,12 +164,9 @@ class PotentialRiskRegisterController extends Controller
             'resolution_status_id' => $data['resolution_status_id'],
         ]);
 
-        RiskNotifications::riskStatusApproved(
-            $risk,
-            \App\Models\ResolutionStatus::find($data['resolution_status_id'])?->status_name ?? '—'
-        );
+        RiskNotifications::riskStatusApproved($risk, "{$groupLabel}: {$status->status_name}");
 
-        return back()->with('success', 'تم اعتماد حالة الخطر المحدَّثة.');
+        return back()->with('success', "تم اعتماد ({$groupLabel}): {$status->status_name}.");
     }
 
     private function formLookups(): array
@@ -130,6 +177,13 @@ class PotentialRiskRegisterController extends Controller
             'eventSubcategories' => EventSubcategory::active()->orderBy('subcategory_name')->get(['id', 'events_id', 'subcategory_name']),
             'eventDetails' => EventDetail::active()->orderBy('detail_name')->get(['id', 'event_subcategory_id', 'detail_name']),
             'resolutionStatuses' => ResolutionStatus::active()->orderBy('status_name')->get(),
+            'acceptanceStatuses' => ResolutionStatus::active()->acceptance()->orderBy('status_name')->get(),
+            'treatmentStatuses'  => ResolutionStatus::active()->treatment()->orderBy('status_name')->get(),
+            'thresholdLevels'    => ThresholdLevel::active()->orderBy('sort_order')->get(),
+            // تصنيفات ERM (النشطة بس)
+            'causeDetails'      => CauseDetail::active()->with('causeSubcategory')->orderBy('detail_code')->get(),
+            'impactItems'       => ImpactItem::active()->with('impactCategory')->orderBy('item_code')->get(),
+            'controlCategories' => ControlCategory::active()->with('controlDomain')->orderBy('category_code')->get(),
         ];
     }
 }

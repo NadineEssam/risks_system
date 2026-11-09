@@ -52,7 +52,7 @@ class IncidentFollowupsReport extends BaseReport
             $incident?->department?->sector?->sector_ar ?? '—',
             $this->responsibleSectors($incident?->potentialRiskRegister),
             $incident?->description ?? '—',
-            $this->degree($incident?->risk_degree),
+            $this->degreeFor($incident),
             $row->incidentSectorResponsibility?->sector?->sector_ar ?? '—',
             $row->entry_text ?? '—',
             $row->followupStatus?->status_name ?? '—',

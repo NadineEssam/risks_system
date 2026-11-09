@@ -64,21 +64,36 @@
             <label class="form-label">الضوابط المقترحة / إجراءات المواجهة</label>
             <textarea name="proposed_control" rows="3" class="form-control">{{ old('proposed_control') }}</textarea>
           </div>
+
+          @include('risks.partials.erm-controls')
         </div>
       </div>
 
-      <div class="wizard-step" data-step-title="الحالة الأولية">
+      <div class="wizard-step" data-step-title="السبب والأثر">
+        @include('risks.partials.erm-cause-impact')
+      </div>
+
+      <div class="wizard-step" data-step-title="شهية المخاطر">
+        @include('risks.partials.risk-appetite')
+      </div>
+
+      <div class="wizard-step" data-step-title="قبول ومعالجة الخطر">
         <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">الحالة الأولية للخطر المحتمل <span class="required-mark">*</span></label>
-            <select name="resolution_status_id" class="form-select @error('resolution_status_id') is-invalid @enderror" required>
-              <option value="">-- اختر الحالة --</option>
-              @foreach($resolutionStatuses as $status)
-                <option value="{{ $status->id }}" @selected(old('resolution_status_id') == $status->id)>{{ $status->status_name }}</option>
-              @endforeach
-            </select>
-            @error('resolution_status_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
-          </div>
+          @foreach([
+            ['acceptance_status_id', 'قبول الخطر', $acceptanceStatuses],
+            ['treatment_status_id',  'معالجة الخطر', $treatmentStatuses],
+          ] as [$field, $label, $options])
+            <div class="col-md-6">
+              <label class="form-label">{{ $label }} <span class="required-mark">*</span></label>
+              <select name="{{ $field }}" class="form-select @error($field) is-invalid @enderror" required>
+                <option value="">-- اختر --</option>
+                @foreach($options as $status)
+                  <option value="{{ $status->id }}" @selected((string) old($field) === (string) $status->id)>{{ $status->status_name }}</option>
+                @endforeach
+              </select>
+              @error($field)<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+          @endforeach
         </div>
 
         <div class="alert alert-info mt-3 small">

@@ -34,6 +34,8 @@
           <p><strong>الضوابط المقترحة / إجراءات المواجهة:</strong><br>{{ $risk->proposed_control }}</p>
         @endif
 
+        @include('risks.partials.erm-summary')
+
         <div class="small text-muted">
           أُنشئ بواسطة {{ $risk->created_by }} بتاريخ {{ $risk->creation_date?->format('Y-m-d H:i') }}
         </div>
@@ -144,7 +146,7 @@
                   </td>
                   <td>{{ $incident->department?->depname_ar ?? '—' }}</td>
                   <td class="text-nowrap">{{ $incident->discovery_date?->format('Y-m-d') ?? '—' }}</td>
-                  <td class="text-nowrap">@riskDegreeBadge($incident->risk_degree)</td>
+                  <td class="text-nowrap">@incidentDegreeBadge($incident->setRelation('potentialRiskRegister', $risk))</td>
                   <td>{{ $incident->resolutionStatus?->status_name ?? '—' }}</td>
                   <td>
                     @if(PerUser('incidents.show'))
@@ -168,41 +170,55 @@
 
   <div class="col-lg-4">
 
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">حالة حل الخطر</h5>
-        <ul class="list-group list-group-flush mb-3">
-          @php $currentStatusId = $risk->resolutionStatusDetails->sortByDesc('id')->first()?->resolution_status_id; @endphp
-          @forelse($risk->resolutionStatusDetails->sortByDesc('id') as $statusDetail)
-            <li class="list-group-item px-0 d-flex justify-content-between">
-              <span>{{ $statusDetail->resolutionStatus?->status_name }}</span>
-              <span class="text-muted small">{{ $statusDetail->creation_date?->format('Y-m-d') }}</span>
-            </li>
-          @empty
-            <li class="list-group-item px-0 text-muted small">لا يوجد سجل حالات.</li>
-          @endforelse
-        </ul>
+    {{-- قبول الخطر + معالجة الخطر: كارتين مستقلين، لكل واحد سجله واعتماده --}}
+    @foreach([
+      \App\Models\ResolutionStatus::GROUP_ACCEPTANCE => ['قبول الخطر', $acceptanceStatuses, 'bi-shield-check'],
+      \App\Models\ResolutionStatus::GROUP_TREATMENT  => ['معالجة الخطر', $treatmentStatuses, 'bi-tools'],
+    ] as $group => [$title, $options, $icon])
+      @php
+        $history = $risk->resolutionStatusDetails
+          ->filter(fn ($d) => $d->resolutionStatus?->status_group === $group)
+          ->sortByDesc('id');
+        $currentStatusId = $history->first()?->resolution_status_id;
+      @endphp
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="bi {{ $icon }} text-primary"></i> {{ $title }}</h5>
+          <ul class="list-group list-group-flush mb-3">
+            @forelse($history as $statusDetail)
+              <li class="list-group-item px-0 d-flex justify-content-between">
+                <span>
+                  {{ $statusDetail->resolutionStatus?->status_name }}
+                  @if($loop->first)<span class="badge bg-primary ms-1">الحالية</span>@endif
+                </span>
+                <span class="text-muted small">{{ $statusDetail->creation_date?->format('Y-m-d') }}</span>
+              </li>
+            @empty
+              <li class="list-group-item px-0 text-muted small">لم يتم تحديد {{ $title }} بعد.</li>
+            @endforelse
+          </ul>
 
-        @can('risks.status.update')
-          <form action="{{ route('risks.status.update', $risk) }}" method="POST">
-            @csrf
-            <label class="form-label small">اعتماد حالة جديدة</label>
-            <div class="d-flex gap-2">
-              <select name="resolution_status_id" class="form-select form-select-sm" required>
-                <option value="">-- اختر الحالة الجديدة --</option>
-                @foreach($resolutionStatuses as $status)
-                  @php $isCurrent = (string) $status->id === (string) $currentStatusId; @endphp
-                  <option value="{{ $status->id }}" @disabled($isCurrent)>
-                    {{ $status->status_name }}{{ $isCurrent ? ' (الحالة الحالية)' : '' }}
-                  </option>
-                @endforeach
-              </select>
-              <button class="btn btn-sm btn-primary text-nowrap">اعتماد</button>
-            </div>
-          </form>
-        @endcan
+          @can('risks.status.update')
+            <form action="{{ route('risks.status.update', $risk) }}" method="POST">
+              @csrf
+              <label class="form-label small">اعتماد {{ $title }}</label>
+              <div class="d-flex gap-2">
+                <select name="resolution_status_id" class="form-select form-select-sm" required>
+                  <option value="">-- اختر --</option>
+                  @foreach($options as $status)
+                    @php $isCurrent = (string) $status->id === (string) $currentStatusId; @endphp
+                    <option value="{{ $status->id }}" @disabled($isCurrent)>
+                      {{ $status->status_name }}{{ $isCurrent ? ' (الحالية)' : '' }}
+                    </option>
+                  @endforeach
+                </select>
+                <button class="btn btn-sm btn-primary text-nowrap">اعتماد</button>
+              </div>
+            </form>
+          @endcan
+        </div>
       </div>
-    </div>
+    @endforeach
 
     <div class="card">
       <div class="card-body">

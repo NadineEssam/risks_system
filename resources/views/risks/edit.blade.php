@@ -48,6 +48,17 @@
           <label class="form-label">الضوابط المقترحة / إجراءات المواجهة</label>
           <textarea name="proposed_control" rows="3" class="form-control">{{ old('proposed_control', $risk->proposed_control) }}</textarea>
         </div>
+
+        @include('risks.partials.erm-controls')
+
+        <div class="col-12">
+          <h6 class="fw-bold text-primary mt-3">شهية المخاطر</h6>
+          @include('risks.partials.risk-appetite')
+        </div>
+
+        <div class="col-12">
+          @include('risks.partials.erm-cause-impact')
+        </div>
       </div>
 
       <div class="mt-3">

@@ -15,7 +15,7 @@ class PotentialRiskRegisterDataTable extends BaseDataTable
     public function query(PotentialRiskRegister $model): QueryBuilder
     {
         return $model->newQuery()
-            ->with(['eventDetail.eventSubcategory.event.eventType', 'latestResolutionStatus.resolutionStatus'])
+            ->with(['eventDetail.eventSubcategory.event.eventType', 'resolutionStatusDetails.resolutionStatus'])
             ->withCount(['sectorDetails', 'incidents']);
     }
 
@@ -27,7 +27,9 @@ class PotentialRiskRegisterDataTable extends BaseDataTable
             ->editColumn('risk_description', fn ($row) => Str::limit($row->risk_description, 60))
             ->addColumn('classification', fn ($row) => $row->classification_label ?? '—')
             ->addColumn('sectors', fn ($row) => '<span class="badge bg-secondary">'.$row->sector_details_count.' قطاع</span>')
-            ->addColumn('current_status', fn ($row) => $row->latestResolutionStatus?->resolutionStatus?->status_name ?? '—')
+            // قبول الخطر / معالجة الخطر
+            ->addColumn('current_status', fn ($row) =>
+                ($row->currentStatus('acceptance')?->status_name ?? '—').' / '.($row->currentStatus('treatment')?->status_name ?? '—'))
             ->editColumn('validity', fn ($row) => $this->validityBadge($row->validity))
             ->addColumn('action', fn ($row) => $this->actionButtons('risks', $row->id, 'الخطر', ['show', 'edit']))
             ->rawColumns(['sectors', 'validity', 'action'])
@@ -47,7 +49,7 @@ class PotentialRiskRegisterDataTable extends BaseDataTable
             Column::make('risk_description')->title('وصف الخطر')->orderable(false),
             Column::computed('classification')->title('تصنيف بازل')->addClass('col-wide'),
             Column::computed('sectors')->title('القطاعات المسؤولة'),
-            Column::computed('current_status')->title('الحالة الحالية'),
+            Column::computed('current_status')->title('القبول / المعالجة'),
             Column::make('incidents_count')->title('عدد الأحداث')->searchable(false)->orderable(false),
             Column::make('validity')->title('الحالة')->searchable(false),
             Column::computed('action')->title('الإجراءات')->exportable(false)->printable(false)->addClass('text-center'),

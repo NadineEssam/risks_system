@@ -43,6 +43,8 @@ class LookupController extends Controller
         $definition = $this->resolve($type);
         $data = $request->validate($this->rules($definition), [], $this->attributes($definition));
         $data['validity'] = $request->boolean('validity', true);
+        // الشاشات المفلترة (زي حالات القبول/المعالجة) بتحط قيمتها تلقائياً
+        $data = array_merge($data, $definition['where'] ?? []);
 
         $definition['model']::create($data);
 
@@ -173,6 +175,13 @@ class LookupController extends Controller
         'indicator_thresholds_details' => ['indicators.show', 'indicators_id', null],
         'indicator_responsibles'       => ['indicators.show', 'indicators_id', null],
         'indicator_followups'          => ['indicator-followups.show', 'id', null],
+        'cause_subcategories'          => ['admin.cause-subcategories.show', 'id', 'subcategory_name'],
+        'cause_details'                => ['admin.cause-details.show', 'id', 'detail_name'],
+        'impact_items'                 => ['admin.impact-items.show', 'id', 'item_name'],
+        'control_categories'           => ['admin.control-categories.show', 'id', 'category_name'],
+        'prr_impact_items'             => ['risks.show', 'potential_risk_register_id', null],
+        'prr_cause_details'            => ['risks.show', 'potential_risk_register_id', null],
+        'prr_control_categories'       => ['risks.show', 'potential_risk_register_id', null],
     ];
 
     /** عدد الاستخدامات + أول 20 عنصر بروابط ليهم */
@@ -206,7 +215,9 @@ class LookupController extends Controller
 
     private function findItem(array $definition, string $id)
     {
-        return $definition['model']::with($definition['with'] ?? [])->findOrFail($id);
+        return $definition['model']::with($definition['with'] ?? [])
+            ->when($definition['where'] ?? null, fn ($q, $where) => $q->where($where))
+            ->findOrFail($id);
     }
 
     private function resolve(string $type): array

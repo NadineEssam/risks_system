@@ -17,7 +17,7 @@ class ResolutionStatus extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'status_name', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
+        'status_name', 'status_group', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
 
     protected function casts(): array
@@ -33,6 +33,13 @@ class ResolutionStatus extends Model
     {
         return $query->where('validity', true);
     }
+
+    public const GROUP_ACCEPTANCE = 'acceptance'; // قبول الخطر: مقبول / غير مقبول
+    public const GROUP_TREATMENT  = 'treatment';  // معالجة الخطر: حل كلي / حل جزئي
+
+    public function scopeAcceptance($query) { return $query->where('status_group', self::GROUP_ACCEPTANCE); }
+
+    public function scopeTreatment($query) { return $query->where('status_group', self::GROUP_TREATMENT); }
 
     // أسماء الحالات القياسية المستخدمة في منطق العمل
     public const FULLY_RESOLVED = 'حل كلي';

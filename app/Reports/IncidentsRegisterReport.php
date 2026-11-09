@@ -74,7 +74,7 @@ class IncidentsRegisterReport extends BaseReport
             $row->department?->depname_ar ?? '—',
             $this->responsibleSectors($row->potentialRiskRegister),
             $row->potentialRiskRegister?->classification_label ?? '—',
-            $this->degree($row->risk_degree),
+            $this->degreeFor($row),
             $row->sectorResponsibilities->map(fn ($r) => $r->sector?->sector_ar)->filter()->unique()->implode('، ') ?: '—',
             $row->description ?? '—',
             $row->actual_impact_problem ?? '—',

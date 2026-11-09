@@ -37,6 +37,54 @@ class PotentialRiskRegister extends Model
     }
 
     /**
+     * آخر حالة للخطر في مجموعة معيّنة (acceptance = قبول الخطر / treatment = معالجة الخطر)
+     * — من العلاقة المحمّلة resolutionStatusDetails.resolutionStatus
+     */
+    public function currentStatus(string $group): ?ResolutionStatus
+    {
+        return $this->resolutionStatusDetails
+            ->filter(fn ($d) => $d->resolutionStatus?->status_group === $group)
+            ->sortByDesc('id')
+            ->first()
+            ?->resolutionStatus;
+    }
+
+    /** تصنيفات ERM: السبب (L3) — الأثر (L3) — فئة الضابط (L3) */
+    /** الأسباب: أكتر من سبب — ولكل سبب نسبة مساهمة (pivot.percentage) */
+    public function causeDetails()
+    {
+        return $this->belongsToMany(CauseDetail::class, 'prr_cause_details', 'potential_risk_register_id', 'cause_detail_id')
+            ->withPivot('percentage');
+    }
+
+    /** شهية المخاطر: حد لكل مستوى + الإجراء المطلوب */
+    public function appetiteDetails()
+    {
+        return $this->hasMany(RiskAppetiteDetail::class);
+    }
+
+    /** حدود شهية المخاطر حسب ترتيب المستوى: [1 => مقبول, 2 => متوسط, 3 => مرتفع] — فاضية لو مش متحددة */
+    public function appetiteLimits(): array
+    {
+        return $this->appetiteDetails
+            ->loadMissing('thresholdLevel')
+            ->mapWithKeys(fn ($d) => [(int) $d->thresholdLevel?->sort_order => (int) $d->threshold_value])
+            ->all();
+    }
+
+    /** الأثر: أكتر من اختيار */
+    public function impactItems()
+    {
+        return $this->belongsToMany(ImpactItem::class, 'prr_impact_items', 'potential_risk_register_id', 'impact_item_id');
+    }
+
+    /** فئات الضوابط: أكتر من اختيار */
+    public function controlCategories()
+    {
+        return $this->belongsToMany(ControlCategory::class, 'prr_control_categories', 'potential_risk_register_id', 'control_category_id');
+    }
+
+    /**
      * نص وصفي كامل لتصنيف بازل الأربعة مستويات (العام → التفصيلي → الفرعي
      * → الدقيق)، لاستخدامه في شاشات العرض والقوائم المنسدلة بدل الاعتماد
      * في كل شاشة على سلسلة علاقات طويلة. يتطلب eager-loading السلسلة

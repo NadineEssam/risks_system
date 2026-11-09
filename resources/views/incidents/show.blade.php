@@ -37,7 +37,23 @@
         <div class="row mt-2">
           <div class="col-md-4"><strong>عدد مرات التكرار:</strong> {{ $incident->frequency_score }}</div>
           <div class="col-md-4"><strong>درجة الأثر:</strong> {{ $incident->impact_score }}</div>
-          <div class="col-md-4"><strong>درجة الخطر:</strong> @riskDegreeBadge($incident->risk_degree)</div>
+          <div class="col-md-4"><strong>درجة الخطر:</strong> @incidentDegreeBadge($incident)</div>
+
+          {{-- الإجراء المطلوب حسب شهية المخاطر للمستوى اللي الحدث وصله --}}
+          @php
+            $level = \App\Support\RiskDegreeHelper::classifyFor(
+              $incident->potentialRiskRegister,
+              $incident->risk_degree !== null ? (int) $incident->risk_degree : null
+            );
+          @endphp
+          @if($level && $level['action'])
+            <div class="col-12">
+              <div class="alert alert-{{ $level['order'] >= 3 ? 'danger' : ($level['order'] === 2 ? 'warning' : 'success') }} py-2 mb-0">
+                <strong><i class="bi bi-exclamation-diamond"></i> الإجراء المطلوب ({{ $level['label'] }}) حسب شهية المخاطر:</strong>
+                <span style="white-space:pre-wrap;">{{ $level['action'] }}</span>
+              </div>
+            </div>
+          @endif
         </div>
 
         @if($incident->description)

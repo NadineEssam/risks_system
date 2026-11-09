@@ -31,7 +31,7 @@ use App\Http\Controllers\NotificationController;
 |--------------------------------------------------------------------------
 */
 
-Route::redirect('/', function(){ return redirect()->route('dashboard'); });
+   Route::redirect('/', '/dashboard');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');

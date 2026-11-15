@@ -43,6 +43,7 @@ class DashboardController extends Controller
                 'resolutionStatus',
                 'potentialRiskRegister.eventDetail.eventSubcategory.event.eventType',
                 'potentialRiskRegister.appetiteDetails.thresholdLevel',
+                'potentialRiskRegister.appetiteNature',
             ])
             ->get();
 

@@ -5,11 +5,26 @@
   $defaults = [1 => 1, 2 => 8, 3 => 15]; // نفس التقسيم الحالي للنظام
 @endphp
 
+<div class="row g-3 mb-3">
+  <div class="col-md-4">
+    <label class="form-label">طبيعة شهية المخاطر <span class="required-mark">*</span></label>
+    <select name="appetite_nature_id" class="form-select @error('appetite_nature_id') is-invalid @enderror" required>
+      <option value="">-- اختر --</option>
+      @foreach($indicatorNatures as $nature)
+        <option value="{{ $nature->id }}" @selected((string) old('appetite_nature_id', $currentRisk?->appetite_nature_id) === (string) $nature->id)>
+          {{ $nature->nature_name }}
+        </option>
+      @endforeach
+    </select>
+    @error('appetite_nature_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+  </div>
+</div>
+
 <div class="alert alert-info small mb-3">
   <i class="bx bx-info-circle"></i>
-  تُقارن هذه الحدود بـ <strong>درجة خطر الحدث</strong> (التكرار × الأثر، من 1 إلى 25):
-  أقل من حد المتوسط = <strong>مقبول</strong> — من حد المتوسط وأقل من حد المرتفع = <strong>متوسط</strong> — من حد المرتفع فأكثر = <strong>مرتفع</strong>.
-  يجب أن تكون الحدود تصاعدية (المقبول &lt; المتوسط &lt; المرتفع).
+  تُقارن هذه الحدود بـ <strong>درجة خطر الحدث</strong> (التكرار × الأثر، من 1 إلى 25):<br>
+  <strong>متزايد:</strong> المقبول &lt; المتوسط &lt; المرتفع — من حد المرتفع فأكثر = مرتفع.<br>
+  <strong>متناقص:</strong> المقبول &gt; المتوسط &gt; المرتفع — من حد المرتفع فأقل = مرتفع.
 </div>
 
 @error('appetite')

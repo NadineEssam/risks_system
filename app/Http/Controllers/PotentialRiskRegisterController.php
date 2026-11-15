@@ -22,6 +22,7 @@ use App\Models\ControlCategory;
 use App\Models\ImpactItem;
 use App\Models\RiskAppetiteDetail;
 use App\Models\ThresholdLevel;
+use App\Models\IndicatorNature;
 
 /**
  * المرحلة الأولى: سجل المخاطر المحتملة (Potential Risk Register Workflow).
@@ -88,6 +89,7 @@ class PotentialRiskRegisterController extends Controller
             'impactItems.impactCategory',
             'controlCategories.controlDomain',
             'appetiteDetails.thresholdLevel',
+            'appetiteNature',
             'sectorDetails.sector',
             'sectorDetails.requiredActions',
             'resolutionStatusDetails.resolutionStatus',
@@ -180,6 +182,7 @@ class PotentialRiskRegisterController extends Controller
             'acceptanceStatuses' => ResolutionStatus::active()->acceptance()->orderBy('status_name')->get(),
             'treatmentStatuses'  => ResolutionStatus::active()->treatment()->orderBy('status_name')->get(),
             'thresholdLevels'    => ThresholdLevel::active()->orderBy('sort_order')->get(),
+            'indicatorNatures'   => IndicatorNature::active()->orderBy('id')->get(),
             // تصنيفات ERM (النشطة بس)
             'causeDetails'      => CauseDetail::active()->with('causeSubcategory')->orderBy('detail_code')->get(),
             'impactItems'       => ImpactItem::active()->with('impactCategory')->orderBy('item_code')->get(),

@@ -17,7 +17,7 @@ class PotentialRiskRegister extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'event_detail_id', 'risk_description', 'proposed_control',
+        'event_detail_id', 'risk_description', 'proposed_control', 'appetite_nature_id',
         'created_sector_id', 'created_department_id',
         'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
     ];
@@ -55,6 +55,18 @@ class PotentialRiskRegister extends Model
     {
         return $this->belongsToMany(CauseDetail::class, 'prr_cause_details', 'potential_risk_register_id', 'cause_detail_id')
             ->withPivot('percentage');
+    }
+
+    /** طبيعة شهية المخاطر (متزايد / متناقص) */
+    public function appetiteNature()
+    {
+        return $this->belongsTo(IndicatorNature::class, 'appetite_nature_id');
+    }
+
+    /** الشهية متناقصة؟ (فاضية = متزايد) */
+    public function isAppetiteDecreasing(): bool
+    {
+        return trim((string) $this->appetiteNature?->nature_name) === 'متناقص';
     }
 
     /** شهية المخاطر: حد لكل مستوى + الإجراء المطلوب */

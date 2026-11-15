@@ -44,7 +44,10 @@
       <span class="text-muted">—</span>
     @endforelse
   </div>
-    <p class="mb-1 mt-3"><strong>شهية المخاطر (على درجة الخطر 1-25):</strong></p>
+    <p class="mb-1 mt-3">
+    <strong>شهية المخاطر (على درجة الخطر 1-25):</strong>
+    <span class="badge bg-light text-dark border">{{ $risk->appetiteNature?->nature_name ?? 'متزايد' }}</span>
+  </p>
   @php $appetite = $risk->appetiteDetails->sortBy(fn ($d) => $d->thresholdLevel?->sort_order); @endphp
   @if($appetite->isEmpty())
     <span class="text-muted">— (يُطبق التقسيم الافتراضي: متوسط من 8، مرتفع من 15)</span>

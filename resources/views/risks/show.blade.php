@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'تفاصيل الخطر المحتمل')
-@section('page-title', 'تفاصيل الخطر المحتمل')
+@section('page-title', 'تفاصيل الخطر المحتمل رقم '.$risk->id)
 @section('breadcrumbs')
   <li class="breadcrumb-item"><a href="{{ route('risks.index') }}">سجل المخاطر المحتملة</a></li>
   <li class="breadcrumb-item active">تفاصيل</li>

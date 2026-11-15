@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'تفاصيل الحدث')
-@section('page-title', 'تفاصيل الحدث')
+@section('page-title', 'تفاصيل الحدث رقم '.$incident->id)
 @section('breadcrumbs')
   <li class="breadcrumb-item"><a href="{{ route('incidents.index') }}">الأحداث التشغيلية</a></li>
   <li class="breadcrumb-item active">تفاصيل</li>

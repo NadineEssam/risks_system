@@ -48,7 +48,8 @@ class IndicatorDataTable extends BaseDataTable
 
     protected function getColumns(): array
     {
-        return [
+            return [
+            Column::make('id')->title('الرقم')->addClass('text-center')->width(60),
             Column::make('indicator_name')->title('اسم المؤشر')->orderable(false),
             Column::make('risk')->title('الخطر المرتبط')->orderable(false),
             Column::computed('nature')->title('طبيعة المؤشر'),

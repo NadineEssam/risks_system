@@ -80,7 +80,8 @@ class IncidentDataTable extends BaseDataTable
 
     protected function getColumns(): array
     {
-        return [
+            return [
+            Column::make('id')->title('الرقم')->addClass('text-center')->width(60),
             Column::make('discovery_date')->title('تاريخ الاكتشاف'),
             Column::make('description')->title('وصف الحدث')->orderable(false),
             Column::make('department')->title('الإدارة')->orderable(false),

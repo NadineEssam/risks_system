@@ -45,6 +45,7 @@ class PotentialRiskRegisterDataTable extends BaseDataTable
     protected function getColumns(): array
     {
         return [
+            Column::make('id')->title('الرقم')->addClass('text-center')->width(60),
             Column::make('creation_date')->title('تاريخ التسجيل')->searchable(false),
             Column::make('risk_description')->title('وصف الخطر')->orderable(false),
             Column::computed('classification')->title('تصنيف بازل')->addClass('col-wide'),

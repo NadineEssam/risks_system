@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'تفاصيل المؤشر')
-@section('page-title', 'تفاصيل المؤشر')
+@section('page-title', 'تفاصيل المؤشر رقم '.$indicator->id)
 @section('breadcrumbs')
   <li class="breadcrumb-item"><a href="{{ route('indicators.index') }}">مؤشرات قياس المخاطر</a></li>
   <li class="breadcrumb-item active">تفاصيل</li>

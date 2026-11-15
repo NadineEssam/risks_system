@@ -30,13 +30,13 @@
 
   <table>
     <thead>
-      <tr>@foreach($report->headings() as $heading)<th>{{ $heading }}</th>@endforeach</tr>
+      <tr>@foreach($report->fullHeadings() as $heading)<th>{{ $heading }}</th>@endforeach</tr>
     </thead>
     <tbody>
       @forelse($results as $row)
-        <tr>@foreach($report->map($row) as $cell)<td>{{ $cell }}</td>@endforeach</tr>
+        <tr>@foreach($report->fullRow($row) as $cell)<td>{{ $cell }}</td>@endforeach</tr>
       @empty
-        <tr><td colspan="{{ count($report->headings()) }}">لا توجد بيانات</td></tr>
+        <tr><td colspan="{{ count($report->fullHeadings()) }}">لا توجد بيانات</td></tr>
       @endforelse
     </tbody>
   </table>

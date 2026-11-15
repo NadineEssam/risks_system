@@ -88,6 +88,32 @@ abstract class BaseReport implements ReportInterface
         return 'التاريخ';
     }
 
+    /**
+     * أعمدة الأرقام المميزة (رقم الحدث / الخطر / المؤشر) في أول التقرير.
+     * كل تقرير بيعرّف أعمدته — والافتراضي مفيش.
+     */
+    protected function idHeadings(): array
+    {
+        return [];
+    }
+
+    protected function idValues(mixed $row): array
+    {
+        return [];
+    }
+
+    /** العناوين كاملة: أعمدة الأرقام + أعمدة التقرير — بتستخدمها الشاشة وExcel وPDF */
+    public function fullHeadings(): array
+    {
+        return array_merge($this->idHeadings(), $this->headings());
+    }
+
+    /** الصف كامل: الأرقام + بيانات التقرير */
+    public function fullRow(mixed $row): array
+    {
+        return array_merge($this->idValues($row), $this->map($row));
+    }
+
     /** درجة خطر الحدث بالمسمى حسب شهية الخطر المرتبط: "9 - متوسط" */
     protected function degreeFor($incident): string
     {

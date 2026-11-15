@@ -72,6 +72,8 @@ class IndicatorComplianceReport extends BaseReport
                     'from'       => $periodStart->copy(),
                     'sectors'    => $this->responsibleSectors($indicator->potentialRiskRegister),
                     'indicator'  => $indicator->indicator_name,
+                    'indicator_id' => $indicator->id,
+                    'risk_id'      => $indicator->potential_risk_register_id,
                     'frequency'  => $indicator->reportingFrequency?->frequency_name,
                     'regular'    => $fulfilled,
                 ]);
@@ -105,5 +107,14 @@ class IndicatorComplianceReport extends BaseReport
             $this->date($row['approval']),
             $row['regular'] ? 'منتظم' : 'غير منتظم',
         ];
+    }
+    protected function idHeadings(): array
+    {
+        return ['رقم المؤشر', 'رقم الخطر'];
+    }
+
+    protected function idValues(mixed $row): array
+    {
+        return [$row['indicator_id'] ?? '—', $row['risk_id'] ?? '—'];
     }
 }

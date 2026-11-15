@@ -59,4 +59,15 @@ class IncidentFollowupsReport extends BaseReport
             $this->date($row->followup_date),
         ];
     }
+        protected function idHeadings(): array
+    {
+        return ['رقم الحدث', 'رقم الخطر'];
+    }
+
+    protected function idValues(mixed $row): array
+    {
+        $incident = $row->incidentSectorResponsibility?->incident;
+
+        return [$incident?->id ?? '—', $incident?->potential_risk_register_id ?? '—'];
+    }
 }

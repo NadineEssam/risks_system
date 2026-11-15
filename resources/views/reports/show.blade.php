@@ -68,11 +68,11 @@
     <div class="table-responsive">
       <table id="report-table" class="table text-center align-middle datatable-custom" style="width:100%">
         <thead>
-          <tr>@foreach($report->headings() as $heading)<th>{{ $heading }}</th>@endforeach</tr>
+          <tr>@foreach($report->fullHeadings() as $heading)<th>{{ $heading }}</th>@endforeach</tr>
         </thead>
         <tbody>
           @foreach($results as $row)
-            <tr>@foreach($report->map($row) as $cell)<td style="white-space:pre-wrap;">{{ $cell }}</td>@endforeach</tr>
+            <tr>@foreach($report->fullRow($row) as $cell)<td style="white-space:pre-wrap;">{{ $cell }}</td>@endforeach</tr>
           @endforeach
         </tbody>
       </table>

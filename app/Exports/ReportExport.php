@@ -32,12 +32,12 @@ class ReportExport implements FromCollection, WithHeadings, WithMapping, WithSty
 
     public function headings(): array
     {
-        return $this->report->headings();
+        return $this->report->fullHeadings();
     }
 
     public function map($row): array
     {
-        return $this->report->map($row);
+        return $this->report->fullRow($row);
     }
 
     public function title(): string

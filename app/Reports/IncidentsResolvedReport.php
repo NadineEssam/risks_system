@@ -61,4 +61,13 @@ class IncidentsResolvedReport extends BaseReport
             $row->potentialRiskRegister?->proposed_control ?? '—',
         ];
     }
+        protected function idHeadings(): array
+    {
+        return ['رقم الحدث', 'رقم الخطر'];
+    }
+
+    protected function idValues(mixed $row): array
+    {
+        return [$row->id, $row->potential_risk_register_id ?? '—'];
+    }
 }

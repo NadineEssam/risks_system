@@ -84,4 +84,13 @@ class IncidentsRegisterReport extends BaseReport
             $row->last_followup_status ?? 'جديد',
         ];
     }
+        protected function idHeadings(): array
+    {
+        return ['رقم الحدث', 'رقم الخطر'];
+    }
+
+    protected function idValues(mixed $row): array
+    {
+        return [$row->id, $row->potential_risk_register_id ?? '—'];
+    }
 }

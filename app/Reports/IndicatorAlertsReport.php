@@ -42,4 +42,13 @@ class IndicatorAlertsReport extends BaseReport
             $row->action_taken ?: '—',
         ];
     }
+        protected function idHeadings(): array
+    {
+        return ['رقم المؤشر', 'رقم الخطر'];
+    }
+
+    protected function idValues(mixed $row): array
+    {
+        return [$row->indicator?->id ?? '—', $row->indicator?->potential_risk_register_id ?? '—'];
+    }
 }

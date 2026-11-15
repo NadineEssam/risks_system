@@ -26,6 +26,7 @@ class UpdatePotentialRiskRegisterRequest extends FormRequest
             'causes.*.cause_detail_id' => ['required', 'integer', 'distinct', 'exists:cause_details,id'],
             'causes.*.percentage'      => ['required', 'numeric', 'min:0.01', 'max:100'],
             // شهية المخاطر: 3 مستويات، كل حد من 1 لـ 25
+            'appetite_nature_id'            => ['required', 'integer', 'exists:indicator_natures,id'],
             'appetite'                      => ['required', 'array', 'min:3'],
             'appetite.*.threshold_level_id' => ['required', 'integer', 'distinct', 'exists:threshold_levels,id'],
             'appetite.*.threshold_value'    => ['required', 'integer', 'min:1', 'max:25'],
@@ -79,8 +80,16 @@ class UpdatePotentialRiskRegisterRequest extends FormRequest
                 (int) ($order[$r['threshold_level_id'] ?? 0] ?? 0) => (int) ($r['threshold_value'] ?? 0),
             ]);
 
-            if (isset($values[1], $values[2], $values[3]) && ! ($values[1] < $values[2] && $values[2] < $values[3])) {
-                $v->errors()->add('appetite', 'حدود شهية المخاطر يجب أن تكون تصاعدية: المقبول أقل من المتوسط، والمتوسط أقل من المرتفع.');
+            if (! isset($values[1], $values[2], $values[3])) {
+                return;
+            }
+
+            $decreasing = trim((string) \App\Models\IndicatorNature::find($this->input('appetite_nature_id'))?->nature_name) === 'متناقص';
+
+            if ($decreasing && ! ($values[1] > $values[2] && $values[2] > $values[3])) {
+                $v->errors()->add('appetite', 'شهية المخاطر متناقصة: يجب أن يكون المقبول أكبر من المتوسط، والمتوسط أكبر من المرتفع.');
+            } elseif (! $decreasing && ! ($values[1] < $values[2] && $values[2] < $values[3])) {
+                $v->errors()->add('appetite', 'شهية المخاطر متزايدة: يجب أن يكون المقبول أقل من المتوسط، والمتوسط أقل من المرتفع.');
             }
         });
     }

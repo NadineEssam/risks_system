@@ -31,9 +31,15 @@ class RiskDegreeHelper
 
         $limits = $risk ? $risk->appetiteLimits() : [];
 
-        $order = isset($limits[2], $limits[3])
-            ? ($degree >= $limits[3] ? 3 : ($degree >= $limits[2] ? 2 : 1))
-            : ($degree >= 15 ? 3 : ($degree >= 8 ? 2 : 1));
+        if (isset($limits[2], $limits[3])) {
+            $order = $risk->isAppetiteDecreasing()
+                // متناقص: كل ما القيمة تقل الخطر يزيد
+                ? ($degree <= $limits[3] ? 3 : ($degree <= $limits[2] ? 2 : 1))
+                // متزايد: كل ما القيمة تزيد الخطر يزيد
+                : ($degree >= $limits[3] ? 3 : ($degree >= $limits[2] ? 2 : 1));
+        } else {
+            $order = $degree >= 15 ? 3 : ($degree >= 8 ? 2 : 1);
+        }
 
         [$label, $class] = [
             1 => ['مقبول', 'bg-success'],
@@ -55,7 +61,7 @@ class RiskDegreeHelper
             return '<span class="badge bg-secondary">غير محدد</span>';
         }
 
-        $incident->loadMissing('potentialRiskRegister.appetiteDetails.thresholdLevel');
+        $incident->loadMissing(['potentialRiskRegister.appetiteDetails.thresholdLevel', 'potentialRiskRegister.appetiteNature']);
         $level = self::classifyFor($incident->potentialRiskRegister, (int) $incident->risk_degree);
 
         return sprintf('<span class="badge %s">%d - %s</span>', $level['class'], $incident->risk_degree, $level['label']);

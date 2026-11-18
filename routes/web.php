@@ -55,6 +55,7 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::get('/risks/{risk}', [PotentialRiskRegisterController::class, 'show'])->name('risks.show');
     Route::get('/risks/{risk}/edit', [PotentialRiskRegisterController::class, 'edit'])->name('risks.edit');
     Route::put('/risks/{risk}', [PotentialRiskRegisterController::class, 'update'])->name('risks.update');
+    Route::delete('/risks/{risk}', [PotentialRiskRegisterController::class, 'destroy'])->name('risks.destroy');
     Route::post('/risks/{risk}/toggle', [PotentialRiskRegisterController::class, 'toggle'])->name('risks.toggle');
     Route::post('/risks/{risk}/status', [PotentialRiskRegisterController::class, 'updateStatus'])->name('risks.status.update');
     Route::post('/risks/{risk}/sectors', [PotentialRiskRegisterSectorController::class, 'store'])->name('risks.sectors.store');
@@ -69,6 +70,7 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
     Route::get('/incidents/{incident}/edit', [IncidentController::class, 'edit'])->name('incidents.edit');
     Route::put('/incidents/{incident}', [IncidentController::class, 'update'])->name('incidents.update');
+    Route::delete('/incidents/{incident}', [IncidentController::class, 'destroy'])->name('incidents.destroy');
     Route::post('/incidents/{incident}/status', [IncidentController::class, 'updateStatus'])->name('incidents.status.update');
 
     // ======= المرحلة الثالثة: متابعة الحدث (نفس "الرد على البيان" في الشكاوى) =======
@@ -89,6 +91,7 @@ Route::middleware(['auth', 'route.permission'])->group(function () {
     Route::get('/indicators/{indicator}', [IndicatorController::class, 'show'])->name('indicators.show');
     Route::get('/indicators/{indicator}/edit', [IndicatorController::class, 'edit'])->name('indicators.edit');
     Route::put('/indicators/{indicator}', [IndicatorController::class, 'update'])->name('indicators.update');
+    Route::delete('/indicators/{indicator}', [IndicatorController::class, 'destroy'])->name('indicators.destroy');
 
     // ================= المرحلة الخامسة: متابعة المؤشر =================
     // ========= المرحلة الخامسة: متابعة المؤشر (نفس متابعة الحدث) =========

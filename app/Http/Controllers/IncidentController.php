@@ -251,4 +251,19 @@ class IncidentController extends Controller
 
         return back()->with('success', 'تم تحديث حالة الحدث بنجاح.');
     }
+        /** حذف الحدث ومتابعاته والقطاعات المسؤولة عنه (للسوبر أدمن أو صلاحية incidents.destroy) */
+    public function destroy(Incident $incident)
+    {
+        $id = $incident->id;
+
+        DB::transaction(function () use ($incident) {
+            foreach ($incident->sectorResponsibilities as $responsibility) {
+                $responsibility->followups()->delete();
+            }
+            $incident->sectorResponsibilities()->delete();
+            $incident->delete();
+        });
+
+        return redirect()->route('incidents.index')->with('success', "تم حذف الحدث رقم {$id} ومتابعاته.");
+    }
 }

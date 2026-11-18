@@ -19,7 +19,7 @@ class Indicator extends Model
     protected $fillable = [
         'potential_risk_register_id', 'indicator_nature_id', 'measurement_unit_id',
         'reporting_frequency_id', 'activity_unit_id', 'indicator_name', 'approval_date','related_actions',
-        'data_sources', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity',
+        'data_sources', 'creation_date', 'update_date', 'created_by', 'updated_by', 'validity','created_sector_id',
     ];
 
     protected function casts(): array
@@ -34,12 +34,20 @@ class Indicator extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (self $model) {
+                static::creating(function (self $model) {
+            // قطاع المستخدم اللي بيضيف المؤشر
+            $model->created_sector_id ??= auth()->user()?->department?->sector?->sec_id ?? auth()->user()?->sector_id;
             // "يُحفظ المؤشر بالحالة (مفعل) تلقائياً"
             if (! isset($model->attributes['validity'])) {
                 $model->validity = true;
             }
         });
+    }
+
+    /** القطاع المدخل للمؤشر (من PO) */
+    public function createdSector()
+    {
+        return $this->belongsTo(Sector::class, 'created_sector_id', 'sec_id');
     }
 
     public function potentialRiskRegister()

@@ -26,6 +26,15 @@
                 </button>
               </form>
             @endcan
+            @if(PerUser('risks.destroy'))
+              <form action="{{ route('risks.destroy', $risk) }}" method="POST" class="d-inline m-0"
+                    data-confirm-title="حذف الخطر المحتمل"
+                    data-confirm="سيتم حذف الخطر المحتمل رقم {{ $risk->id }} نهائياً مع قطاعاته وإجراءاته وحالاته."
+                    data-confirm-button="نعم، احذف">
+                @csrf @method('DELETE')
+                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> حذف</button>
+              </form>
+            @endif
           </div>
         </div>
 

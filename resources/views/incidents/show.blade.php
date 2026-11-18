@@ -17,7 +17,7 @@
           @if(PerUser('incidents.destroy'))
             <form action="{{ route('incidents.destroy', $incident) }}" method="POST" class="d-inline m-0 flex-shrink-0"
                   data-confirm-title="حذف الحدث"
-                  data-confirm="سيتم حذف الحدث رقم {{ $incident->id }} نهائياً مع كل متابعاته والقطاعات المسؤولة عنه."
+                  data-confirm="سيتم حذف الحدث رقم {{ $incident->id }} نهائياً. (لا يمكن حذف حدث عليه متابعات)"
                   data-confirm-button="نعم، احذف">
               @csrf @method('DELETE')
               <button class="btn btn-sm btn-danger text-nowrap"><i class="bi bi-trash"></i> حذف</button>

@@ -254,6 +254,11 @@ class IncidentController extends Controller
         /** حذف الحدث ومتابعاته والقطاعات المسؤولة عنه (للسوبر أدمن أو صلاحية incidents.destroy) */
     public function destroy(Incident $incident)
     {
+        // حماية السجل: ممنوع حذف حدث عليه متابعات — تتحذف الأول
+        if ($incident->followups()->exists()) {
+            return back()->with('error', 'لا يمكن حذف الحدث لوجود متابعات مسجلة عليه — احذف المتابعات أولاً.');
+        }
+
         $id = $incident->id;
 
         DB::transaction(function () use ($incident) {

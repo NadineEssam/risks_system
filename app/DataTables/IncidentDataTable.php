@@ -39,7 +39,7 @@ class IncidentDataTable extends BaseDataTable
             // 👁 عرض الحدث + 💬 متابعات الحدث (نفس أيقونة "الرد على البيان")
             // ✏️ للقطاع المنشئ/المركزي، والحدث مش مقفول
             ->addColumn('action', fn ($row) => $this->actionButtons('incidents', $row->id, 'الحدث',
-                IncidentAccess::canEdit(Auth::user(), $row) && ! $row->isFollowupClosed() ? ['show', 'edit'] : ['show'],
+                IncidentAccess::canEdit(Auth::user(), $row) && ! $row->isFollowupClosed() ? ['show', 'edit', 'destroy'] : ['show', 'destroy'],
                 $this->iconButton('incident-followups.index', $row->id, 'bx bx-message-square-detail', 'متابعات الحدث')
             ))
             // ===== البحث الموسّع (كل فلتر بيتضاف للبحث العام بـ OR) =====

@@ -191,10 +191,12 @@ class PotentialRiskRegisterController extends Controller
         ];
     }
         /** حذف الخطر المحتمل — ممنوع لو مرتبط بأحداث أو مؤشرات */
-    public function destroy(PotentialRiskRegister $risk)
+    public function destroy(\Illuminate\Http\Request $request, PotentialRiskRegister $risk)
     {
         if ($risk->incidents()->exists() || $risk->indicators()->exists()) {
-            return back()->with('error', 'لا يمكن حذف الخطر لارتباطه بأحداث أو مؤشرات — احذفها أولاً أو استخدم (إلغاء التفعيل).');
+            $error = 'لا يمكن حذف الخطر لارتباطه بأحداث أو مؤشرات — احذفها أولاً أو استخدم (إلغاء التفعيل).';
+
+            return $request->expectsJson() ? response()->json(['message' => $error], 422) : back()->with('error', $error);
         }
 
         $id = $risk->id;
@@ -212,6 +214,10 @@ class PotentialRiskRegisterController extends Controller
             $risk->delete();
         });
 
-        return redirect()->route('risks.index')->with('success', "تم حذف الخطر المحتمل رقم {$id}.");
+        $message = "تم حذف الخطر المحتمل رقم {$id}.";
+
+        return $request->expectsJson()
+            ? response()->json(['message' => $message])
+            : redirect()->route('risks.index')->with('success', $message);
     }
 }

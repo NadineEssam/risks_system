@@ -251,24 +251,26 @@ class IncidentController extends Controller
 
         return back()->with('success', 'تم تحديث حالة الحدث بنجاح.');
     }
-        /** حذف الحدث ومتابعاته والقطاعات المسؤولة عنه (للسوبر أدمن أو صلاحية incidents.destroy) */
-    public function destroy(Incident $incident)
+        /** حذف الحدث — ممنوع لو عليه متابعات (تتحذف الأول) */
+    public function destroy(\Illuminate\Http\Request $request, Incident $incident)
     {
-        // حماية السجل: ممنوع حذف حدث عليه متابعات — تتحذف الأول
         if ($incident->followups()->exists()) {
-            return back()->with('error', 'لا يمكن حذف الحدث لوجود متابعات مسجلة عليه — احذف المتابعات أولاً.');
+            $error = 'لا يمكن حذف الحدث لوجود متابعات مسجلة عليه — احذف المتابعات أولاً.';
+
+            return $request->expectsJson() ? response()->json(['message' => $error], 422) : back()->with('error', $error);
         }
 
         $id = $incident->id;
 
         DB::transaction(function () use ($incident) {
-            foreach ($incident->sectorResponsibilities as $responsibility) {
-                $responsibility->followups()->delete();
-            }
             $incident->sectorResponsibilities()->delete();
             $incident->delete();
         });
 
-        return redirect()->route('incidents.index')->with('success', "تم حذف الحدث رقم {$id} ومتابعاته.");
+        $message = "تم حذف الحدث رقم {$id}.";
+
+        return $request->expectsJson()
+            ? response()->json(['message' => $message])
+            : redirect()->route('incidents.index')->with('success', $message);
     }
 }

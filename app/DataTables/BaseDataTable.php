@@ -62,6 +62,7 @@ abstract class BaseDataTable extends DataTable
         ];
 
         $html = '<div class="d-flex align-items-center gap-2 justify-content-center">';
+        $deleteHtml = ''; // 🗑 بييجي آخر أيقونة دايماً (بعد أي أيقونة إضافية)
 
         foreach ($only as $action) {
             $route = "{$prefix}.{$action}";
@@ -74,12 +75,14 @@ abstract class BaseDataTable extends DataTable
             $title = e(trim("{$verb} {$label}"));
             $url   = route($route, $key);
 
-            $html .= $action === 'destroy'
-                ? "<button type=\"button\" class=\"btn btn-sm {$class} action-btn delete-this\" data-url=\"{$url}\" data-bs-toggle=\"tooltip\" title=\"{$title}\"><i class=\"{$icon}\"></i></button>"
-                : "<a href=\"{$url}\" class=\"btn btn-sm {$class} action-btn\" data-bs-toggle=\"tooltip\" title=\"{$title}\"><i class=\"{$icon}\"></i></a>";
+            if ($action === 'destroy') {
+                $deleteHtml = "<button type=\"button\" class=\"btn btn-sm {$class} action-btn delete-this\" data-url=\"{$url}\" data-bs-toggle=\"tooltip\" title=\"{$title}\"><i class=\"{$icon}\"></i></button>";
+            } else {
+                $html .= "<a href=\"{$url}\" class=\"btn btn-sm {$class} action-btn\" data-bs-toggle=\"tooltip\" title=\"{$title}\"><i class=\"{$icon}\"></i></a>";
+            }
         }
 
-        return $html.$extra.'</div>';
+        return $html.$extra.$deleteHtml.'</div>';
     }
 
     /** أيقونة إضافية بنفس الشكل (مثلاً 💬 متابعات الحدث) — تظهر حسب PerUser() */

@@ -19,7 +19,12 @@ class IncidentDataTable extends BaseDataTable
     public function query(Incident $model): QueryBuilder
     {
         // department من new_po (MySQL) — with() بيعمل استعلام منفصل فمفيش مشكلة
-        $query = $model->newQuery()->with(['potentialRiskRegister', 'department', 'resolutionStatus']);
+        $query = $model->newQuery()->with(['potentialRiskRegister', 'department', 'resolutionStatus'])
+            // من مصفوفة المخاطر في لوحة التحكم
+            ->when(request('frequency'), fn ($q, $v) => $q->where('frequency_score', (int) $v))
+            ->when(request('impact'), fn ($q, $v) => $q->where('impact_score', (int) $v))
+            ->when(request('from'), fn ($q, $v) => $q->whereDate('discovery_date', '>=', $v))
+            ->when(request('to'), fn ($q, $v) => $q->whereDate('discovery_date', '<=', $v));
 
         // كل قطاع يشوف أحداثه (المنشئ + المسؤول) — المركزي ومدير النظام يشوفوا الكل
         return IncidentAccess::scopeVisible($query, Auth::user());

@@ -12,6 +12,13 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h5 class="card-title m-0 p-0">قائمة الأحداث التشغيلية</h5>
+      @if(request('frequency') || request('impact'))
+        <span class="badge bg-info text-dark ms-2">
+          من مصفوفة المخاطر: التكرار {{ request('frequency') }} × الأثر {{ request('impact') }}
+          @if(request('from') || request('to')) — {{ request('from') ?: '…' }} إلى {{ request('to') ?: '…' }} @endif
+        </span>
+        <a href="{{ route('incidents.index') }}" class="btn btn-sm btn-link">إلغاء الفلتر</a>
+      @endif
       @can('incidents.create')
         <a href="{{ route('incidents.create') }}" class="btn btn-primary">
           <i class="bx bx-plus"></i> تسجيل حدث جديد

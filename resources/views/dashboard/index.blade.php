@@ -107,6 +107,55 @@
     @endforeach
   </div>
 
+  {{-- ===== مصفوفة المخاطر: التكرار × الأثر ===== --}}
+  <div class="card mb-4">
+    <div class="custom-header"><span>🧭 مصفوفة المخاطر (التكرار × الأثر)</span><i class="bi bi-grid-3x3"></i></div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle mb-2 risk-matrix">
+          <thead>
+            <tr>
+              <th class="bg-light" style="width:120px;">التكرار ↓ / الأثر ←</th>
+              @for($i = 1; $i <= 5; $i++)
+                <th class="bg-light">{{ $i }}</th>
+              @endfor
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($matrix as $f => $row)
+              <tr>
+                <th class="bg-light">{{ $f }}</th>
+                @foreach($row as $i => $count)
+                  @php
+                    $degree = $f * $i;
+                    [$label, $cls] = $degree >= 15 ? ['مرتفع', 'cell-high'] : ($degree >= 8 ? ['متوسط', 'cell-medium'] : ['مقبول', 'cell-low']);
+                  @endphp
+                  <td class="{{ $cls }} {{ $count ? '' : 'cell-empty' }}"
+                      title="التكرار {{ $f }} × الأثر {{ $i }} = {{ $degree }} ({{ $label }}) — {{ $count }} حدث">
+                    @if($count)
+                      <a href="{{ route('incidents.index', array_filter(['frequency' => $f, 'impact' => $i, 'from' => $from, 'to' => $to])) }}"
+                         class="d-block text-decoration-none">
+                        <span class="fs-5 fw-bold">{{ $count }}</span><br>
+                        <small>درجة {{ $degree }}</small>
+                      </a>
+                    @else
+                      <span class="opacity-50">—</span><br><small class="opacity-50">{{ $degree }}</small>
+                    @endif
+                  </td>
+                @endforeach
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex gap-3 justify-content-center small">
+        <span><span class="legend-box cell-low"></span> مقبول (أقل من 8)</span>
+        <span><span class="legend-box cell-medium"></span> متوسط (8 – 14)</span>
+        <span><span class="legend-box cell-high"></span> مرتفع (15 فأكثر)</span>
+      </div>
+    </div>
+  </div>
+
   {{-- ===== الحالة + التصنيف (يسار) / الدرجة + المستويات (يمين) ===== --}}
   <div class="row g-4">
     <div class="col-lg-8">

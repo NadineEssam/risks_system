@@ -342,8 +342,8 @@ table td {
 .risk-matrix td.has-count:hover { transform: scale(1.06); box-shadow: 0 2px 8px rgba(0,0,0,.25) !important; position: relative; z-index: 1; }
 
 /* نفس ألوان لوحة التحكم: teal (مقبول) — gold (متوسط) — burgundy (مرتفع) */
-.risk-matrix td.deg-1 { --bs-table-bg: #2a9d8f; background-color: #2a9d8f !important; color: #fff; }
-.risk-matrix td.deg-2 { --bs-table-bg: #7cc4ba; background-color: #7cc4ba !important; color: #0f4d45; }
+.risk-matrix td.deg-1 { --bs-table-bg: #3a8f3e; background-color: #3a8f3e !important; color: #fff; }
+.risk-matrix td.deg-2 { --bs-table-bg: #8fc98f; background-color: #8fc98f !important; color: #1f4d21; }
 .risk-matrix td.deg-3 { --bs-table-bg: #d9b45a; background-color: #d9b45a !important; color: #5a4100; }
 .risk-matrix td.deg-4 { --bs-table-bg: #b8860b; background-color: #b8860b !important; color: #fff; }
 .risk-matrix td.deg-5 { --bs-table-bg: #b35a5a; background-color: #b35a5a !important; color: #fff; }
@@ -358,6 +358,6 @@ table td {
 .risk-matrix .deg-label { font-size: 12px; opacity: .85; }
 
 .legend-box { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; }
-.legend-box.deg-1 { background: #2a9d8f; } .legend-box.deg-2 { background: #7cc4ba; }
+.legend-box.deg-1 { background: #3a8f3e; } .legend-box.deg-2 { background: #8fc98f; }
 .legend-box.deg-3 { background: #d9b45a; } .legend-box.deg-4 { background: #b8860b; }
 .legend-box.deg-5 { background: #b35a5a; } .legend-box.deg-6 { background: #8b2c2c; }

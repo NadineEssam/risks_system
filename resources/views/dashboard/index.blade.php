@@ -302,8 +302,8 @@
 
     // 🎯 درجة الخطر — 📌 مستويات المؤشرات — 📡 حالة الحل
         // ألوان رسمية: أخضر مؤسسي / ذهبي / عنابي للمستويات — كحلي ودرجاته للباقي
-    donut('#degreeChart', data.degree, ['#2a9d8f', '#b8860b', '#8b2c2c']);
-    donut('#levelChart', data.level, ['#2a9d8f', '#b8860b', '#8b2c2c', '#6c757d']);
+    donut('#degreeChart', data.degree, ['#3a8f3e', '#b8860b', '#8b2c2c']);
+    donut('#levelChart', data.level, ['#3a8f3e', '#b8860b', '#8b2c2c', '#6c757d']);
     donut('#resolutionChart', data.resolution, ['#012970', '#4a6fa5', '#2a9d8f', '#b8860b', '#8b2c2c', '#6c757d']);
 
     // 📅 الاتجاه الشهري (area بنفس "نوع النشاط")

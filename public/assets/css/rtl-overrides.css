@@ -341,12 +341,22 @@ table td {
 .risk-matrix td a { color: inherit; }
 .risk-matrix td:not(.cell-empty):hover { transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,.2); }
 /* Bootstrap 5.3 بيلوّن خلايا الجدول بالمتغير --bs-table-bg — فنغيّره هو */
-.risk-matrix td.cell-low    { --bs-table-bg: #c8e6c9; --bs-table-color: #1b5e20; background-color: #c8e6c9 !important; color: #1b5e20; }
-.risk-matrix td.cell-medium { --bs-table-bg: #ffe0b2; --bs-table-color: #8a4b00; background-color: #ffe0b2 !important; color: #8a4b00; }
-.risk-matrix td.cell-high   { --bs-table-bg: #ffcdd2; --bs-table-color: #8e0000; background-color: #ffcdd2 !important; color: #8e0000; }
+/* الخانات اللي فيها أحداث: لون مشبع + كتابة بيضا */
+.risk-matrix td.cell-low    { --bs-table-bg: #2e7d32; background-color: #2e7d32 !important; color: #fff; }
+.risk-matrix td.cell-medium { --bs-table-bg: #ef8f00; background-color: #ef8f00 !important; color: #fff; }
+.risk-matrix td.cell-high   { --bs-table-bg: #c62828; background-color: #c62828 !important; color: #fff; }
+.risk-matrix td a, .risk-matrix td a small { color: #fff !important; }
+
+/* الخانات الفاضية: نفس اللون بس أفتح */
+.risk-matrix td.cell-low.cell-empty    { background-color: #a5d6a7 !important; color: #1b5e20; }
+.risk-matrix td.cell-medium.cell-empty { background-color: #ffcc80 !important; color: #8a4b00; }
+.risk-matrix td.cell-high.cell-empty   { background-color: #ef9a9a !important; color: #8e0000; }
+.risk-matrix td.cell-empty { filter: none; }
+.risk-matrix td.cell-empty .opacity-50 { opacity: .75 !important; }
+
 .risk-matrix td { box-shadow: none !important; }
 .risk-matrix .cell-empty  { filter: saturate(.4); }
 .legend-box { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; }
-.legend-box.cell-low { background: #c8e6c9; }
-.legend-box.cell-medium { background: #ffe0b2; }
-.legend-box.cell-high { background: #ffcdd2; }
+.legend-box.cell-low { background: #2e7d32; }
+.legend-box.cell-medium { background: #ef8f00; }
+.legend-box.cell-high { background: #c62828; }

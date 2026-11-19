@@ -107,6 +107,59 @@
     @endforeach
   </div>
 
+  {{-- ===== مصفوفة المخاطر: التكرار × الأثر ===== --}}
+  <div class="card mb-4">
+    <div class="custom-header"><span>🧭 مصفوفة المخاطر (التكرار × الأثر)</span><i class="bi bi-grid-3x3"></i></div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle mb-2 risk-matrix">
+          <thead>
+            <tr>
+              <th class="bg-light" style="width:120px;">التكرار ↓ / الأثر ←</th>
+              @for($i = 1; $i <= 5; $i++)
+                <th class="bg-light">{{ $i }}</th>
+              @endfor
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($matrix as $f => $row)
+              <tr>
+                <th class="bg-light">{{ $f }}</th>
+                @foreach($row as $i => $count)
+                  @php
+                    $degree = $f * $i;
+                    $label  = $degree >= 15 ? 'مرتفع' : ($degree >= 8 ? 'متوسط' : 'مقبول');
+                    $cls    = 'deg-'.match (true) {
+                      $degree >= 20 => 6, $degree >= 15 => 5, $degree >= 12 => 4,
+                      $degree >= 8  => 3, $degree >= 5  => 2, default => 1,
+                    };
+                  @endphp
+                  <td class="{{ $cls }} {{ $count ? 'has-count' : '' }}"
+                      title="التكرار {{ $f }} × الأثر {{ $i }} = {{ $degree }} ({{ $label }}) — {{ $count }} حدث">
+                    @if($count)
+                      <a href="{{ route('incidents.index', array_filter(['frequency' => $f, 'impact' => $i, 'from' => $from, 'to' => $to])) }}"
+                         class="d-block text-decoration-none">
+                        <span class="count-badge">{{ $count }}</span><br>
+                        <span class="deg-label">درجة {{ $degree }}</span>
+                      </a>
+                    @else
+                      <span class="deg-label">{{ $degree }}</span>
+                    @endif
+                  </td>
+                @endforeach
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex gap-3 justify-content-center small">
+        <span><span class="legend-box deg-1"></span><span class="legend-box deg-2"></span> مقبول (1 – 7)</span>
+        <span><span class="legend-box deg-3"></span><span class="legend-box deg-4"></span> متوسط (8 – 14)</span>
+        <span><span class="legend-box deg-5"></span><span class="legend-box deg-6"></span> مرتفع (15 – 25)</span>
+      </div>
+    </div>
+  </div>
+
   {{-- ===== الحالة + التصنيف (يسار) / الدرجة + المستويات (يمين) ===== --}}
   <div class="row g-4">
     <div class="col-lg-8">

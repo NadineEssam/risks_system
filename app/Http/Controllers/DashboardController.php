@@ -98,6 +98,21 @@ class DashboardController extends Controller
         }
         $byDegree = collect($byDegree);
 
+        // مصفوفة المخاطر 5×5: [التكرار][الأثر] = عدد الأحداث
+        $matrix = [];
+        for ($f = 5; $f >= 1; $f--) {
+            for ($i = 1; $i <= 5; $i++) {
+                $matrix[$f][$i] = 0;
+            }
+        }
+        foreach ($incidents as $incident) {
+            $f = (int) $incident->frequency_score;
+            $i = (int) $incident->impact_score;
+            if ($f >= 1 && $f <= 5 && $i >= 1 && $i <= 5) {
+                $matrix[$f][$i]++;
+            }
+        }
+
         $byResolution = $count($incidents->groupBy(fn ($i) => $i->resolutionStatus?->status_name ?? 'غير محدد'));
         $bySector     = $count($incidents->groupBy(fn ($i) => $i->department?->sector?->sector_ar ?? 'غير معروف'));
         $byDepartment = $count($incidents->groupBy(fn ($i) => $i->department?->depname_ar ?? 'غير معروف'))->take(15);
@@ -119,7 +134,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact(
             'kpis', 'byStatus', 'byEventType', 'byDegree', 'byResolution',
-            'bySector', 'byDepartment', 'byMonth', 'byLevel', 'from', 'to'
+            'bySector', 'byDepartment', 'byMonth', 'byLevel', 'from', 'to', 'matrix'
         ));
     }
 }

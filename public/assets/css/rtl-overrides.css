@@ -335,3 +335,29 @@ table td {
   right: auto !important;
   left: 20px !important;
 }
+
+/* مصفوفة المخاطر — تدرج حسب الدرجة (1 → 25) */
+.risk-matrix td { height: 72px; min-width: 80px; box-shadow: none !important; transition: transform .1s; }
+.risk-matrix td a { color: inherit; text-decoration: none; display: block; }
+.risk-matrix td.has-count:hover { transform: scale(1.06); box-shadow: 0 2px 8px rgba(0,0,0,.25) !important; position: relative; z-index: 1; }
+
+/* نفس ألوان لوحة التحكم: teal (مقبول) — gold (متوسط) — burgundy (مرتفع) */
+.risk-matrix td.deg-1 { --bs-table-bg: #3a8f3e; background-color: #3a8f3e !important; color: #fff; }
+.risk-matrix td.deg-2 { --bs-table-bg: #8fc98f; background-color: #8fc98f !important; color: #1f4d21; }
+.risk-matrix td.deg-3 { --bs-table-bg: #d9b45a; background-color: #d9b45a !important; color: #5a4100; }
+.risk-matrix td.deg-4 { --bs-table-bg: #b8860b; background-color: #b8860b !important; color: #fff; }
+.risk-matrix td.deg-5 { --bs-table-bg: #b35a5a; background-color: #b35a5a !important; color: #fff; }
+.risk-matrix td.deg-6 { --bs-table-bg: #8b2c2c; background-color: #8b2c2c !important; color: #fff; }
+
+/* عدد الأحداث في دائرة بيضا — واضح على أي لون */
+.risk-matrix .count-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #fff; color: #2C2C2A; font-size: 16px; font-weight: 700;
+}
+.risk-matrix .deg-label { font-size: 12px; opacity: .85; }
+
+.legend-box { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; }
+.legend-box.deg-1 { background: #3a8f3e; } .legend-box.deg-2 { background: #8fc98f; }
+.legend-box.deg-3 { background: #d9b45a; } .legend-box.deg-4 { background: #b8860b; }
+.legend-box.deg-5 { background: #b35a5a; } .legend-box.deg-6 { background: #8b2c2c; }

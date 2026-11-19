@@ -23,7 +23,7 @@
 
   <!-- Template Main CSS File + تجاوزات RTL -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/css/rtl-overrides.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/rtl-overrides.css') }}?v={{ filemtime(public_path('assets/css/rtl-overrides.css')) }}" rel="stylesheet">
 
   @stack('styles')
 </head>

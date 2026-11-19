@@ -31,7 +31,7 @@ class PotentialRiskRegisterDataTable extends BaseDataTable
             ->addColumn('current_status', fn ($row) =>
                 ($row->currentStatus('acceptance')?->status_name ?? '—').' / '.($row->currentStatus('treatment')?->status_name ?? '—'))
             ->editColumn('validity', fn ($row) => $this->validityBadge($row->validity))
-            ->addColumn('action', fn ($row) => $this->actionButtons('risks', $row->id, 'الخطر', ['show', 'edit']))
+            ->addColumn('action', fn ($row) => $this->actionButtons('risks', $row->id, 'الخطر', ['show', 'edit', 'destroy']))
             ->rawColumns(['sectors', 'validity', 'action'])
             ->setRowId('id');
     }

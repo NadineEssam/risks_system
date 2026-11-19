@@ -44,11 +44,15 @@ class IndicatorAlertsReport extends BaseReport
     }
         protected function idHeadings(): array
     {
-        return ['رقم المؤشر', 'رقم الخطر'];
+        return ['رقم المؤشر', 'رقم الخطر', 'القطاع المدخل للمؤشر'];
     }
 
     protected function idValues(mixed $row): array
     {
-        return [$row->indicator?->id ?? '—', $row->indicator?->potential_risk_register_id ?? '—'];
+        return [
+            $row->indicator?->id ?? '—',
+            $row->indicator?->potential_risk_register_id ?? '—',
+            $row->indicator?->createdSector?->sector_ar ?? '—',
+        ];
     }
 }

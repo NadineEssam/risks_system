@@ -23,6 +23,7 @@ use App\Models\ImpactItem;
 use App\Models\RiskAppetiteDetail;
 use App\Models\ThresholdLevel;
 use App\Models\IndicatorNature;
+use Illuminate\Support\Facades\DB;
 
 /**
  * المرحلة الأولى: سجل المخاطر المحتملة (Potential Risk Register Workflow).
@@ -188,5 +189,35 @@ class PotentialRiskRegisterController extends Controller
             'impactItems'       => ImpactItem::active()->with('impactCategory')->orderBy('item_code')->get(),
             'controlCategories' => ControlCategory::active()->with('controlDomain')->orderBy('category_code')->get(),
         ];
+    }
+        /** حذف الخطر المحتمل — ممنوع لو مرتبط بأحداث أو مؤشرات */
+    public function destroy(\Illuminate\Http\Request $request, PotentialRiskRegister $risk)
+    {
+        if ($risk->incidents()->exists() || $risk->indicators()->exists()) {
+            $error = 'لا يمكن حذف الخطر لارتباطه بأحداث أو مؤشرات — احذفها أولاً أو استخدم (إلغاء التفعيل).';
+
+            return $request->expectsJson() ? response()->json(['message' => $error], 422) : back()->with('error', $error);
+        }
+
+        $id = $risk->id;
+
+        DB::transaction(function () use ($risk) {
+            foreach ($risk->sectorDetails as $detail) {
+                $detail->requiredActions()->delete();
+            }
+            $risk->sectorDetails()->delete();
+            $risk->resolutionStatusDetails()->delete();
+            $risk->appetiteDetails()->delete();
+            $risk->causeDetails()->detach();
+            $risk->impactItems()->detach();
+            $risk->controlCategories()->detach();
+            $risk->delete();
+        });
+
+        $message = "تم حذف الخطر المحتمل رقم {$id}.";
+
+        return $request->expectsJson()
+            ? response()->json(['message' => $message])
+            : redirect()->route('risks.index')->with('success', $message);
     }
 }

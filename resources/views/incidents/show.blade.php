@@ -12,7 +12,18 @@
   <div class="col-lg-8">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">{{ $incident->potentialRiskRegister?->classification_label }}</h5>
+        <div class="d-flex justify-content-between align-items-start gap-3">
+          <h5 class="card-title mb-0 flex-grow-1" style="line-height:1.7;">{{ $incident->potentialRiskRegister?->classification_label }}</h5>
+          @if(PerUser('incidents.destroy'))
+            <form action="{{ route('incidents.destroy', $incident) }}" method="POST" class="d-inline m-0 flex-shrink-0"
+                  data-confirm-title="حذف الحدث"
+                  data-confirm="سيتم حذف الحدث رقم {{ $incident->id }} نهائياً. (لا يمكن حذف حدث عليه متابعات)"
+                  data-confirm-button="نعم، احذف">
+              @csrf @method('DELETE')
+              <button class="btn btn-sm btn-danger text-nowrap"><i class="bi bi-trash"></i> حذف</button>
+            </form>
+          @endif
+        </div>
         <p>{{ $incident->potentialRiskRegister?->risk_description }}</p>
 
         <div class="row">

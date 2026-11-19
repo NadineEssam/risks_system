@@ -156,4 +156,27 @@ class IndicatorController extends Controller
             'roles' => ResponsibleRole::active()->get(),
         ];
     }
+        /** حذف المؤشر — ممنوع لو عليه قياسات (تتحذف الأول) */
+    public function destroy(Request $request, Indicator $indicator)
+    {
+        if ($indicator->followups()->exists()) {
+            $error = 'لا يمكن حذف المؤشر لوجود قياسات مسجلة عليه — احذف القياسات أولاً.';
+
+            return $request->expectsJson() ? response()->json(['message' => $error], 422) : back()->with('error', $error);
+        }
+
+        $id = $indicator->id;
+
+        DB::transaction(function () use ($indicator) {
+            $indicator->thresholdDetails()->delete();
+            $indicator->responsibles()->delete();
+            $indicator->delete();
+        });
+
+        $message = "تم حذف المؤشر رقم {$id}.";
+
+        return $request->expectsJson()
+            ? response()->json(['message' => $message])
+            : redirect()->route('indicators.index')->with('success', $message);
+    }
 }

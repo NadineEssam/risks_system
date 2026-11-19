@@ -74,6 +74,7 @@ class IndicatorComplianceReport extends BaseReport
                     'indicator'  => $indicator->indicator_name,
                     'indicator_id' => $indicator->id,
                     'risk_id'      => $indicator->potential_risk_register_id,
+                    'sector'       => $indicator->createdSector?->sector_ar,
                     'frequency'  => $indicator->reportingFrequency?->frequency_name,
                     'regular'    => $fulfilled,
                 ]);
@@ -110,11 +111,11 @@ class IndicatorComplianceReport extends BaseReport
     }
     protected function idHeadings(): array
     {
-        return ['رقم المؤشر', 'رقم الخطر'];
+        return ['رقم المؤشر', 'رقم الخطر', 'القطاع المدخل للمؤشر'];
     }
 
     protected function idValues(mixed $row): array
     {
-        return [$row['indicator_id'] ?? '—', $row['risk_id'] ?? '—'];
+        return [$row['indicator_id'] ?? '—', $row['risk_id'] ?? '—', $row['sector'] ?? '—'];
     }
 }

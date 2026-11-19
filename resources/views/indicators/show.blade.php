@@ -12,13 +12,24 @@
   <div class="col-lg-8">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h5 class="card-title mb-0">{{ $indicator->indicator_name }}</h5>
-          @if($indicator->validity)
-            <span class="badge bg-success">مفعل</span>
-          @else
-            <span class="badge bg-secondary">غير مفعل</span>
-          @endif
+        <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+          <h5 class="card-title mb-0 flex-grow-1" style="line-height:1.7;">{{ $indicator->indicator_name }}</h5>
+          <div class="d-flex align-items-center gap-2 flex-shrink-0 text-nowrap">
+            @if($indicator->validity)
+              <span class="badge bg-success">مفعل</span>
+            @else
+              <span class="badge bg-secondary">غير مفعل</span>
+            @endif
+            @if(PerUser('indicators.destroy'))
+              <form action="{{ route('indicators.destroy', $indicator) }}" method="POST" class="d-inline m-0"
+                    data-confirm-title="حذف المؤشر"
+                    data-confirm="سيتم حذف المؤشر رقم {{ $indicator->id }} نهائياً مع كل قياساته وحدوده ومسئوليه."
+                    data-confirm-button="نعم، احذف">
+                @csrf @method('DELETE')
+                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> حذف</button>
+              </form>
+            @endif
+          </div>
         </div>
 
         <p class="text-muted">مرتبط بالخطر: {{ $indicator->potentialRiskRegister?->risk_description }}</p>

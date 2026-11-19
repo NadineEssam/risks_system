@@ -128,18 +128,22 @@
                 @foreach($row as $i => $count)
                   @php
                     $degree = $f * $i;
-                    [$label, $cls] = $degree >= 15 ? ['مرتفع', 'cell-high'] : ($degree >= 8 ? ['متوسط', 'cell-medium'] : ['مقبول', 'cell-low']);
+                    $label  = $degree >= 15 ? 'مرتفع' : ($degree >= 8 ? 'متوسط' : 'مقبول');
+                    $cls    = 'deg-'.match (true) {
+                      $degree >= 20 => 6, $degree >= 15 => 5, $degree >= 12 => 4,
+                      $degree >= 8  => 3, $degree >= 5  => 2, default => 1,
+                    };
                   @endphp
-                  <td class="{{ $cls }} {{ $count ? '' : 'cell-empty' }}"
+                  <td class="{{ $cls }} {{ $count ? 'has-count' : '' }}"
                       title="التكرار {{ $f }} × الأثر {{ $i }} = {{ $degree }} ({{ $label }}) — {{ $count }} حدث">
                     @if($count)
                       <a href="{{ route('incidents.index', array_filter(['frequency' => $f, 'impact' => $i, 'from' => $from, 'to' => $to])) }}"
                          class="d-block text-decoration-none">
-                        <span class="fs-5 fw-bold">{{ $count }}</span><br>
-                        <small>درجة {{ $degree }}</small>
+                        <span class="count-badge">{{ $count }}</span><br>
+                        <span class="deg-label">درجة {{ $degree }}</span>
                       </a>
                     @else
-                      <span class="opacity-50">—</span><br><small class="opacity-50">{{ $degree }}</small>
+                      <span class="deg-label">{{ $degree }}</span>
                     @endif
                   </td>
                 @endforeach
@@ -149,9 +153,9 @@
         </table>
       </div>
       <div class="d-flex gap-3 justify-content-center small">
-        <span><span class="legend-box cell-low"></span> مقبول (أقل من 8)</span>
-        <span><span class="legend-box cell-medium"></span> متوسط (8 – 14)</span>
-        <span><span class="legend-box cell-high"></span> مرتفع (15 فأكثر)</span>
+        <span><span class="legend-box deg-1"></span><span class="legend-box deg-2"></span> مقبول (1 – 7)</span>
+        <span><span class="legend-box deg-3"></span><span class="legend-box deg-4"></span> متوسط (8 – 14)</span>
+        <span><span class="legend-box deg-5"></span><span class="legend-box deg-6"></span> مرتفع (15 – 25)</span>
       </div>
     </div>
   </div>

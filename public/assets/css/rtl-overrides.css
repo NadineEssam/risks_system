@@ -343,7 +343,7 @@ table td {
 
 /* نفس ألوان لوحة التحكم: teal (مقبول) — gold (متوسط) — burgundy (مرتفع) */
 /* 3 ألوان بس: أخضر (مقبول) — ذهبي (متوسط) — عنابي (مرتفع) */
-.risk-matrix td.deg-1, .risk-matrix td.deg-2 { --bs-table-bg: #3a8f3e; background-color: #3a8f3e !important; color: #fff; }
+.risk-matrix td.deg-1, .risk-matrix td.deg-2 { --bs-table-bg: #198754; background-color: #198754 !important; color: #fff; }
 .risk-matrix td.deg-3, .risk-matrix td.deg-4 { --bs-table-bg: #b8860b; background-color: #b8860b !important; color: #fff; }
 .risk-matrix td.deg-5, .risk-matrix td.deg-6 { --bs-table-bg: #8b2c2c; background-color: #8b2c2c !important; color: #fff; }
 
@@ -356,6 +356,6 @@ table td {
 .risk-matrix .deg-label { font-size: 12px; opacity: .85; }
 
 .legend-box { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; }
-.legend-box.deg-1, .legend-box.deg-2 { background: #3a8f3e; }
+.legend-box.deg-1, .legend-box.deg-2 { background: #198754; }
 .legend-box.deg-3, .legend-box.deg-4 { background: #b8860b; }
 .legend-box.deg-5, .legend-box.deg-6 { background: #8b2c2c; }

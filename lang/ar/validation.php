@@ -107,7 +107,7 @@ return [
         'treatment_status_id'           => 'معالجة الخطر',
         'causes'                        => 'الأسباب',
         'appetite'                      => 'شهية المخاطر',
-        'appetite_nature_id'            => 'طبيعة شهية المخاطر',
+        'appetite_nature_id'            => 'اتجاه مؤشر شهية المخاطر',
         'appetite.*.threshold_value'    => 'القيمة الحدية',
         'causes.*.cause_detail_id'      => 'السبب',
         'causes.*.percentage'           => 'نسبة السبب',

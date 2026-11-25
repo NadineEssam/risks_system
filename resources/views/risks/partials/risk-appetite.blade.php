@@ -7,7 +7,7 @@
 
 <div class="row g-3 mb-3">
   <div class="col-md-4">
-    <label class="form-label">طبيعة شهية المخاطر <span class="required-mark">*</span></label>
+    <label class="form-label">اتجاه مؤشر شهية المخاطر <span class="required-mark">*</span></label>
     <select name="appetite_nature_id" class="form-select @error('appetite_nature_id') is-invalid @enderror" required>
       <option value="">-- اختر --</option>
       @foreach($indicatorNatures as $nature)

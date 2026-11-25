@@ -57,7 +57,7 @@ class PotentialRiskRegister extends Model
             ->withPivot('percentage');
     }
 
-    /** طبيعة شهية المخاطر (متزايد / متناقص) */
+    /** اتجاه مؤشر شهية المخاطر (متزايد / متناقص) */
     public function appetiteNature()
     {
         return $this->belongsTo(IndicatorNature::class, 'appetite_nature_id');

@@ -33,7 +33,7 @@ class StorePotentialRiskRegisterRequest extends FormRequest
             'appetite_nature_id'            => ['required', 'integer', 'exists:indicator_natures,id'],
             'appetite'                      => ['required', 'array', 'min:3'],
             'appetite.*.threshold_level_id' => ['required', 'integer', 'distinct', 'exists:threshold_levels,id'],
-            'appetite.*.threshold_value'    => ['required', 'integer', 'min:1', 'max:25'],
+            'appetite.*.threshold_value'    => ['required', 'numeric', 'min:0', 'max:100'],
             'appetite.*.required_action'    => ['nullable', 'string'],
             'impact_items'         => ['required', 'array', 'min:1'],
             'impact_items.*'       => ['integer', 'exists:impact_items,id'],
@@ -88,7 +88,7 @@ class StorePotentialRiskRegisterRequest extends FormRequest
 
             $order = \App\Models\ThresholdLevel::whereIn('id', $rows->pluck('threshold_level_id'))->pluck('sort_order', 'id');
             $values = $rows->mapWithKeys(fn ($r) => [
-                (int) ($order[$r['threshold_level_id'] ?? 0] ?? 0) => (int) ($r['threshold_value'] ?? 0),
+                (int) ($order[$r['threshold_level_id'] ?? 0] ?? 0) => (float) ($r['threshold_value'] ?? 0),
             ]);
 
             if (! isset($values[1], $values[2], $values[3])) {

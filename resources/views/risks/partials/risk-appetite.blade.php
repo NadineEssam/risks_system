@@ -2,7 +2,7 @@
 @php
   $currentRisk = $risk ?? null;
   $saved = $currentRisk ? $currentRisk->appetiteDetails->keyBy('threshold_level_id') : collect();
-  $defaults = [1 => 1, 2 => 8, 3 => 15]; // نفس التقسيم الحالي للنظام
+  $defaults = []; // نسب مئوية — بيدخلها المستخدم
 @endphp
 
 <div class="row g-3 mb-3">
@@ -22,9 +22,9 @@
 
 <div class="alert alert-info small mb-3">
   <i class="bx bx-info-circle"></i>
-  تُقارن هذه الحدود بـ <strong>درجة خطر الحدث</strong> (التكرار × الأثر، من 1 إلى 25):<br>
-  <strong>متزايد:</strong> المقبول &lt; المتوسط &lt; المرتفع — من حد المرتفع فأكثر = مرتفع.<br>
-  <strong>متناقص:</strong> المقبول &gt; المتوسط &gt; المرتفع — من حد المرتفع فأقل = مرتفع.
+  حدود شهية المخاطر <strong>نسبة مئوية من 0% إلى 100%</strong>:<br>
+  <strong>متزايد:</strong> المقبول &lt; المتوسط &lt; المرتفع.<br>
+  <strong>متناقص:</strong> المقبول &gt; المتوسط &gt; المرتفع.
 </div>
 
 @error('appetite')
@@ -38,11 +38,14 @@
     <div class="col-md-4">
       <div class="border rounded p-3 h-100">
         <label class="form-label fw-bold">{!! $level->badge() !!}</label>
-        <input type="number" min="1" max="25" step="1" required
-               name="appetite[{{ $i }}][threshold_value]"
-               class="form-control mb-2 @error("appetite.$i.threshold_value") is-invalid @enderror"
-               placeholder="القيمة الحدية (1-25)"
-               value="{{ old("appetite.$i.threshold_value", $row?->threshold_value ?? ($defaults[(int) $level->sort_order] ?? '')) }}">
+        <div class="input-group mb-2">
+          <input type="number" min="0" max="100" step="0.01" required
+                 name="appetite[{{ $i }}][threshold_value]"
+                 class="form-control @error("appetite.$i.threshold_value") is-invalid @enderror"
+                 placeholder="النسبة (0 - 100)"
+                 value="{{ old("appetite.$i.threshold_value", $row ? rtrim(rtrim(number_format((float) $row->threshold_value, 2, '.', ''), '0'), '.') : ($defaults[(int) $level->sort_order] ?? '')) }}">
+          <span class="input-group-text">%</span>
+        </div>
         @error("appetite.$i.threshold_value")<div class="invalid-feedback">{{ $message }}</div>@enderror
         <textarea name="appetite[{{ $i }}][required_action]" rows="2" class="form-control"
                   placeholder="الإجراء المطلوب عند الوصول لهذا المستوى">{{ old("appetite.$i.required_action", $row?->required_action) }}</textarea>

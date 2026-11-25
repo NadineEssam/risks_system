@@ -69,7 +69,7 @@ class PotentialRiskRegisterController extends Controller
         foreach ($request->input('appetite', []) as $row) {
             RiskAppetiteDetail::updateOrCreate(
                 ['potential_risk_register_id' => $risk->id, 'threshold_level_id' => $row['threshold_level_id']],
-                ['threshold_value' => (int) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
+                ['threshold_value' => (float) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
             );
         }
         // الأسباب + نسبة كل سبب
@@ -120,7 +120,7 @@ class PotentialRiskRegisterController extends Controller
         foreach ($request->input('appetite', []) as $row) {
             RiskAppetiteDetail::updateOrCreate(
                 ['potential_risk_register_id' => $risk->id, 'threshold_level_id' => $row['threshold_level_id']],
-                ['threshold_value' => (int) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
+                ['threshold_value' => (float) $row['threshold_value'], 'required_action' => $row['required_action'] ?? null]
             );
         }
         // الأسباب + نسبة كل سبب

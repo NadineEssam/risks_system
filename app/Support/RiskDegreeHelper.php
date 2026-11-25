@@ -29,17 +29,8 @@ class RiskDegreeHelper
             return null;
         }
 
-        $limits = $risk ? $risk->appetiteLimits() : [];
-
-        if (isset($limits[2], $limits[3])) {
-            $order = $risk->isAppetiteDecreasing()
-                // متناقص: كل ما القيمة تقل الخطر يزيد
-                ? ($degree <= $limits[3] ? 3 : ($degree <= $limits[2] ? 2 : 1))
-                // متزايد: كل ما القيمة تزيد الخطر يزيد
-                : ($degree >= $limits[3] ? 3 : ($degree >= $limits[2] ? 2 : 1));
-        } else {
-            $order = $degree >= 15 ? 3 : ($degree >= 8 ? 2 : 1);
-        }
+        // شهية المخاطر بقت نسبة مئوية مستقلة — درجة الحدث بتتصنف بالتقسيم الثابت
+        $order = $degree >= 15 ? 3 : ($degree >= 8 ? 2 : 1);
 
         [$label, $class] = [
             1 => ['مقبول', 'bg-success'],
@@ -47,9 +38,7 @@ class RiskDegreeHelper
             3 => ['مرتفع', 'bg-danger'],
         ][$order];
 
-        $action = $risk?->appetiteDetails
-            ->first(fn ($d) => (int) $d->thresholdLevel?->sort_order === $order)
-            ?->required_action;
+        $action = null; // الإجراء المطلوب في الشهية مبقاش مربوط بدرجة الحدث
 
         return ['label' => $label, 'class' => $class, 'order' => $order, 'action' => $action];
     }

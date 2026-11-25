@@ -17,7 +17,7 @@ class RiskAppetiteDetail extends Model
 
     protected function casts(): array
     {
-        return ['creation_date' => 'datetime', 'update_date' => 'datetime', 'threshold_value' => 'integer'];
+        return ['creation_date' => 'datetime', 'update_date' => 'datetime', 'threshold_value' => 'float'];
     }
 
     public function thresholdLevel() { return $this->belongsTo(ThresholdLevel::class); }

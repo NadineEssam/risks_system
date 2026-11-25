@@ -45,12 +45,12 @@
     @endforelse
   </div>
     <p class="mb-1 mt-3">
-    <strong>شهية المخاطر (على درجة الخطر 1-25):</strong>
+    <strong>شهية المخاطر (نسبة مئوية):</strong>
     <span class="badge bg-light text-dark border">{{ $risk->appetiteNature?->nature_name ?? 'متزايد' }}</span>
   </p>
   @php $appetite = $risk->appetiteDetails->sortBy(fn ($d) => $d->thresholdLevel?->sort_order); @endphp
   @if($appetite->isEmpty())
-    <span class="text-muted">— (يُطبق التقسيم الافتراضي: متوسط من 8، مرتفع من 15)</span>
+    <span class="text-muted">— لم تُحدد شهية المخاطر لهذا الخطر بعد.</span>
   @else
     <table class="table table-sm table-bordered mb-0">
       <thead class="table-light"><tr><th>المستوى</th><th class="text-center">الحد</th><th>الإجراء المطلوب</th></tr></thead>
@@ -58,7 +58,7 @@
         @foreach($appetite as $detail)
           <tr>
             <td>{!! $detail->thresholdLevel?->badge() !!}</td>
-            <td class="text-center fw-bold">{{ $detail->threshold_value }}</td>
+            <td class="text-center fw-bold">{{ rtrim(rtrim(number_format((float) $detail->threshold_value, 2, '.', ''), '0'), '.') }}%</td>
             <td style="white-space:pre-wrap;">{{ $detail->required_action ?: '—' }}</td>
           </tr>
         @endforeach

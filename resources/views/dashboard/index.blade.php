@@ -115,7 +115,7 @@
         <table class="table table-bordered text-center align-middle mb-2 risk-matrix">
           <thead>
             <tr>
-              <th class="bg-light" style="width:120px;">التكرار ↓ / الأثر ←</th>
+              <th class="bg-light text-nowrap" style="width:170px;">التكرار ↓ &nbsp;/&nbsp; الأثر ←</th>
               @for($i = 1; $i <= 5; $i++)
                 <th class="bg-light">{{ $i }}</th>
               @endfor
@@ -153,9 +153,9 @@
         </table>
       </div>
       <div class="d-flex gap-3 justify-content-center small">
-        <span><span class="legend-box deg-1"></span><span class="legend-box deg-2"></span> مقبول (1 – 7)</span>
-        <span><span class="legend-box deg-3"></span><span class="legend-box deg-4"></span> متوسط (8 – 14)</span>
-        <span><span class="legend-box deg-5"></span><span class="legend-box deg-6"></span> مرتفع (15 – 25)</span>
+        <span><span class="legend-box deg-1"></span> مقبول (1 – 7)</span>
+        <span><span class="legend-box deg-3"></span> متوسط (8 – 14)</span>
+        <span><span class="legend-box deg-5"></span> مرتفع (15 – 25)</span>
       </div>
     </div>
   </div>
